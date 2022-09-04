@@ -323,7 +323,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 \end{teor}
 
 \begin{proof}
-	Let \(\bar{r}\) be the least period of the sequence, according to \autoref{6.13} \(\bar{r}\) divides the order of \(A\). On the other hand we have \(\vec{d_r}=\vec{d_0}\) which implies \(A^{\bar{r}} = A^0\) by \autoref{6.15}, hence the order of \(A\) divides \(\bar{r}\).
+	Let \(\bar{r}\) be the least period of the sequence, according to \autoref{th:6.13} \(\bar{r}\) divides the order of \(A\). On the other hand we have \(\vec{d_r}=\vec{d_0}\) which implies \(A^{\bar{r}} = A^0\) by \autoref{6.15}, hence the order of \(A\) divides \(\bar{r}\).
 \end{proof}
 
 \begin{teor}{}{6.19}
@@ -340,7 +340,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 		\vec{s_{m_j}}A^r = \vec{s_{m_j+r}} = \vec{s_{m_j}} \qquad\text{for }1 \le j \le k.
 	\]
 	As \(\vec{s_{m_1}},\ldots,\vec{s_{m_k}}\) are linearly independent, we have that \(A^r\) is the identity matrix over \(GL_k(\F_q)\). Hence \(\vec{s_r} = \vec{s_0}A^r = \vec{s_0}\) and \(s_0,s_1,\ldots\) is periodic.
-	Now let \(d_0,d_1,\ldots\) be the corresponding impulse response sequence and let \(\bar{r}\) be its least period. We have \(\vec{d_r} = \vec{d_0}A^r = \vec{d_0}\), then \(r\) is a period of \(d_0,d_1,\ldots\) and therefore \(\bar{r}\) divides \(r\). But from \autoref{6.16} we also know that \(r\) divides \(\bar{r}\).
+	Now let \(d_0,d_1,\ldots\) be the corresponding impulse response sequence and let \(\bar{r}\) be its least period. We have \(\vec{d_r} = \vec{d_0}A^r = \vec{d_0}\), then \(r\) is a period of \(d_0,d_1,\ldots\) and therefore \(\bar{r}\) divides \(r\). But from \autoref{th:6.16} we also know that \(r\) divides \(\bar{r}\).
 \end{proof}
 
 \begin{defn}{Characteristic polynomial}{sequenceCharacteristicPolynomial}\index{Characteristic polynomial!of a sequence}
@@ -423,7 +423,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 	\[
 		L\colon \F_{q^k} \longrightarrow \F_q, \qquad \a^n \longmapsto s_n, n = 0,1,\ldots,k-1.
 	\]
-	Since \(\{1,\a,\ldots,\a^{k-1}\}\) constitutes a basis of \(\F_{q^k}\) over \(\F_q\), \(L\) is uniquely determined. By \autoref{2.24} there exists a uniquely determined \(\q\in\F_{q^k}\) such that
+	Since \(\{1,\a,\ldots,\a^{k-1}\}\) constitutes a basis of \(\F_{q^k}\) over \(\F_q\), \(L\) is uniquely determined. By \autoref{th:2.24} there exists a uniquely determined \(\q\in\F_{q^k}\) such that
 	\[
 		L(\b) = \Tr(\q\b) \qquad\text{for all }\b\in\F_{q^k}.
 	\]
@@ -435,7 +435,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 	\[
 		f(x) = x^k-a_{k-1}x^{k-1}-\ldots-a_0 \in \F_q[x],
 	\]
-	then, using the \hyperref[trace]{properties of the trace}, we get
+	then, using the \hyperref[df:trace]{properties of the trace}, we get
 	\begin{align*}
 		  & \Tr(\q\a^{n+k}) -a_{k-1}\Tr(\q\a^{n+k-1})-\ldots-a_0\Tr(\q\a^n) \\
 		= & \Tr(\q\a^{n+k}-a_{k-1}\q\a^{n+k-1}-\ldots-a_0\q\a^n)            \\
@@ -488,7 +488,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 \end{cor}
 
 \begin{proof}
-	It follows from previous theorem and \autoref{6.17}.
+	It follows from previous theorem and \autoref{th:6.17}.
 \end{proof}
 
 \begin{teor}{}{6.27}
@@ -500,8 +500,8 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 	\[
 		f(x) = x^k-a_{k-1}x^{k-1}-a_{k-2}x^{k-2}-\ldots-a_0.
 	\]
-	Suppose \(f(0)\neq 0\), then \(a_0\neq 0\) and the periodicity follows from \autoref{6.11}.
-	Moreover, from previous lemma, we know that the order of \(f\) is equal to the order of the associated matrix \(A\). Therefore the least period of the sequence divides \(\ord(A)=\ord(f)\) by \autoref{6.13}. And if the sequence is impulse response, the thesis follows from \autoref{6.17}.
+	Suppose \(f(0)\neq 0\), then \(a_0\neq 0\) and the periodicity follows from \autoref{th:6.11}.
+	Moreover, from previous lemma, we know that the order of \(f\) is equal to the order of the associated matrix \(A\). Therefore the least period of the sequence divides \(\ord(A)=\ord(f)\) by \autoref{th:6.13}. And if the sequence is impulse response, the thesis follows from \autoref{th:6.17}.
 	Now suppose \(f(0)=0\), then we write
 	\[
 		f(x) = x^h g(x) \qquad\text{with }g(0)\neq 0, \pd g\ge 1.
@@ -520,7 +520,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 
 \begin{proof}
 	Let \(r\) be the least period of the sequence.
-	From last theorem we know that the sequence is periodic and that \(r\) divides \(\ord(f)\). From \autoref{6.25} we also know that
+	From last theorem we know that the sequence is periodic and that \(r\) divides \(\ord(f)\). From \autoref{th:6.25} we also know that
 	\[
 		f(x)s(x) = (1-x^r)h(x) \implies f(x) \mid (1-x^r)h(x),
 	\]
@@ -540,7 +540,7 @@ From now on, with hlrs we will refer to an homogeneous linear recurring sequence
 \end{teor}
 
 \begin{proof}
-	\(f\) is primitive, hence it is irreducible and by previous theorem \(s_0,s_1,\ldots\) is periodic with least period equal to \(\ord(f)\). But since \(f\) is primitive, we know that \(\ord(f)=q^k-1\) by \autoref{3.16}.
+	\(f\) is primitive, hence it is irreducible and by previous theorem \(s_0,s_1,\ldots\) is periodic with least period equal to \(\ord(f)\). But since \(f\) is primitive, we know that \(\ord(f)=q^k-1\) by \autoref{th:3.16}.
 \end{proof}
 
 \begin{ese}
@@ -604,7 +604,7 @@ A linear recurring sequence can satisfies many recurring relation and each polyn
 	\[
 		m(x) \mid x^{n_0}(x^r-1) \implies m(x) = x^h g(x)
 	\]
-	with \(h\le n_0\) and where \(g(0)\neq 0\), \(g\) divides \(x^r-1\). By definition of order \(\ord(m)=\ord(g)\) divides \(r\), but \(m\) is also a characteristic polynomial for the sequence, so that \(r\) divides \(\ord(m)\) by \autoref{6.27}. Hence \(r = \ord(m)\).
+	with \(h\le n_0\) and where \(g(0)\neq 0\), \(g\) divides \(x^r-1\). By definition of order \(\ord(m)=\ord(g)\) divides \(r\), but \(m\) is also a characteristic polynomial for the sequence, so that \(r\) divides \(\ord(m)\) by \autoref{th:6.27}. Hence \(r = \ord(m)\).
 \end{proof}
 
 \begin{prop}{}{6.50}
@@ -672,7 +672,7 @@ A linear recurring sequence can satisfies many recurring relation and each polyn
 	\[
 		f(x) = x^k-a_{k-1}x^{k-1}-a_{k-2}x^{k-2}-\ldots-a_0
 	\]
-	and the initial state \(\vec{s_0}=(s_0,s_1,\ldots,s_{k-1})\). We will not give the proof of this algorithm, which is part of the proof of \autoref{6.42}. We know that
+	and the initial state \(\vec{s_0}=(s_0,s_1,\ldots,s_{k-1})\). We will not give the proof of this algorithm, which is part of the proof of \autoref{th:6.42}. We know that
 	\[
 		f(x)s(x) = (1-x^r)h(x) \qquad\text{where }h(x) = \sum_{j=0}^{k-1}\sum_{i=0}^{k-1-j}a_{i+j+1}s_i x^j
 	\]
@@ -749,7 +749,7 @@ A linear recurring sequence can satisfies many recurring relation and each polyn
 	\[
 		f(x) = m(x) \mid g(x).
 	\]
-	\graffito{\("\Leftarrow"\)}Suppose \(f\) divides \(g\). Let \(\s\in S(f)\) and let \(m(x)\) be the minimal polynomial of \(\s\). Then, by \autoref{6.42},
+	\graffito{\("\Leftarrow"\)}Suppose \(f\) divides \(g\). Let \(\s\in S(f)\) and let \(m(x)\) be the minimal polynomial of \(\s\). Then, by \autoref{th:6.42},
 	\[
 		m(x) \mid f(x) \mid g(x) \implies m(x) \mid g(x) \implies \s \in S(g).
 	\]
@@ -857,7 +857,7 @@ A linear recurring sequence can satisfies many recurring relation and each polyn
 		       & = (x+1)^2(x^2+x+1)                                       \\
 		m_2(x) & = f_2(x) = x^5+x^4+1 = (x^2+x+1)(x^3+x+1)
 	\end{align*}
-	Since \(m_1,m_2\) are not coprime, we can not apply the last theorem. But, from \autoref{6.55}, we know that \(S(f_1)+S(f_2)=S(c)\), where
+	Since \(m_1,m_2\) are not coprime, we can not apply the last theorem. But, from \autoref{th:6.55}, we know that \(S(f_1)+S(f_2)=S(c)\), where
 	\[
 		c(x) = \lcm(f_1,f_2) = (x+1)^2(x^2+x+1)(x^3+x+1).
 	\]

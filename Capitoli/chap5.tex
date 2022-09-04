@@ -152,7 +152,7 @@
 \end{prop}
 
 \begin{proof}
-	By definition of bent function and of nonlinearity, \(F\) is bent if and only if \(v\sdot F\) is bent for all \(v\in\F^n\setminus\{0\}\). But \(v\sdot F\) is a boolean function and by \autoref{5.39} \(v\sdot F\) is bent if and only if \(D_a(v\sdot F)\) is balanced for all \(a \in \F^n\setminus\{0\}\). Now
+	By definition of bent function and of nonlinearity, \(F\) is bent if and only if \(v\sdot F\) is bent for all \(v\in\F^n\setminus\{0\}\). But \(v\sdot F\) is a boolean function and by \autoref{th:5.39} \(v\sdot F\) is bent if and only if \(D_a(v\sdot F)\) is balanced for all \(a \in \F^n\setminus\{0\}\). Now
 	\begin{align*}
 		D_a(v\sdot F) & = v\sdot F(x) + v\sdot F(x+a) = v\sdot \big(F(x)+F(x+a)\big) \\
 		              & = v\sdot D_a F.
@@ -172,7 +172,7 @@
 	\[
 		W_F(u,v) = W_{v\sdot F}(u).
 	\]
-	Then we can apply \autoref{parsevalRelation} to every components of \(F\), which are \(2^m-1\). Hence
+	Then we can apply \autoref{th:parsevalRelation} to every components of \(F\), which are \(2^m-1\). Hence
 	\[
 		\sum_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}} W_F^2(u,v) = \sum_{v\in\F^m\setminus\{0\}}\sum_{u\in\F^n} W_{v\sdot F}^2(u) = \sum_{v \in \F^m\setminus\{0\}} 2^{2n} = (2^m-1)2^{2n}.\qedhere
 	\]
@@ -280,7 +280,7 @@ In order to study S-boxes, we are particularly interested in bijective vectorial
 \end{teor}
 
 \begin{proof}
-	It follows from \autoref{5.101} with \(m=n\).
+	It follows from \autoref{th:5.101} with \(m=n\).
 \end{proof}
 
 \begin{oss}
@@ -383,7 +383,7 @@ In order to study S-boxes, we are particularly interested in bijective vectorial
 \end{teor}
 
 \begin{proof}
-	From the proof of \autoref{5.101} we can see that \(F\) is AB if and only if
+	From the proof of \autoref{th:5.101} we can see that \(F\) is AB if and only if
 	\begin{align*}
 		  & \big\lvert\Set{(x,y,z) \in \F^{3n} | F(x)+F(y)+F(z)+F(x+y+z) = 0}\big\rvert        \\
 		= & \big\lvert\Set{(x,y,z)\in\F^{3n} | x = y \text{ or }x=z \text{ or }y=z}\big\rvert

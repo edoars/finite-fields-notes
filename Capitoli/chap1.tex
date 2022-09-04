@@ -149,7 +149,7 @@ For this chapter we will assume the following notions and notations:
 		x^m -1 \mid x^n-1 \implies p^m-1 \mid p^n-1 \implies x^{p^m-1}-1 \mid x^{p^n-1}-1,
 	\]
 	hence \(x^{p^m}-x \mid x^{p^n}-x\) in \(\F_p[x]\). Therefore all the roots of \(x^{p^m}-x\) are roots of \(x^{p^n}-x\) and are thus elements of \(\F_q\).
-	It follows that a splitting field of \(x^{p^m}-x\) is a subfield of \(\F_q\), and by \autoref{2.5} such splitting field has order \(p^m\).
+	It follows that a splitting field of \(x^{p^m}-x\) is a subfield of \(\F_q\), and by \autoref{th:2.5} such splitting field has order \(p^m\).
 	
 	Suppose \(F_1,F_2\) are both subfields of \(\F_q\) with order \(p^m\). If they were distinct, \(F_q\) would contain more than \(p^m\) roots for \(x^{p^m}-x\), which is a contradiction.
 \end{proof}
@@ -246,7 +246,7 @@ For this chapter we will assume the following notions and notations:
 \end{proof}
 
 \begin{ese}[Anatomy of \(\F_{16}\)]\label{es1}
-	\(\F_{16} = \F_{2^4}\), by the \hyperref[2.6]{subfield criterion}, the subfield of \(\F_{16}\) are all of the form \(\F_{2^k}\) with \(k \mid 4\). Therefore \(\F_2,F_4\) are the only proper subfield of \(\F_{16}\).
+	\(\F_{16} = \F_{2^4}\), by the \hyperref[th:2.6]{subfield criterion}, the subfield of \(\F_{16}\) are all of the form \(\F_{2^k}\) with \(k \mid 4\). Therefore \(\F_2,F_4\) are the only proper subfield of \(\F_{16}\).
 	We know that
 	\[
 		V(x^{16}-x) = \F_{16}.
@@ -287,7 +287,7 @@ For this chapter we will assume the following notions and notations:
 \end{lem}
 
 \begin{proof}
-	\graffito{\("\Rightarrow"\)}Suppose \(f(x) \mid x^{q^n}-x\), then the set of roots of \(f\) is contained in that of \(x^{q^n}-x\), which is isomorphic to \(\F_{q^n}\). But \(f\) is irreducible, therefore \(V(f)\) is isomorphic to \(\F_{q^m}\) and from \autoref{2.6} we know that
+	\graffito{\("\Rightarrow"\)}Suppose \(f(x) \mid x^{q^n}-x\), then the set of roots of \(f\) is contained in that of \(x^{q^n}-x\), which is isomorphic to \(\F_{q^n}\). But \(f\) is irreducible, therefore \(V(f)\) is isomorphic to \(\F_{q^m}\) and from \autoref{th:2.6} we know that
 	\[
 		\F_{q^m} \subset \F_{q^n} \iff m \mid n.
 	\]
@@ -364,7 +364,7 @@ For this chapter we will assume the following notions and notations:
 \end{teor}
 
 \begin{proof}
-	Let \(\a \in \F_q^*\), from \autoref{2.8} we know that \(\F_q^*\) is a cyclic group, therefore if \(\a\) has order \(m\) then the order of \(a^k\) is given by
+	Let \(\a \in \F_q^*\), from \autoref{th:2.8} we know that \(\F_q^*\) is a cyclic group, therefore if \(\a\) has order \(m\) then the order of \(a^k\) is given by
 	\[
 		\ord(a^k) = \frac{m}{\GCD(m,k)}.
 	\]
@@ -411,7 +411,7 @@ For this chapter we will assume the following notions and notations:
 	As the composition of automorphism is still an automorphism, the same follows for \(\s^2,\ldots,\s^{m-1}\). These are all distinct as the primitive element is mapped in distinct primitive elements.
 	
 	Conversely suppose that \(\s\) is an arbitrary automorphism of \(\F_{q^m}\) over \(\F_q\). Let \(\b\) be a primitive element of \(\F_{q^m}\) and let \(f\) be its minimal polynomial over \(\F_q\).
-	If we are able to show that \(\s(\b)\) is a root of \(f\), then, from \autoref{2.14}, would follow that \(\s(\b) = \b^{q^j}\) for some \(0\le j \le m-1\). And since \(\s\) is an homomorphism, we would get that \(\s(\a) = \a^{q^j}\) for all \(\a \in \F_{q^m}\).
+	If we are able to show that \(\s(\b)\) is a root of \(f\), then, from \autoref{pr:2.14}, would follow that \(\s(\b) = \b^{q^j}\) for some \(0\le j \le m-1\). And since \(\s\) is an homomorphism, we would get that \(\s(\a) = \a^{q^j}\) for all \(\a \in \F_{q^m}\).
 	Now write \(f(x) = a_0 + a_1 x + \ldots +a_{m-1}x^{m-1} + x^m\), then
 	\begin{align*}
 		f\big(\s(\b)\big) & = \sum_{i=0}^m a_i \s(\b)^i = \sum_{i=0}^m a_i\s(\b^i) = \sum_{i=0}^m \s(a_i\b^i) \\
@@ -509,7 +509,7 @@ For this chapter we will assume the following notions and notations:
 \end{prop}
 
 \begin{proof}
-	\graffito{\("\Leftarrow"\)}It follows form \autoref{2.23}, in fact
+	\graffito{\("\Leftarrow"\)}It follows form \autoref{th:2.23}, in fact
 	\[
 		\Tr(\a) = \Tr(\b^q-\b) = \Tr(\b^q) - \Tr(\b) = \Tr(\b)-\Tr(\b) = 0.
 	\]
@@ -599,7 +599,7 @@ For this chapter we will assume the following notions and notations:
 	\[
 		c_j\colon F \longrightarrow K, \a \longmapsto c_j(\a).
 	\]
-	According to \autoref{2.24}, there exists \(\b_j \in F\) such that
+	According to \autoref{th:2.24}, there exists \(\b_j \in F\) such that
 	\[
 		c_j(\a) = \Tr_{F/K}(\b_j\a) \qquad\text{for all }\a \in F.
 	\]
@@ -806,7 +806,7 @@ For this chapter we will assume the following notions and notations:
 	\[
 		T\colon \F_{q^m} \longrightarrow \F_{q^m}, \a \longmapsto \a^q.
 	\]
-	By \autoref{2.21}, we know that all the distinct automorphism of \(\F_{q^m}\) over \(\F_q\) are given by
+	By \autoref{th:2.21}, we know that all the distinct automorphism of \(\F_{q^m}\) over \(\F_q\) are given by
 	\[
 		\{T,T^2,\ldots,T^{n-1},T^m=I\}.
 	\]

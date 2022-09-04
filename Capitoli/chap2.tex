@@ -60,7 +60,7 @@
 \end{teor}
 
 \begin{proof}
-	As \(f\) is an irreducible polynomial of degree \(m\), \(\F_{q^m}\) is the splitting field of \(f\) over \(\F_q\). By \autoref{2.18}, any root of \(f\) has the same order in \(\F_{q^m}^*\). Let \(\a\) be any root of \(f\), from \autoref{2.12} we know that
+	As \(f\) is an irreducible polynomial of degree \(m\), \(\F_{q^m}\) is the splitting field of \(f\) over \(\F_q\). By \autoref{th:2.18}, any root of \(f\) has the same order in \(\F_{q^m}^*\). Let \(\a\) be any root of \(f\), from \autoref{2.12} we know that
 	\[
 		\a^e = 1 \iff f(x) \mid x^e-1.
 	\]
@@ -129,7 +129,7 @@
 	\[
 		\ord(f) = \ord_{\F_{q^m}^*}(\a) = e \iff \a^e=1.
 	\]
-	This is equivalent to saying that all roots of \(f\) are primitive \(e\)-th root of unity over \(\F_q\). In particular \(f\) must divide \(Q_e\). But from \autoref{2.47} we also know that each monic irreducible factor of \(Q_e\) has as a degree the least positive integer such that \(q^s \equiv 1\) modulo \(e\), hence \(m=\ord_{\Z_e}(q)\). From the same theorem we also know that there are \(\j(e)/m\) of such factors.
+	This is equivalent to saying that all roots of \(f\) are primitive \(e\)-th root of unity over \(\F_q\). In particular \(f\) must divide \(Q_e\). But from \autoref{th:2.47} we also know that each monic irreducible factor of \(Q_e\) has as a degree the least positive integer such that \(q^s \equiv 1\) modulo \(e\), hence \(m=\ord_{\Z_e}(q)\). From the same theorem we also know that there are \(\j(e)/m\) of such factors.
 	
 	If \(m=e=1\) the only possibilities for \(f\) are given by
 	\[
@@ -377,9 +377,9 @@
 		      \[
 			      g \mid x^h+1 \implies g^b=f \mid x^h+1 \implies F \mid (-x)^h +1 = -(x^h-1),
 		      \]
-		      hence \(E=e/2\). Note that we are necessarily in the case of \(f\) even as, by \autoref{3.8}, the power of an irreducible polynomial has even order if and only if the irreducible polynomial itself has even order (and \(\Char(\F_q)\neq 2\)).
+		      hence \(E=e/2\). Note that we are necessarily in the case of \(f\) even as, by \autoref{th:3.8}, the power of an irreducible polynomial has even order if and only if the irreducible polynomial itself has even order (and \(\Char(\F_q)\neq 2\)).
 		      
-		      In general we have \(f = g_1 \cdot\ldots\cdot g_k\) with \(g_i\) is a power of an irreducible polynomial and \(g_1,\ldots,g_k\) are pairwise relatively prime. By \autoref{3.9}
+		      In general we have \(f = g_1 \cdot\ldots\cdot g_k\) with \(g_i\) is a power of an irreducible polynomial and \(g_1,\ldots,g_k\) are pairwise relatively prime. By \autoref{th:3.9}
 		      \[
 			      \ord(f) = 2h = \lcm\big(\ord(g_1),\ldots,\ord(g_k)\big).
 		      \]
@@ -391,7 +391,7 @@
 				      2h_i & m+1 \le i \le k
 			      \end{cases}
 		      \]
-		      Then, by \autoref{3.9},
+		      Then, by \autoref{th:3.9},
 		      \[
 			      \ord(F) = E = \lcm(h_1,\ldots,h_m,2h_{m+1}, \ldots 2h_k).
 		      \]
@@ -404,7 +404,7 @@
 \end{teor}
 
 \begin{proof}
-	\graffito{\("\Rightarrow"\)}If \(f\) is primitive then it is irreducible over \(F_q\) and, by \autoref{3.3}, its order is the order of one of its roots \(\a\) over \(\F_{q^m}\), which is \(q^m-1\) as \(\a\) is a primitive element of \(\F_{q^m}\) over \(\F_q\).
+	\graffito{\("\Rightarrow"\)}If \(f\) is primitive then it is irreducible over \(F_q\) and, by \autoref{th:3.3}, its order is the order of one of its roots \(\a\) over \(\F_{q^m}\), which is \(q^m-1\) as \(\a\) is a primitive element of \(\F_{q^m}\) over \(\F_q\).
 	
 	\graffito{\("\Leftarrow"\)}Suppose \(\ord(f)=q^m-1\) and suppose, by contradiction, that \(f\) is reducible over \(\F_q\). Then either \(f=g^b\), with \(g\in\F_q[x]\) irreducible, or \(f=f_1 f_2\) with \(\GCD(f_1,f_2)=1\).
 	\begin{itemize}
@@ -625,7 +625,7 @@
 	\[
 		h(n) = Q_n(x) \qquad\text{and}\qquad H(n) = x^n-1.
 	\]
-	By \autoref{2.45} we know that
+	By \autoref{th:2.45} we know that
 	\[
 		x^n-1 = \prod_{d \mid n} Q_d(x) \iff H(n) = \prod_{d \mid n}h(d).
 	\]
@@ -643,7 +643,7 @@
 \end{teor}
 
 \begin{proof}
-	From \autoref{3.20} we know
+	From \autoref{th:3.20} we know
 	\[
 		x^{q^n}-x = \prod_{d\mid n}I(q,d).
 	\]
