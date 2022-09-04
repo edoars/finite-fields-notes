@@ -1,0 +1,17 @@
+%!TEX root = ../../main.tex
+\tikz[baseline=-0.5ex, x=2cm, y=2cm]{
+	\draw (0,0) circle (0.2);
+	\draw (0,0) circle (0.5);
+	\draw (0,0) circle (1);
+
+	\draw (90:0.5) -- (90:1);
+	\draw (210:0.5) -- (210:1);
+	\draw (330:0.5) -- (330:1);
+
+	\node at (0,0) {\(\F_2\)};
+	\node at (0,-0.35) {\(\F_4\)};
+	\node at (150:0.75) {\(V(f_1)\)};
+	\node at (270:0.75) {\(V(f_3)\)};
+	\node at (30:0.75) {\(V(f_2)\)};
+	\node at (330:1.25) {\(\F_{16}\)};
+}

@@ -1,0 +1,429 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 17/04/2018 - NONA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Boolean function}
+
+\section{Introduction}
+
+In this section we will give the basic definitions on Boolean functions. To lighten the notation we will use \(\F\) for \(\F_2\) and \(\F^n\) for \(\F_2^n\).
+
+\begin{defn}{Boolean function}{booleanFunction}\index{Boolean function}
+	A \emph{boolean function} is a map
+	\[
+		f\colon \F^n \longrightarrow \F.
+	\]
+\end{defn}
+
+\begin{notz}
+	The algebra of all boolean function on \(\F^n\) is denoted by
+	\[
+		B_n := \Set{f \colon \F^n \to \F | f \text{ is a boolean function}}.
+	\]
+	Clearly \(\abs{B_n}=2^{2^n}\).
+\end{notz}
+
+\begin{defn}{Truth table}{truthTable}\index{Truth table}
+	Let \(f\in B_n\) and write \(\F^n = \{P_1,\ldots,P_{2^n}\}\). The truth table \(\vec{f}\) is the evaluation of \(f\) in \(P_i\):
+	\[
+		\vec{f} = ev(f) = \big(f(P_1),\ldots,f(P_{2^n})\big) \in \F^{2^n}.
+	\]
+\end{defn}
+
+Define
+\[
+	x_i \colon \F^n \longrightarrow \F, (a_1,\ldots,a_n) \longmapsto a_i.
+\]
+Given \(I\subset \{1,\ldots,n\}\) a square free monomial over \(I\) is defined as
+\[
+	X_I = \prod_{i\in I} x_i.
+\]
+A boolean function can be expressed as a square free polynomial. Namely the \emph{algebraic normal form (ANF)} of \(f \in B_n\) is 
+\[
+	f(X) = \sum a_I X_I \qquad\text{with }a_I \in \F.
+\]
+
+\begin{defn}{Hamming distance for boolean functions}{hammingWeight}\index{Hamming weight}
+	Let \(f,g\in B_n\). We define the hamming distance between \(f\) and \(g\) as the usual hamming distance between their truth tables \(\vec{f},\vec{g}\)
+	\[
+		\dist(f,g) = \dist(\vec{f},\vec{g}).
+	\]
+	That is the number of components in which they differ.
+\end{defn}
+
+\begin{oss}
+	Consequently we can define the hamming weight of \(f\in B_n\) as 
+	\[
+		\wg(f) = \wg(\vec{f}) = \Set{P\in \F^n | f(P) = 1}
+	\]
+\end{oss}
+
+\begin{notz}
+	Let \(S\subset B_n\) and \(f \in B_n\). The distance between \(f\) and \(S\) is given by the minimum distance between \(f\) and the elements of \(S\), namely
+	\[
+		\dist(f,S) = \min_{s \in S}\dist(f,s).
+	\]
+\end{notz}
+
+\begin{ese}
+	Consider the following boolean function \(f\in B_2\):
+	\[
+		f\colon \F^2 \longrightarrow \F, (x_1,x_2) \longmapsto x_1 x_2 + x_1.
+	\]
+	Write \(\F_2 = \{(0,0),(0,1),(1,0),(1,1)\}\). The truth table of \(f\) is given by
+	\[
+		\begin{array}{ccccc}
+			\toprule
+			       & (0,0) & (0,1) & (1,0) & (1,1) \\
+			\midrule
+			x_1    & 0     & 0     & 1     & 1     \\
+			x_1x_2 & 0     & 0     & 0     & 1     \\
+			f      & 0     & 0     & 1     & 0     \\
+			\bottomrule
+		\end{array}
+	\]
+	From this we can easily compute the hamming distances
+	\begin{align*}
+		\dist(f,x_1) & = \dist(\vec{f},\vec{x_1}) = 1; & \dist{f,x_1x_2} & = \dist(\vec{f},\vec{x_1x_2}) = 2;
+	\end{align*}
+	and the hamming weights:
+	\begin{align*}
+		\wg(f) & = 1; & \wg(x_1) & = 2; & \wg(x_1x_2) & = 1.
+	\end{align*}
+	What we have seen in this example can be easily generalized.
+\end{ese}
+
+\begin{lem}
+	The hamming weight of a square free monomial \(X_I\) is given by
+	\[
+		\wg(X_I) = 2^{n-\abs{I}}, \qquad\text{where }I \subset \{1,\ldots,n\}.
+	\]
+\end{lem}
+
+\begin{notz}
+	We denote with \(A_n\) the class of affine function on \(\F^n\), namely
+	\[
+		A_n = \Set{f \in B_n | \pd f \le 1}
+	\]
+\end{notz}
+
+\begin{defn}{Nonlinearity of a function}{nonlinearity}\index{Nonlinearity}
+	Let \(f\in B_n\) be a boolean function. The \emph{nonlinearity of \(f\)} is defined as the distance between \(f\) and \(A_n\):
+	\[
+		N(f) = \dist(f,A_n) = \min_{\a\in A_n}\dist(f,\a).
+	\]
+\end{defn}
+
+\begin{oss}
+	The Reed-Muller code \(RM(n,r)\) is a class of code defined by all the boolean function in \(B_n\) with degree less or equal \(r\):
+	\[
+		RM(n,r) = \Set{\vec{f} | f \in B_n, \pd f \le r}.
+	\]
+	Therefore, given \(f\in B_n\), we have
+	\[
+		N(f) = \dist\big(\vec{f},RM(n,1)\big).
+	\]
+\end{oss}
+
+\begin{lem}
+	Let \(f\in B_n\) be a boolean function. Then
+	\[
+		N(f) \le \min\big(\wg(f),2^n-\wg(f)\big).
+	\]
+\end{lem}
+
+\begin{proof}
+	\(N(f)\) is defined as \(\dist(f,A_n)\), therefore
+	\[
+		N(f) \le \dist(f,\a) \qquad\text{for all }\a \in A_n.
+	\]
+	Moreover \(\vec{0},\vec{1}\in A_n\) and
+	\begin{align*}
+		\dist(f,\vec{0}) & = \wg(f); & \dist(f,\vec{1}) & = 2^n-\wg(f).
+	\end{align*}
+	Hence
+	\[
+		N(f) \le \min\big(\wg(f),2^n-\wg(f)\big).\qedhere
+	\]
+\end{proof}
+
+\begin{defn}{Balanced function}{balancedFunction}\index{Balanced function}
+	Let \(f\in B_n\) be boolean function. \(f\) is a \emph{balanced function} if
+	\[
+		\wg(f) = 2^{n-1}.
+	\]
+\end{defn}
+
+\begin{prop}{}{b5.16}
+	Let \(\a\in A_n, \a = a_1 x_1 + \ldots a_n x_n + a_0 = a\sdot x +a_0\), where \(a=(a_1,\ldots,a_n)\). If \(a \neq (0, \ldots, 0)\) then \(\a\) is balanced.
+\end{prop}
+
+\begin{proof}
+	Without loss of generality we can assume \(a_0 = 0\). Then we obtain:
+	
+	\[
+		\wg(\a) = \lvert \Set{x \in \F^n | \a(x) = 0} \rvert = \lvert \Set{x \in \F^n | \a \cdot x = 0} \rvert = \lvert {\langle \a \rangle}^{\perp} \rvert = 2^{n-1}. \qedhere	
+	\]
+\end{proof}
+
+\begin{defn}{Dirac symbol}{diracSymbol}
+	Let \(a \in \F^n\). We define the \emph{Dirac symbol} \(\d_a\) as
+	\[
+		\d_a\colon \F^n \longrightarrow \F, x\longmapsto
+		\begin{cases}
+			1 & a = x     \\
+			0 & a \neq x
+		\end{cases}
+	\]
+\end{defn}
+
+\begin{oss}
+	Clearly \(\d_a\in B_n\).
+\end{oss}
+
+\begin{defn}{Fourier transform}{fourierTransform}\index{Fourier Transform}
+	Let \(f\in B_n\) be a boolean function. The \emph{Fourier transform} of \(f\) is a linear function 
+	\[
+		F_f\colon \F^n \longrightarrow \Z, a \longmapsto \sum_{x \in \F^n}f(x)(-1)^{a\sdot x}.
+	\]
+\end{defn}
+
+\begin{defn}{Walsh transform}{walshTransform}\index{Walsh transform}
+	Let \(f\in B_n\) be a boolean function. The \emph{Walsh transform} of \(f\) is the Fourier transform of the sign function of \(f\),
+	\[
+		W_f\colon \F^n \longrightarrow \Z, a \longmapsto \sum_{x\in\F^n}(-1)^{f(x)+a\sdot x}.
+	\]
+\end{defn}
+
+\begin{teor}{Relation between Walsh and Fourier transform}{p19}
+	Let \(f\in B_n\) be a boolean function. Then
+	\[
+		W_f(a) = 2^n \d_0(a) - 2F_f(a).
+	\]
+\end{teor}
+
+\begin{cor}
+	\[
+		F_f(a) = 2^{n-1}\d_0(a)-\frac{W_f(a)}{2}.
+	\]
+\end{cor}
+
+\begin{cor}\label{nonlinearityEq}
+	Let \(f\in B_n\) be a boolean function. Then
+	\[
+		N(f) = 2^{n-1} - \max_{a \in \F^n} \frac{\abs{W_f(a)}}{2}.
+	\]
+\end{cor}
+
+\begin{proof}
+	By the last theorem we have
+	\[
+		W_f(0) = 2^n - 2F_f(0) = 2^n - 2 \sum_{x \in \F^n}f(x) = 2^n-2\wg(f).
+	\]
+	Now let \(a\in \F^n\) and let \(\a\in A_n\) be the affine function defined as \(\a(x)=a\sdot x\). Then
+	\begin{align*}
+		W_f(a) & = \sum_{x\in\F^n}(-1)^{f(x)+a\sdot x} = \sum_{x\in\F^n}(-1)^{f(x)+\a(x)} = W_{f+\a}(0) \\
+		       & = 2^n-2\wg(f+\a) = 2^n-2\dist(f,\a).
+	\end{align*}
+	Hence
+	\[
+		\dist(f,\a) = 2^{n-1}-\frac{W_f(a)}{2}.
+	\]
+	Since this holds for every \(\a\in A_n\), the thesis follows by the definition of nonlinearity.
+\end{proof}
+
+\begin{teor}{Parseval's relation}{parsevalRelation}\index{Parseval's relation}
+	Let \(f\in B_n\) be a boolean function. Then
+	\[
+		\sum_{a \in \F^n}W_f(a)^2 = 2^n.
+	\]
+\end{teor}
+
+\begin{proof}
+	By definition
+	\begin{align*}
+		\sum_{a\in \F^n}W_f(a)^2 & = \sum_{\a \in \F^n}\bigg(\sum_{x\in\F^n}(-1)^{f(x)+a\sdot x}\bigg)^2 = \sum_{a\in\F^n}\bigg(\sum_{x\in\F^n}(-1)^{f(x)+a\sdot x}\bigg)\bigg(\sum_{y\in\F^n}(-1)^{f(y)+a\sdot y}\bigg) \\
+		                         & = \sum_{a\in\F^n}\sum_{x,y\in\F^n}(-1)^{f(x)+f(y)+a\sdot(x+y)}.
+	\end{align*}
+	Recall, by previous lemma, that
+	\[
+		\sum_{a\in\F^n}(-1)^{a\sdot v} = 
+		\begin{cases}
+			2^n & v=0        \\
+			0   & v \neq 0,
+		\end{cases}
+	\]
+	hence
+	\begin{align*}
+		\sum_{a\in\F^n}\sum_{x,y\in\F^n}(-1)^{f(x)+f(y)+a\sdot(x+y)} & = \sum_{x,y\in\F^n}(-1)^{f(x)+f(y)}\sum_{a\in\F^n}(-1)^{a\sdot(x+y)} \\
+		                                                             & = 2^n \sum_{x\in \F^n}(-1)^0 = 2^n 2^n = 2^{2n}.\qedhere
+	\end{align*}
+\end{proof}
+
+\begin{cor}\label{nonlinearityBound}
+	\[
+		N(f) \le 2^{n-1}-2^{n/2-1}.
+	\]
+\end{cor}
+
+\section{Bent boolean function}
+
+\begin{defn}{Bent function}{bentFunction}\index{Bent function}
+	Let \(f\in B_n\) be a boolean function. \(f\) is called \emph{bent} if and only if
+	\[
+		N(f) = 2^{n-1}-2^{n/2-1}.
+	\]
+\end{defn}
+
+\begin{oss}
+	Namely \(f\) is bent if and only if its Walsh transform coefficient are all \(\pm 2^{n/2}\), in fact
+	\[
+		N(f) = 2^{n-1}-\max_{a\in \F^n} \frac{\abs{W_f(a)}}{2} = 2^{n-1}-2^{n/2-1},
+	\]
+	that is, \(W_f^2\) is constant.
+\end{oss}
+
+\begin{defn}{Derivative of a boolean function}{derivative}
+	Let \(f\in B_n\) be a boolean function and let \(a\in \F^n\). The \emph{derivative} of \(f\) in the direction of \(a\) is given by
+	\[
+		D_a f(x) = f(x+a)+f(x).
+	\]
+\end{defn}
+
+\begin{oss}
+	It follows \(\pd D_a f < \pd f\).
+\end{oss}
+
+\begin{teor}{}{5.39}
+	Let \(f\in B_n\) then
+	\begin{itemize}
+		\item if \(f\) is bent then \(f\) is not balanced.
+		\item \(f\) is bent if and only if all its derivative \(D_a f\) are balanced, for all \(a\in \F^n,a\neq \vec{0}\).
+	\end{itemize}
+\end{teor}
+
+\begin{proof}
+	\begin{itemize}
+		\item  If \(f\) is bent, we have already observed that
+		      \[
+			      \abs{W_f(a)} = 2^{n/2} \qquad\text{for all }a \in \F^n.
+		      \]
+		      Now suppose that \(f\) is balanced, then \(\wg(f) = 2^{n-1}\). Therefore
+		      \[
+			      W_f(0) = 2^n - 2 F_f(0) = 2^n -2\wg(f) = 2^n-2 2^{n-1} = 0,
+		      \]
+		      which is a contradiction.
+		\item Not given.
+	\end{itemize}
+\end{proof}
+
+\begin{defn}{Equivalent function}{equivalentFunction}\index{Equivalent function}
+	Let \(f,g\in B_n\) be boolean functions. \(f\) and \(g\) are equivalent if and only if there exists \(M\in GL(\F^n), v \in \F^n\) such that
+	\[
+		f(x) = g(M\,x+v).
+	\]
+	In this case we write \(f\sim g\).
+\end{defn}
+
+\begin{oss}
+	If \(f\sim g\) then
+	\begin{align*}
+		\pd f & = \pd g & N(f) & = N(g) & \wg(f) & = \wg(g).
+	\end{align*}
+	In particular \(f\) is bent if and only if \(g\) is bent.
+\end{oss}
+
+\begin{teor}{Decomposition of bent function}{5.43}
+	Let \(h\in B_{n+m}, f \in B_n\) and \(g\in B_m\) be boolean functions such that
+	\[
+		h(x_1,\ldots,x_n,x_{n+1},\ldots,x_{n+m}) = f(x_1,\ldots,x_n) + g(x_{n+1},\ldots,x_{n+m}).
+	\]
+	Then \(h\) is bent if and only if both \(f\) and \(g\) are bent.
+\end{teor}
+
+\begin{oss}
+	This proves that there exists a bent function \(f\in B_n\) for every \(n\) even. As we can easily prove that \(x_1 x_2 \in B_2\) is bent and that
+	\[
+		x_1 x_2 + x_3 x_4 + \ldots + x_{n-1} x_n \in B_n
+	\]
+	is bent for the previous theorem.
+\end{oss}
+
+\begin{defn}{Partially bent function}{5.56}\index{Partially bent}
+	Let \(f\in B_n\) be a boolean function. \(f\) is called partially bent if there exists \(U,V\subseteq \F^n\) such that \(U\oplus V = \F^n\) and
+	\[
+		f\big\rvert_U \text{ is bent}\qquad\text{and}\qquad f\big\rvert_V \text{ is affine}.
+	\]
+\end{defn}
+
+\section{Correlation immune functions}
+
+\begin{defn}{Correlation immune function}{5.67}\index{Boolean function!correlation immune}
+	Let \(f\in B_n\) be a boolean function. \(f\) is called \emph{\(k\)-th correlation immune} if, for any vector \(x\) of \(n\) independent random variables \(x=(x_1,\ldots,x_n)\), the random variable \(z = f(x)\) is independent from any vector
+	\[
+		(x_{i_1},\ldots,x_{i_k})\qquad\text{with } 0 \le i_1 < \ldots < i_k < n.
+	\]
+\end{defn}
+
+\begin{oss}
+	In particular if \(f\) is \(k\)-correlation immune, we will have
+	\[
+		\mathbb{P}\big((x_{i_1},\ldots,x_{i_k}) = v \,|\, f(x) = 1 \big) = \frac{1}{2^k} \qquad\text{and}\qquad \mathbb{P}\big(f(x)=1 \,|\, (x_{i_1},\ldots,x_{i_k})=v\big) = \frac{1}{2}.
+	\]
+\end{oss}
+
+\begin{ese}
+	Let \(f \in B_3\) be a boolean function defined as
+	\begin{align*}
+		(0,0,0) & \longmapsto 1 & (0,1,1) & \longmapsto 0  & (1,1,0) & \longmapsto 1 \\
+		(0,0,1) & \longmapsto 1 & (1,0,0) & \longmapsto 0  & (1,1,1) & \longmapsto 1 \\
+		(0,1,0) & \longmapsto 1 & (1,0,1) & \longmapsto 1
+	\end{align*}
+	we can easily check that
+	\[
+		\mathbb{P}\big(x_1 = 1 \,|\, f(x) = 1\big) = \frac{3}{6}=\frac{1}{2} \qquad\text{and}\qquad \mathbb{P}\big((x_1,x_2) \,|\, f(x)=1\big) = \frac{2}{6} = \frac{1}{3}.
+	\]
+\end{ese}
+
+\begin{teor}{Characterization of correlation immune functions}{5.71}
+	Let \(f\in B_n\) be a boolean function. \(f\) is \(k\)-th correlation immune if and only if
+	\[
+		F_f(v) = 0 \qquad\text{for every }v \in \F^n, 1 \le \wg(v) \le k.
+	\]
+\end{teor}
+
+\begin{cor}
+	Let \(f\in B_n\) be a boolean function. \(f\) is \(k\)-th correlation immune if and only if
+	\[
+		W_f(v) = 0 \qquad\text{for every }v \in \F^n, 1 \le \wg(v) \le k.
+	\]
+\end{cor}
+
+\begin{defn}{Correlation resilient function}{5.73}\index{Boolean function!correlation resilient}
+	Let \(f\in B_n\) be a boolean function. \(f\) is called \emph{\(k\)-th correlation resilient} if and only if \(f\) is \(k\)-th correlation immune and balanced.
+\end{defn}
+
+\begin{teor}{}{5.75}
+	Let \(f\in B_n\) be a boolean function. Then
+	\begin{itemize}
+		\item If \(f\) is \(k\)-th correlation immune, then \(\deg f \le n-k\).
+		\item If \(f\) is \(k\)-th resilient immune and \(k\le n-2\), then \(\deg f \le n-k-1\).
+	\end{itemize}
+\end{teor}
+
+\begin{teor}{}{5.78}
+	Let \(f\in B_n\) be a boolean function. Suppose that \(f\) is \(k\)-resilient, then
+	\[
+		N(f) \le 2^{n-1}-2^{k+1} \qquad\text{where }k \le n-2.
+	\]
+\end{teor}
+
+\begin{teor}{}{5.79}
+	Let \(f\in B_n\) be a boolean function. Suppose that \(f\) is \(k\)-resilient, with \(k\le n-2\), then
+	\begin{itemize}
+		\item \(\deg f = n-k-1\) implies \(N(f) = 2^{n-1}-2^{k+1}\).
+		\item \(\deg f < n-k-1\) implies \(N(f) \le 2^{n-1}-2^{k+1}\).
+	\end{itemize}
+\end{teor}

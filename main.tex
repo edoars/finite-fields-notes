@@ -1,0 +1,24 @@
+\documentclass[10pt,a4paper,twoside,headinclude,footinclude,color,english]{./latex-notes-cls/edoars-notes}
+\graphicspath{ {Immagini/} }
+
+\hypersetup{pdfauthor={Edoardo Signorini},
+            pdftitle={Finite Fields},
+            pdfcreator={Latex with hyperref}}
+
+\begin{document}
+%MATERIALE INIZIALE
+\input{MaterialeInizialeFinale/titolo}
+\tableofcontents
+
+%MATERIALE PRINCIPALE
+\input{Capitoli/chap1}
+\input{Capitoli/chap2}
+\input{Capitoli/chap3}
+\input{Capitoli/chap4}
+\input{Capitoli/chap5}
+
+%MATERIALE FINALE
+\phantomsection
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+\end{document}

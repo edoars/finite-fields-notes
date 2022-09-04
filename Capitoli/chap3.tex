@@ -1,0 +1,918 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 27/03/2018 - SESTA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Linear recurring sequences}
+
+\index{Sequence}Let \(k\in\N\) and let \(f\colon (\F_q)^k \to \F_q\). A sequence \(S\) of elements \(s_0,s_1,\ldots\in\F_q\) satisfying the relation
+\[
+	s_{n+k} = f(s_n,s_{n+1},\ldots,s_{n+k-1}) \qquad\text{for all }n
+\]
+is called a \emph{\(k\)-th order recurring sequence}.
+
+\section{Feedback shift registers}
+
+In this section we are interested in linear recurring sequence.
+
+\begin{defn}{Linear recurring sequence}{LRS}\index{Linear recurring sequence}
+	Let \(k\in\N\) and let \(a,a_1,\ldots,a_{k-1} \in \F_q\). A sequence \(S\) of elements \(s_0,s_1,\ldots\in\F_q\) satisfying the relation
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n + a \qquad\text{for all }n
+	\]
+	is called a \emph{\(k\)-th order linear recurring sequence}.
+\end{defn}
+
+\begin{notz}
+	\(S\) is called homogeneous if \(a=0\), otherwise is called inhomogeneous.
+\end{notz}
+
+\begin{ese}
+	A \(3\)-rd linear recurring sequence is a sequence satisfying the relation
+	\[
+		s_{n+3} = a_2 s_{n+2} + a_1 s_{n+1} + a_0 s_n + a.
+	\]
+\end{ese}
+
+\begin{defn}{Ultimately periodic sequence}{6.3}\index{Sequence!ultimately periodic}
+	Let \(s_0,s_1,\ldots\) be a sequence. Let \(r>0\) and \(n_0\ge 0\) such that
+	\[
+		s_{n+r} = s_n \qquad\text{for all }n \ge n_0,
+	\]
+	then the sequence is called \emph{ultimately periodic} and \(r\) is called a \emph{period} of the sequence.
+\end{defn}
+
+\begin{notz}
+	The least positive period of the sequence is called the \emph{least period} of the sequence.
+\end{notz}
+
+\begin{lem}\label{6.4}
+	Consider an ultimately periodic sequence \(s_0,s_1,\ldots\). Let \(r\) be the least period of the sequence and let \(R\) be a period. Then \(r\) divides \(R\).
+\end{lem}
+
+\begin{proof}
+	By definition \(r \le R\). Then we can perform division with remainder to obtain
+	\[
+		R = q\,r + t \qquad\text{with }0 \le t < r.
+	\]
+	Then
+	\[
+		s_n = s_{n+R} = s_{n+q\,r+t} = s_{(n+t)+r+\ldots+r} = s_{n+t},
+	\]
+	hence \(t\) is a period of the sequence, which is a contradiction of the minimality of \(r\) unless \(t=0\).
+\end{proof}
+
+\begin{defn}{Periodic sequence}{6.5}\index{Sequence!periodic}
+	Let \(s_0,s_1,\ldots\) be an ultimately periodic sequence with least period \(r\). The sequence is called periodic if
+	\[
+		s_{n+r} = s_{n} \qquad\text{for all }n\in\N.
+	\]
+\end{defn}
+
+\begin{oss}
+	Alternatively, \(s_0,s_1,\ldots\) is periodic if and only if it exists \(r>0\) such that
+	\[
+		s_{n+r} = s_r \qquad\text{for all }n \in \N.
+	\]
+\end{oss}
+
+\begin{defn}{Preperiod}{preperiod}\index{Preperiod}
+	Let \(s_0,s_1,\ldots\) be an ultimately periodic sequence with least period \(r\). The least nonnegative integer \(n_0\) such that
+	\[
+		s_{n+r} = s_n \qquad\text{for all }n \ge n_0
+	\]
+	is called the \emph{preperiod}.
+\end{defn}
+
+\begin{oss}
+	An ultimately periodic sequence is periodic precisely if the preperiod is zero.
+\end{oss}
+
+\begin{teor}{Bound of least period}{6.7}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order sequence over \(\F_q\). Then it is ultimately periodic with period
+	\[
+		r \le q^k.
+	\]
+	Moreover, if the sequence is homogeneous, then \(r \le q^k-1\).
+\end{teor}
+
+\begin{proof}
+	Consider \(\vec{s_0}=(s_0,s_1,\ldots,s_{k-1}) \in (\F_q)^k\) the initial state of the vector. The next states are uniquely determined:
+	\[
+		\vec{s_1} = (s_1, s_2, \ldots, s_k), \vec{s_2} = (s_2,s_3,\ldots,s_{k+1}),\ldots
+	\]
+	where
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n + a.
+	\]
+	Clearly the set of all states \(\{\vec{s_i}\}_{i\in\N}\) is a subset of \((\F_q)^k\), in particular
+	\[
+		\big\lvert\Set{\vec{s_i}}_{i\in\N}\big\rvert \le q^k.
+	\]
+	Now suppose that the sequence is homogeneous, then
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n.
+	\]
+	Hence
+	\[
+		\vec{s_0} = (0,\ldots,0) \implies \vec{s_i} = (0,\ldots,0) \qquad\text{for all }i \in \N
+	\]
+	and \(r=1\). Therefore, if the initial state is not the zero vector, \(\vec{s_i} \in (\F_q)^k \setminus \{(0,\ldots,0)\}\) for all \(i\in\N\). Hence
+	\[
+		\big\lvert\Set{\vec{s_i}}_{i\in\N}\big\rvert \le q^k-1.\qedhere
+	\]
+\end{proof}
+
+\begin{teor}{Periodicity of homogeneous sequence}{6.11}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order homogeneous sequence over \(\F_q\) satisfying
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n.
+	\]
+	Suppose \(a_0 \neq 0\), then the sequence is periodic.
+\end{teor}
+
+\begin{proof}
+	From the recurrence relation
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n
+	\]
+	and \(a_0 \neq 0\) we obtain
+	\[
+		s_n = \frac{1}{a_0}(s_{n+k}-a_{k-1}s_{n+k-1}-\ldots-a_1 s_{n+1}).
+	\]
+	By previous theorem we know that \(\{s_i\}\) is ultimately periodic. Let \(r\) be its period and \(n_0\) its preperiod. Suppose by contradiction that \(n_0 \ge 1\). We know that \(s_{n+r}=s_n\) for \(n\ge n_0\), but if we consider \(\bar{n}=n_0-1\), we have
+	\begin{align*}
+		s_{\bar{n}} & = \frac{1}{a_0}(s_{\bar{n}+k}-a_{k-1}s_{\bar{n}+k-1}-\ldots-a_1 s_{\bar{n}+1})       \\
+		            & = \frac{1}{a_0}(s_{\bar{n}+k+r}-a_{k-1}s_{\bar{n}+k-1+r}-\ldots-a_1 s_{\bar{n}+1+r}) \\
+		            & = s_{\bar{n}+r}.
+	\end{align*}
+	Which is a contradiction of the definition of preperiod. Hence the sequence is periodic.
+\end{proof}
+
+\begin{defn}{Associated matrix of a hlrs}{Associated matrix}\index{Associated matrix}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order homogeneous sequence over \(\F_q\) satisfying
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n.
+	\]
+	The associated matrix \(A\) of the sequence is given by
+	\[
+		A = 
+		\begin{pmatrix}
+			0      & 0      & \ldots & 0      & a_0     \\
+			1      & 0      & \ldots & 0      & a_1     \\
+			0      & 1      & \ldots & 0      & a_2     \\
+			\vdots & \vdots & \ddots & \vdots & \vdots  \\
+			0      & 0      & \ldots & 1      & a_{k-1}
+		\end{pmatrix}
+		\in M_{k}(\F_q)
+	\]
+\end{defn}
+
+\begin{oss}
+	Suppose \(a_0\neq 0\), then
+	\[
+		\det A = (-1)^{k-1} a_0 \neq 0 \implies A \in GL_k(\F_q).
+	\]
+	In particular the order of \(A\) divides \(\abs{GL_k(\F_q)}\), where
+	\begin{align*}
+		\abs{GL_k(\F_q)} & = (q^k-1)(q^k-q)(q^k-q^2) \cdot\ldots\cdot (q^k-q^{k-1})                \\
+		                 & = q\,q^2 \cdot\ldots\cdot q^{k-1} (q-1)(q^2-1) \cdot\ldots\cdot (q^k-1)
+	\end{align*}
+\end{oss}
+
+\begin{lem}\label{6.12}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order homogeneous sequence over \(\F_q\) satisfying
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n.
+	\]
+	Let \(A\) be the associated matrix of the sequence. Then
+	\[
+		\vec{s_n}A = \vec{s_{n+1}}
+	\]
+\end{lem}
+
+\begin{proof}
+	Follows from the definition of \(A\) and \(\vec{s_n} = (s_n,s_{n+1},\ldots,s_{n+k-1})\) by induction.
+\end{proof}
+
+\begin{teor}{Order of associated matrix}{6.13}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order homogeneous sequence over \(\F_q\) satisfying
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n.
+	\]
+	Let \(A\) be the associated matrix of the sequence and suppose \(a_0\neq 0\), then the least period of the sequence divides the order of \(A\) in \(GL_k(\F_q)\).
+\end{teor}
+
+\begin{proof}
+	By a previous remark we know that \(\det A \neq 0\) so that \(A\in GL_k(\F_q)\). By previous lemma we know that
+	\[
+		\vec{s_n}A = \vec{s_{n+1}}; \qquad \vec{s_n}A^2 = \vec{s_{n+2}}; \qquad \ldots
+	\]
+	Therefore, if \(e\) is the order of \(A\), we have
+	\[
+		\vec{s_n} = \vec{s_n}A^e = \vec{s_{n+e}},
+	\]
+	hence \(r\) divides \(e\), with \(r\) the least period of the sequence.
+\end{proof}
+
+\begin{oss}
+	If \(s_0,s_1,\ldots\) is inhomogeneous, then we can write the state as
+	\[
+		\vec{s_n} = 1,s_n,s_{n+1},\ldots,s_{n+k-1}.
+	\]
+	The associated matrix becomes
+	\[
+		C = 
+		\begin{pmatrix}
+			1      & 0      & 0      & \ldots & 0      & a       \\
+			0      & 0      & 0      & \ldots & 0      & a_0     \\
+			0      & 1      & 0      & \ldots & 0      & a_1     \\
+			0      & 0      & 1      & \ldots & 0      & a_2     \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots  \\
+			0      & 0      & 0      & \ldots & 1      & a_{k-1}
+		\end{pmatrix} = 
+		\begin{pmatrix}
+			1      & 0 & \ldots & 0 & a     \\
+			0      &   &        &   &   &   \\
+			0      &   &        &   &   &   \\
+			\vdots &   &        & A &   &   \\
+			0      &   &        &   &   & 
+		\end{pmatrix}
+	\]
+	Again we have \(\vec{s_n}C = \vec{s_{n+1}}\). If \(e=\ord(C)\), then
+	\[
+		\vec{s_n} I = \vec{s_n}C^e = \vec{s_{n+e}}.
+	\]
+	It is also possible to prove that \(C\in GL_{k+1}(\F_q)\) so that the order of \(C\) divides the order of \(GL_{k+1}(\F_q)\).
+\end{oss}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 06/04/2018 - SETTIMA SETTIMANA (2)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Impulse response sequences, characteristic polynomial}
+
+From now on, with hlrs we will refer to an homogeneous linear recurring sequence in \(\F_q\), satisfying a given \(k\)-th order linear recurrence relation
+\[\label{recrel}
+	s_{n+k} = a_{k-1}s_{n+k-1} + a_{k-2}s_{n+k-2} + \ldots + a_0 s_n.\tag{\(*\)}
+\]
+
+\begin{defn}{Impulse response sequence}{impulseResponseSequence}\index{Sequence!impulse response}
+	A hlrs \(d_0,d_1,\ldots\) is called an \emph{impulse response sequence} if its initial state is exactly
+	\[
+		\vec{d_0} = (d_0,d_1,\ldots,d_{k-2},d_{k-1}) = (0,0,\ldots,0,1).
+	\]
+\end{defn}
+
+\begin{notz}
+	Sometimes we will refer to impulse response sequences with IR.
+\end{notz}
+
+\begin{lem}\label{6.15}
+	Let \(d_0,d_1,\ldots\) be an impulse response sequence. Let \(A\) be its associated matrix. Then
+	\[
+		\vec{d_m} = \vec{d_n} \iff A^m = A^n.
+	\]
+\end{lem}
+
+\begin{proof}
+	\graffito{\("\Leftarrow"\)}Suppose that \(A^m = A^n\), then from \autoref{6.12}, we have
+	\[
+		\vec{d_m} = \vec{d_0}A^m = \vec{d_0}A^n = \vec{d_n}.
+	\]
+	\graffito{\("\Rightarrow"\)}Suppose that \(\vec{d_m} = \vec{d_n}\). By the linear recurrence relation we know that \(\vec{d_{m+t}} = \vec{d_{n+t}}\) for all \(t\ge 0\). Then, again by \autoref{6.12}, we get
+	\[
+		\vec{d_t}A^m = \vec{d_t}A^n \qquad\text{for all }t\ge 0.
+	\]
+	But as \(d_0,d_1,\ldots\) is an impulse response sequence, the vectors \(\vec{d_0},\vec{d_1},\ldots,\vec{d_{k-1}}\) form a basis for \(\F_q^k\) over \(\F_q\). Therefore \(A^m = A^n\).
+\end{proof}
+
+\begin{teor}{}{6.16}
+	The least period of a hlrs divides the least period of the corresponding impulse response sequence.
+\end{teor}
+
+\begin{proof}
+	Let \(s_0,s_1,\ldots\) be a hlrs, \(d_0,d_1,\ldots\) be the corresponding IR and Let \(A\) be the matrix associated with the recurrence relation. Suppose that \(\bar{r}\) is the least period of \(d_0,d_1,\ldots\) and \(\bar{n_0}\) the preperiod. Then \(\vec{d_{n+r}} = \vec{d_n}\) for all \(n\ge n_0\) and by previous lemma and \autoref{6.12} we have
+	\[
+		A^{n+r} = A^n,\,\fa n \ge n_0 \implies s_{n+r} = s_n \qquad\text{for all }n \ge n_0.
+	\]
+	Hence \(\bar{r}\) is a period of \(s_0,s_1,\ldots\) and its least period divides \(\bar{r}\) by \autoref{6.4}.
+\end{proof}
+
+\begin{ese}
+	Consider the recurrence relation in \(\F_2\) given by
+	\[
+		s_{n+4} = s_n+2 + s_n 
+	\]
+	If we consider the corresponding impulse response sequence \(d_0=0,d_1=0,d_2=0,d_3=1\), we get
+	\begin{align*}
+		d_4 & = 0 & d_5 & = 1 & d_6 & = 0  \\
+		d_7 & = 0 & d_8 & =0  & d_9 & = 1
+	\end{align*}
+	hence the least period of the sequence is \(\bar{r}=6\).
+	Now, if we consider the sequence with initial state \(s_0=0,s_1=1,s_2=1,s_3=0\), we get
+	\begin{align*}
+		s_4 & = 1 & s_5 & = 1 & s_6 & =0,
+	\end{align*}
+	hence the least period is \(r=3\) and as we expected \(r\) divides \(\bar{r}\).
+\end{ese}
+
+\begin{teor}{}{6.17}
+	Let \(d_0,d_1,\ldots\) be an impulse response sequence and \(A\) its associated matrix. Suppose that \(a_0\neq 0\), then the least period of the sequence is equal to the order of \(A\) in \(GL_k(\F_q)\).
+\end{teor}
+
+\begin{proof}
+	Let \(\bar{r}\) be the least period of the sequence, according to \autoref{6.13} \(\bar{r}\) divides the order of \(A\). On the other hand we have \(\vec{d_r}=\vec{d_0}\) which implies \(A^{\bar{r}} = A^0\) by \autoref{6.15}, hence the order of \(A\) divides \(\bar{r}\).
+\end{proof}
+
+\begin{teor}{}{6.19}
+	Let \(s_0,s_1,\ldots\) be a hlrs with preperiod \(n_0\). Suppose that there exists \(k\) state vectors
+	\[
+		\vec{s_{m_1}},\vec{s_{m_2}},\ldots,\vec{s_{m_k}} \qquad\text{with }m_j \ge n_0, 1 \le j \le k,
+	\]
+	that are linearly independent  over \(\F_q\). Then both \(s_0,s_1,\ldots\) and its corresponding impulse response sequence are periodic with the same least period.
+\end{teor}
+
+\begin{proof}
+	Let \(r\) be the least period of \(s_0,s_1,\ldots\). Then
+	\[
+		\vec{s_{m_j}}A^r = \vec{s_{m_j+r}} = \vec{s_{m_j}} \qquad\text{for }1 \le j \le k.
+	\]
+	As \(\vec{s_{m_1}},\ldots,\vec{s_{m_k}}\) are linearly independent, we have that \(A^r\) is the identity matrix over \(GL_k(\F_q)\). Hence \(\vec{s_r} = \vec{s_0}A^r = \vec{s_0}\) and \(s_0,s_1,\ldots\) is periodic.
+	Now let \(d_0,d_1,\ldots\) be the corresponding impulse response sequence and let \(\bar{r}\) be its least period. We have \(\vec{d_r} = \vec{d_0}A^r = \vec{d_0}\), then \(r\) is a period of \(d_0,d_1,\ldots\) and therefore \(\bar{r}\) divides \(r\). But from \autoref{6.16} we also know that \(r\) divides \(\bar{r}\).
+\end{proof}
+
+\begin{defn}{Characteristic polynomial}{sequenceCharacteristicPolynomial}\index{Characteristic polynomial!of a sequence}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order homogeneous linear recurring sequence in \(\F_q\) satisfying the linear recurrence relation
+	\[
+		s_{n+k} = a_{k-1}s_{n+k-1}+a_{k-2}s_{n+k-2}+\ldots+a_0 s_n \qquad\text{for }n=0,1,\ldots,
+	\]
+	with \(a_j \in\F_q\). We define the polynomial
+	\[
+		f(x) = x^k-a_{k-1}x^{k-1}-a_{k-2}x^{k-2}-\ldots-a_0 \in \F_q[x]
+	\]
+	as the \emph{characteristic polynomial} of the sequence.
+\end{defn}
+
+\begin{oss}
+	The characteristic polynomial depends only on the linear recurrence relation. Moreover, if \(A\) is the associated matrix of the sequence, it it easy to see that \(f\) is the characteristic polynomial of \(A\) in the sense of linear algebra.
+\end{oss}
+
+\begin{teor}{Representation of a sequence through its characteristic polynomial}{6.21}
+	Let \(s_0,s_1,\ldots\) be a hlrs with characteristic polynomial \(f(x)\). Suppose that the roots \(\a_1,\ldots,\a_k\) of \(f\) are all distinct, then
+	\[
+		s_n = \sum_{j=1}^k \b_j \a_j^n \qquad\text{for }n = 0,1,\ldots,
+	\]
+	where \(\b_1,\ldots,\b_k\) are elements of the splitting field of \(f\) over \(\F_q\) which are uniquely determined by the initial values of the sequence.
+\end{teor}
+
+\begin{proof}
+	Given the initial state \(s_0,s_1,\ldots,s_{k-1}\) we can determine \(\b_1,\ldots,\b_k\) from the system of linear equation
+	\[
+		s_n = \sum_{j=1}^k \b_j \a_j^n, \qquad n = 0,1,\ldots,k-1.
+	\]
+	The determinant of the system is a Vandermonde determinant, which is nonzero as \(\a_1,\ldots,\a_k\) are all distinct. Hence \(\b_1,\ldots,\b_k\) are uniquely determined and belong to \(\F_q(\a_1,\ldots,\a_k)\) which is the splitting field of \(f\) over \(\F_q\).
+	To check if the formula holds for all \(n\ge 0\) we check if the sums, with those values for \(\b_1,\ldots,\b_k\), satisfy the linear recurrence relation:
+	\begin{align*}
+		  & \sum_{j=1}^k \b_j\a_j^{n+k}-a_{k-1}\sum_{j=1}^k \b_j\a_j^{n+k-1} -a_{k-2}\sum_{j=1}^k \b_j\a_j^{n+k-2}-\ldots-a_0 \sum_{j=1}^k \b_j\a_j^n \\
+		= & \sum_{j=1}^k \b_jf(\a_j)\a_j^n = 0.\qedhere
+	\end{align*}
+\end{proof}
+
+\begin{ese}
+	Consider the following hlrs in \(\F_2\):
+	\[
+		s_{n+3} = s_{n+2}+s_n \qquad\text{with }\vec{s_0}=(0,0,1)
+	\]
+	The characteristic polynomial is
+	\[
+		f(x)=x^3-x^2-1 = x^3+x^2+1 \in \F_2[x].
+	\]
+	\(f\) is irreducible in \(\F_2[x]\) and has simple roots \(\a,\a^2,\a^4\in\F_8=\F_2[\a],\a^3=\a^2+1\). By the previous theorem we have
+	\[
+		\begin{cases}
+			s_0 = \b_1 \a_1^0 + \b_2 \a_2^0 + \b_3 \a_3^0 \\
+			s_1 = \b_1 \a_1 + \b_2 \a_2 + \b_3 \a_3       \\
+			s_2 = \b_1 \a_1^2 + \b_2 \a_2^2 + \b_3 \a_3^2
+		\end{cases}
+	\]
+	where \(\a_1=\a,\a_2=\a^2,\a_3=\a^2+\a+1\). After some computation we get
+	\[
+		\begin{cases}
+			\b_1 = \a+1   \\
+			\b_2 = \a^2+1 \\
+			\b_3 = \a^2+a
+		\end{cases}
+	\]
+	Hence
+	\[
+		s_n = (\a+1)\a^n + (\a^2+1)\a^{2n}+(\a^2+\a)(\a^2+\a+1)^n \qquad\text{for all }n\ge 0.
+	\]
+\end{ese}
+
+\begin{teor}{}{6.24}
+	Let \(s_0,s_1,\ldots\) be a hlrs with characteristic polynomial \(f(x)\). Suppose that \(f\) is irreducible over \(\F_q\) and let \(\a\in\F_{q^k}\) be a root of \(f\). Then there exists a uniquely determined \(\q\in\F_{q^k}\) such that
+	\[
+		s_n = \Tr_{\F_{q^k}/\F_q}(\q \a^n) \qquad\text{for }n =0,1,\ldots
+	\]
+\end{teor}
+
+\begin{proof}
+	Define the following linear map
+	\[
+		L\colon \F_{q^k} \longrightarrow \F_q, \qquad \a^n \longmapsto s_n, n = 0,1,\ldots,k-1.
+	\]
+	Since \(\{1,\a,\ldots,\a^{k-1}\}\) constitutes a basis of \(\F_{q^k}\) over \(\F_q\), \(L\) is uniquely determined. By \autoref{2.24} there exists a uniquely determined \(\q\in\F_{q^k}\) such that
+	\[
+		L(\b) = \Tr(\q\b) \qquad\text{for all }\b\in\F_{q^k}.
+	\]
+	In particular we have
+	\[
+		s_n = \Tr(\q\a^n) \qquad\text{for }n=0,1,\ldots,k-1.
+	\]
+	We have to show that the elements \(\Tr(\q\a^n),n=0,1,\ldots\) form a hlrs with characteristic polynomial \(f\). If \(f\) is defined as
+	\[
+		f(x) = x^k-a_{k-1}x^{k-1}-\ldots-a_0 \in \F_q[x],
+	\]
+	then, using the \hyperref[trace]{properties of the trace}, we get
+	\begin{align*}
+		  & \Tr(\q\a^{n+k}) -a_{k-1}\Tr(\q\a^{n+k-1})-\ldots-a_0\Tr(\q\a^n) \\
+		= & \Tr(\q\a^{n+k}-a_{k-1}\q\a^{n+k-1}-\ldots-a_0\q\a^n)            \\
+		= & \Tr\big(\q\a^nf(\a)\big) = 0,
+	\end{align*}
+	for all \(n\ge 0\).
+\end{proof}
+
+\begin{teor}{Characteristic polynomial's identity}{6.25}
+	Let \(s_0,s_1,\ldots\) be a hlrs and suppose it is periodic with least period \(r\). Let \(f\) be the characteristic polynomial of the sequence, then
+	\[
+		f(x)s(x) = (1-x^r)h(x),
+	\]
+	where
+	\[
+		s(x) = s_0x^{r-1}+s_1x^{r-2}+\ldots+s_{r-2}x+s_{r-1}\in\F_q[x]
+	\]
+	and
+	\[
+		h(x) = \sum_{j=0}^{k-1}\sum_{i=0}^{k-1-j}a_{i+j+1}s_i x^j \in \F_q[x] \qquad\text{with }a_k=-1.
+	\]
+\end{teor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 10/04/2018 - OTTAVA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lem}
+	Let
+	\[
+		f(x) = x^k-a_{k-1}x^{k-1}-a_{k-2}x^{k-2}-\ldots-a_0 \in\F_q[x]
+	\]
+	with \(k\ge 1\). Suppose that \(a_0 \neq 0\), then the order of \(f\) is equal to the order of its companion matrix \(A\) in \(GL_k(\F_q)\).
+\end{lem}
+
+\begin{proof}
+	\(f\) is the characteristic polynomial of \(A\), therefore
+	\[
+		f(x) \mid x^e-1 \iff f(A) \mid A^e-I,
+	\]
+	but \(f(A)=0\) by Cayley-Hamilton, hence
+	\[
+		A^e-I = 0 \implies A^e = I.
+	\]
+	If we take \(e\) the least positive integer for the relation to holds, we get both the definition of the order of \(f\) and of the order of \(A\).
+\end{proof}
+
+\begin{cor}
+	Let \(d_0,d_1,\ldots\) be an impulse response sequence satisfying \eqref{recrel}. Let \(f\) be its characteristic polynomial and suppose \(a_0\neq 0\). Then the least order of the sequence is equal to the order of \(f\).
+\end{cor}
+
+\begin{proof}
+	It follows from previous theorem and \autoref{6.17}.
+\end{proof}
+
+\begin{teor}{}{6.27}
+	Let \(s_0,s_1,\ldots\) be a hlrs with characteristic polynomial \(f(x)\in\F_q[x]\). Then the least period of the sequence divides \(\ord(f)\). If the sequence is impulse response then its least period is equal to \(\ord(f)\). Moreover, if \(f(0)\neq0\), then the sequence is periodic.
+\end{teor}
+
+\begin{proof}
+	\(s_0,s_1,\ldots\) satisfies the recurrence relation \eqref{recrel}, therefore
+	\[
+		f(x) = x^k-a_{k-1}x^{k-1}-a_{k-2}x^{k-2}-\ldots-a_0.
+	\]
+	Suppose \(f(0)\neq 0\), then \(a_0\neq 0\) and the periodicity follows from \autoref{6.11}.
+	Moreover, from previous lemma, we know that the order of \(f\) is equal to the order of the associated matrix \(A\). Therefore the least period of the sequence divides \(\ord(A)=\ord(f)\) by \autoref{6.13}. And if the sequence is impulse response, the thesis follows from \autoref{6.17}.
+	Now suppose \(f(0)=0\), then we write
+	\[
+		f(x) = x^h g(x) \qquad\text{with }g(0)\neq 0, \pd g\ge 1.
+	\]
+	If we define \(t_n=s_{n+h}\) for \(n=0,1,\ldots\) then \(t_0,t_1,\ldots\) is a hlrs with characteristic polynomial \(g\) and same least period as that of the sequence \(s_0,s_1,\ldots\). Hence the least period of \(s_0,s_1,\ldots\) divides \(\ord(g)=\ord(f)\). With the same argument we can prove the result for the impulse response sequence.
+	
+	If \(f(x)=x^h\) the result is trivial as we would have
+	\[
+		s_{n+k}=0 \implies r=1 \qquad\text{and}\qquad\ord(x^k)=1.\qedhere
+	\]
+\end{proof}
+
+\begin{teor}{Irreducible characteristic polynomial}{6.28}
+	Let \(s_0,s_1,\ldots\) be a hlrs with characteristic polynomial \(f(x)\in\F_q[x]\) irreducible and \(f(0)\neq 0\). Suppose that the initial state \(\vec{s_0}\) is different from the zero vector. Then \(s_0,s_1,\ldots\) is periodic with least period equal to \(\ord(f)\).
+\end{teor}
+
+\begin{proof}
+	Let \(r\) be the least period of the sequence.
+	From last theorem we know that the sequence is periodic and that \(r\) divides \(\ord(f)\). From \autoref{6.25} we also know that
+	\[
+		f(x)s(x) = (1-x^r)h(x) \implies f(x) \mid (1-x^r)h(x),
+	\]
+	where \(\pd h=k-1\) while \(\pd f = k\). But \(f\) is irreducible, therefore
+	\[
+		f(x) \nmid h(x) \implies f(x) \mid 1-x^r = -(x^r-1) \implies \ord(f) \mid r.
+	\]
+	Hence \(r=\ord(f)\).
+\end{proof}
+
+\begin{defn}{Maximal period sequence}{6.32}\index{Sequence!maximal period}
+	Let \(s_0,s_1,\ldots\) be a homogeneous linear recurring sequence in \(\F_q\) with characteristic polynomial \(f(x)\). If \(f\) is primitive and the initial state \(\vec{s_0}\) is nonzero, the sequence is called \emph{maximal period sequence}.
+\end{defn}
+
+\begin{teor}{Period of a maximal period sequence}{6.33}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order maximal period sequence in \(\F_q\). Then \(s_0,s_1,\ldots\) is periodic and has least period equal to \(q^k-1\).
+\end{teor}
+
+\begin{proof}
+	\(f\) is primitive, hence it is irreducible and by previous theorem \(s_0,s_1,\ldots\) is periodic with least period equal to \(\ord(f)\). But since \(f\) is primitive, we know that \(\ord(f)=q^k-1\) by \autoref{3.16}.
+\end{proof}
+
+\begin{ese}
+	Consider the following hlrs in \(\F_2\):
+	\[
+		s_{n+4}=s_{n+3}+s_{n+2}+s_{n+1}+s_n \qquad\text{with }\vec{s_0}=(0,0,0,1).
+	\]
+	The characteristic polynomial is
+	\[
+		f(x) = x^4-x^3-x^2-x-1 = x^4+x^3+x^2+x+1 \in \F_2[x].
+	\]
+	Observe that \(f(x) =Q_5(x)\). We know that \(\ord(f)=5\) and, since \(f\) is irreducible, we have also that the least period \(r=5\). Moreover \(5\) is prime, so every other initial state, distinct form the zero vector, will have least period equal to \(5\).
+\end{ese}
+
+\begin{ese}
+	Consider the following hlrs in \(\F_3\):
+	\[
+		s_{n+3}=s_{n+2}+s_n \qquad\text{with }\vec{s_0}=(0,0,1).
+	\]
+	The characteristic polynomial is
+	\[
+		f(x) = x^3+2x^2+2 = (x+1)(x^2+x+2),
+	\]
+	hence
+	\[
+		\ord(f) = \lcm\big(\ord(x+1),\ord(x^2+x+2)\big) = \lcm(2,8) = 8.
+	\]
+	Since our sequence is impulse response, we have \(\bar{r}=8\).
+	Now suppose that the initial state is \(\vec{s_0}=(1,2,1)\), then
+	\[
+		s_3=2,s_4 = 1 \implies r = 2 \mid 8 = \bar{r}.
+	\]
+\end{ese}
+
+\section{The minimal polynomial}
+
+A linear recurring sequence can satisfies many recurring relation and each polynomial associated to such relation is a characteristic polynomial for the sequence. In this section we will study the relationship between those recurring relation for a homogeneous linear recurring sequence.
+
+\begin{defn}{Minimal polynomial}{minimalPolynomial}\index{Minimal polynomial}
+	Let \(s_0,s_1,\ldots\) be a hlrs in \(\F_q\). A monic polynomial \(m(x)\in\F_q[x]\) is called \emph{minimal polynomial} for the sequence if is such that for all \(f(x)\in\F_q[x]\), \(f\) is a characteristic polynomial for the sequence if and only if \(m\) divides \(f\).
+\end{defn}
+
+\begin{teor}{Uniqueness of the minimal polynomial}{6.42}
+	Let \(s_0,s_1,\ldots\) be a hlrs. Then the minimal polynomial \(m(x)\in\F_q[x]\) is uniquely determined.
+\end{teor}
+
+\begin{teor}{Order of the minimal polynomial}{6.44}
+	Let \(s_0,s_1,\ldots\) be a hlrs in \(\F_q\) with minimal polynomial \(m(x)\in\F_q[x]\). Then the least period of the sequence is equal to \(\ord(m)\).
+\end{teor}
+
+\begin{proof}
+	Let \(r\) be the period of the sequence and \(n_0\) its preperiod. Then \(s_0,s_1,\ldots\) satisfies the following relations
+	\[
+		s_{n+r} = s_n,\,\fa n \ge n_0 \qquad\text{and}\qquad s_{n+n_0+r} = s_{n+n_0},\,\fa n\ge 0
+	\]
+	hence
+	\[
+		f(x) = x^{n_0+r}-x^{n_0} = x^{n_0}(x^r-1)
+	\]
+	is a characteristic polynomial for the sequence. By the definition of minimal polynomial we have
+	\[
+		m(x) \mid x^{n_0}(x^r-1) \implies m(x) = x^h g(x)
+	\]
+	with \(h\le n_0\) and where \(g(0)\neq 0\), \(g\) divides \(x^r-1\). By definition of order \(\ord(m)=\ord(g)\) divides \(r\), but \(m\) is also a characteristic polynomial for the sequence, so that \(r\) divides \(\ord(m)\) by \autoref{6.27}. Hence \(r = \ord(m)\).
+\end{proof}
+
+\begin{prop}{}{6.50}
+	Let \(s_0,s_1,\ldots\) be a hlrs in \(\F_q\) with characteristic polynomial \(f(x)\in\F_q[x]\). Suppose that \(f\) is monic, irreducible and that the terms of the sequence are not all zeros. Then \(f\) is the minimal polynomial of the sequence.
+\end{prop}
+
+\begin{proof}
+	Let \(m(x)\) be the minimal polynomial of the sequence. By definition of minimal polynomial, \(m\) divides \(f\). But \(f\) is monic and irreducible, hence
+	\[
+		m(x) = 1 \qquad\text{or}\qquad m(x) = f(x).
+	\]
+	But \(m(x)\neq 1\) as it generates the sequence of all zeros, hence \(m(x)=f(x)\).
+\end{proof}
+
+\begin{teor}{Characterization of minimal polynomial}{6.51}
+	Let \(s_0,s_1,\ldots\) be a \(k\)-th order hlrs in \(\F_q\) with characteristic polynomial \(f(x)\in\F_q[x]\). Then \(f\) is the minimal polynomial of the sequence if and only if the state vectors \(\vec{s_0},\ldots,\vec{s_{k-1}}\) are linearly independent over \(\F_q\).
+\end{teor}
+
+\begin{proof}
+	We assume that the terms of the sequence are not all zeros, otherwise it is trivial.
+	
+	\graffito{\("\Leftarrow"\)}Suppose \(\vec{s_0},\ldots,\vec{s_{k-1}}\) are linearly independent over \(\F_q\). In particular \(\vec{s_0}\neq \vec{0}\) implies that the minimal polynomial \(m(x)\) has positive degree. Now suppose \(f(x)\neq m(x)\), then if \(m\) is the degree of \(m(x)\), we have \(m<k\). But then \(s_0,s_1,\ldots\) would satisfy a recurrence relation of \(m\)-th order with \(1\le m <k\), say
+	\[
+		s_{n+m} = a_{m-1}s_{n+m-1}+\ldots+a_0s_n \qquad\text{for all }n \ge 0,
+	\]
+	hence, for \(n=0\), we would have
+	\[
+		\vec{s_m} = a_{m-1} \vec{s_{m-1}} + \ldots + a_0 \vec{s_0},
+	\]
+	which is a contradiction of the linear independence of \(\vec{s_0},\ldots,\vec{s_{k-1}}\).
+	
+	\graffito{\("\Rightarrow"\)}Suppose that \(m(x)=f(x)\) and suppose, by contradiction, that \(\vec{s_0},\ldots,\vec{s_{k-1}}\) are linearly dependent. Then it exists \(b_0,\ldots,b_{k-1}\in\F_q\), not all zeros, such that
+	\[
+		b_0\vec{s_0}+b_1\vec{s_1} + \ldots b_{k-1}\vec{s_{k-1}} = \vec{0}
+	\]
+	Let \(A\) be the companion matrix of \(f\). If we multiply the previous identity by \(A^n\) we get
+	\[
+		(b_0\vec{s_0}+b_1\vec{s_1} + \ldots b_{k-1}\vec{s_{k-1}})A^n = \vec{0}.
+	\]
+	Recall that \(\vec{s_i}A^n = \vec{s_{n+i}}\) for all \(i\). Hence
+	\[
+		\vec{0} = (b_0\vec{s_0}+b_1\vec{s_1} + \ldots b_{k-1}\vec{s_{k-1}})A^n = b_0\vec{s_n} + b_1 \vec{s_{n+1}} + \ldots + b_{k-1}\vec{s_{n+k-1}},
+	\]
+	which implies, in particular, \(b_0 s_n + b_1 s_{n+1} + \ldots + b_{k-1}s_{n+k-1} = 0\). If \(b_j=0\) for \(1\le j \le k-1\), then
+	\[
+		b_0 s_n = 0 \implies s_n = 0 \qquad\text{for all }n\ge 0,
+	\]
+	which is a contraction to the fact that \(f\) has positive degree. Now let \(j\ge 1\) be the largest index such that \(b_j \neq 0\), then the sequence satisfies a \(j\)-th order homogeneous linear relation with \(j<k\), which contradicts the assumption that \(f\) is the minimal polynomial. Therefore \(\vec{s_0},\ldots,\vec{s_{k-1}}\) are linearly independent over \(\F_q\).
+\end{proof}
+
+\begin{cor}
+	Let \(s_0,s_1,\ldots\) be an impulse response sequence in \(\F_q\) with characteristic polynomial \(f(x)\in\F_q[x]\). Then \(f\) is the minimal polynomial of the sequence.
+\end{cor}
+
+\begin{proof}
+	It follows from the previous theorem as \(\vec{s_0},\ldots,\vec{s_{k-1}}\) are clearly linearly independent for an impulse response sequence. \emph{sono un culetto di  scimmia!}
+\end{proof}
+
+\begin{teor}{}{6.48}
+	Let \(s_0,s_1,\ldots\) be a hlrs with minimal polynomial \(m(x)\in\F_q[x]\) and let \(b\) be a positive integer. Then the minimal polynomial \(m_1(x)\) of \(s_b,s_{b+1},\ldots\) divides \(m(x)\). Moreover, if \(s_0,s_1,\ldots\) is periodic, then \(m_1(x)=m(x)\). 
+\end{teor}
+
+\begin{oss}\label{minAlg}
+	It is possible to compute the minimal polynomial of a sequence \(s_0,s_1,\ldots\) knowing the characteristic polynomial
+	\[
+		f(x) = x^k-a_{k-1}x^{k-1}-a_{k-2}x^{k-2}-\ldots-a_0
+	\]
+	and the initial state \(\vec{s_0}=(s_0,s_1,\ldots,s_{k-1})\). We will not give the proof of this algorithm, which is part of the proof of \autoref{6.42}. We know that
+	\[
+		f(x)s(x) = (1-x^r)h(x) \qquad\text{where }h(x) = \sum_{j=0}^{k-1}\sum_{i=0}^{k-1-j}a_{i+j+1}s_i x^j
+	\]
+	with \(a_k=-1\). Now let \(\phi(x) = \GCD(f,h)\), then
+	\[
+		m(x) = \frac{f(x)}{\phi(x)}.
+	\]
+\end{oss}
+
+\begin{ese}
+	Consider the following hlrs in \(\F_2\):
+	\[
+		s_{n+4}=s_{n+3}+s_{n+2}+s_n \qquad\text{with }\vec{s_0}={1,0,0,1}.
+	\]
+	We want to compute the minimal polynomial of the sequence. We know that
+	\begin{align*}
+		f(x) & = x^4-x^3-x^2-1 = x^4+x^3+x^2+1 = x^3(x+1) + (x+1)^2 \\
+		     & = (x+1)(x^3+x+1).
+	\end{align*}
+	Now \(h(x)\) is given by
+	\[
+		h(x) = \sum_{j=0}^{k-1}\sum_{i=0}^{k-1-j}a_{i+j+1}s_i x^j,
+	\]
+	where \(a_i\) are the coefficients of \(f\) and \(a_k=-1\), with \(k=4\). Therefore
+	\begin{align*}
+		h(x) & = x^0(a_1s_0+a_2s_1+a_3s_2+a_4s_3) + x^1(a_2s_0+a_3s_1+a_4s_2)      \\
+		     & + x^2(a_3s_0+a_4s_1) + x^3(a_4s_0) = x^3+x^2+x+1 = x^2(x+1) + (x+1) \\
+		     & = (x+1)(x^2+1) = (x+1)^3.
+	\end{align*}
+	Hence
+	\[
+		\phi(x) = \GCD(f,h) = x+1 \implies m(x) = \frac{f(x)}{\phi(x)} = x^3+x+1.
+	\]
+\end{ese}
+
+\section{Families of linear recurring sequences}
+
+\begin{defn}{Set of hlrs with fixed characteristic polynomial}{setHlrsFixCharPoly}
+	Let \(f(x)\) be a monic polynomial in \(\F_q[x]\) with \(\pd f = k \ge 1\). We define the set of all homogeneous linear recurring sequences in \(\F_q\) with characteristic polynomial \(f\) as
+	\[
+		S(f) = \Set{\s \text{ hlrs in }\F_q | f \text{ is a characteristic polynomial for }\s}.
+	\]
+\end{defn}
+
+\begin{oss}
+	The order of \(S(f)\) is \(q^k\), as with \(f\) fixed, we can only change the initial state.
+\end{oss}
+
+\begin{oss}
+	Let \(\s,\t\) be sequences in \(\F_q\) with
+	\[
+		\s\colon s_0,s_1,\ldots \qquad\text{and}\qquad \t\colon t_0,t_1,\ldots
+	\]
+	We define the sum between \(\s\) and \(\t\) as
+	\[
+		\s+\t\colon s_0+t_0,s_1+t_1,\ldots
+	\]
+	Let \(c\in \F_q\), we define the scalar multiplication between \(c\) and \(\s\) as
+	\[
+		c\,\s\colon c\,s_0,c\,s_1,\ldots
+	\]
+	With these operations, \(S(f)\) is a vector space over \(\F_q\) of dimension \(k\).
+\end{oss}
+
+\begin{teor}{}{6.53}
+	Let \(f,g\) be two monic and nonconstant polynomials in \(\F_q[x]\). Then
+	\[
+		S(f) \subseteq S(g) \iff f \mid g.
+	\]
+\end{teor}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}Suppose \(S(f)\subseteq S(g)\). Let \(\s\) be the impulse response sequence in \(S(f)\). By definition \(f\) is a characteristic polynomial for \(\s\) and, since \(\s\) is an impulse response, \(f\) is the minimal polynomial \(m(x)\) of \(\s\). But \(\s\in S(g)\), hence
+	\[
+		f(x) = m(x) \mid g(x).
+	\]
+	\graffito{\("\Leftarrow"\)}Suppose \(f\) divides \(g\). Let \(\s\in S(f)\) and let \(m(x)\) be the minimal polynomial of \(\s\). Then, by \autoref{6.42},
+	\[
+		m(x) \mid f(x) \mid g(x) \implies m(x) \mid g(x) \implies \s \in S(g).
+	\]
+\end{proof}
+
+\begin{teor}{Intersection of \(S(f_i)\)}{6.54}
+	Let \(f_1,\ldots,f_h\) be monic and noncostant polynomials in \(\F_q[x]\). Let \(d(x) = \GCD(f_1,\ldots,f_h)\), then
+	\[
+		S(f_1) \cap S(f_2) \cap \ldots \cap S(f_h) =
+		\begin{cases}
+			(0,0,\ldots) & \text{if }d(x)=1 \\
+			S(d)         & \text{otherwise}
+		\end{cases}
+	\]
+\end{teor}
+
+\begin{proof}
+	Let \(\s\in S(f_1)\cap \ldots \cap S(f_h)\). If \(m(x)\) is the minimal polynomial of \(\s\), then \(m\) divides \(f_i\) for all \(i=1,\ldots,h\). If \(d(x)=1\), then \(m(x)=1\) and \(\s\) is the zero sequence.
+	Otherwise, if \(d(x)>1\), then \(m\) divides \(d\) and \(d\) is a characteristic polynomial for \(\s\), hence \(\s \in S(d)\).
+	Conversely, let \(\s\in S(d)\). By construction \(d\) divides \(f_i\) for all \(i=1,\ldots,h\) and, with the same argument. we get 
+	\[
+		S(d) \subseteq S(f_i),\,\fa i \implies S(d) \subseteq S(f_1)\cap \ldots \cap S(f_h).\qedhere
+	\]
+\end{proof}
+
+\begin{notz}
+	We define \(S(f)+S(g)\) to be the set of all sequences \(\s+\t\) with \(\s\in S(f)\) and \(\t\in S(g)\).
+\end{notz}
+
+\begin{teor}{Sum of \(S(f_i)\)}{6.55}
+	Let \(f_1,\ldots,f_h\) be monic and noncostant polynomials in \(\F_q[x]\). Then
+	\[
+		S(f_1)+S(f_2) + \ldots + S(f_h) = S(c),
+	\]
+	where \(c\) is the monic least common multiple of \(f_1,\ldots,f_h\).
+\end{teor}
+
+\begin{proof}
+	We prove the case for \(h=2\), the general case follows by induction.
+	Let \(\s\in S(f)\) and \(\t\in S(g)\). By definition of \(c\) we have
+	\[
+		f\mid c \implies S(f)\subseteq S(c) \qquad\text{and}\qquad g\mid c \implies S(g)\subseteq S(c),
+	\]
+	hence \(S(f)+S(g)\subseteq S(c)\).
+	By Grassman formula we have
+	\begin{align*}
+		\dim\big(S(f)+S(g)\big) & = \dim\big(S(f)\big) + \dim\big(S(g)\big) - \dim\big(S(f)\cap S(g)\big) \\
+		                        & = \dim\big(S(f)\big) + \dim\big(S(g)\big) - \dim\big(S(d)\big),
+	\end{align*}
+	where \(d=\GCD(f,g)\). Now
+	\[
+		c(x)d(x) = f(x)g(x) \implies c(x) = \frac{f(x)g(x)}{d(x)}.
+	\]
+	Moreover \(\dim\big(S(f)\big)=\pd f, \dim\big(S(g)\big) = \pd g\) and \(\dim\big(S(d)\big)=\pd d\). Hence
+	\[
+		\dim\big(S(f)+S(g)\big) = \pd f + \pd g - \pd d = \pd c = \dim\big(S(c)\big),
+	\]
+	which implies \(S(f+g)=S(c)\).
+\end{proof}
+
+\begin{teor}{Minimal polynomial of the sum of sequences}{6.57}
+	For \(i=1,2,\ldots,h\) let \(\s_i\) be a hlrs in \(\F_q\) with minimal polynomial \(m_i(x)\in\F_q[x]\).
+	Suppose that \(m_1,\ldots,m_h\) are pairwise coprime. Then the minimal polynomial of \(\s_1+\ldots+\s_h\) is
+	\[
+		m(x) = \prod_{i=1}^n m_i(x).
+	\]
+\end{teor}
+
+\begin{teor}{Least period of the sum of sequences}{6.59}
+	For \(i=1,2,\ldots,h\) let \(\s_i\) be a hlrs in \(\F_q\) with minimal polynomial \(m_i(x)\in\F_q[x]\).
+	Suppose that \(m_1,\ldots,m_h\) are pairwise coprime. Then the least period of \(\s_1+\ldots+\s_h\) is
+	\[
+		r=\lcm(r_1,\ldots,r_h),
+	\]
+	where \(r_i\) is the least period of \(\s_i\).
+\end{teor}
+
+\begin{proof}
+	We prove the case for \(h=2\), the general case follows by induction.
+	Let \(r\) be the least period of \(\s_1+\s_2\). We know, by previous theorem, that the minimal polynomial \(m(x)\) of \(\s_1+\s_2\) is equal to \(m_1(x)m_2(x)\), where \(m_1,m_2\) are respectively the minimal polynomials of \(\s_1,s_2\). Then
+	\begin{align*}
+		r & = \ord(m) = \ord(m_1 m_2) = \lcm\big(\ord(m_1),\ord(m_2)\big) \\
+		  & = \lcm(r_1,r_2).\qedhere
+	\end{align*}
+\end{proof}
+
+\begin{ese}[\(m_i\) not coprime]
+	Let \(\s_1,\s_2\) be two hlrs in \(\F_2\) defined as
+	\begin{align*}
+		\s_1 & \colon
+		\begin{cases}
+			s_{n+4}=s_{n+3}+s_{n+1}+s_n \\
+			\vec{s_0}=(0,0,0,1)
+		\end{cases}
+		     & 
+		\s_2 & \colon
+		\begin{cases}
+			s_{n+5}=s_{n+4}+s_n \\
+			\vec{s_0}=(0,0,0,0,1)
+		\end{cases}
+	\end{align*}
+	As both \(\s_1\) and \(\s_2\) are impulse response sequences, their minimal polynomial coincides with their characteristic polynomial:
+	\begin{align*}
+		m_1(x) & = f_1(x) = x^4+x^3+x+1 = x^3(x+1) + (x+1) = (x+1)(x^3+1) \\
+		       & = (x+1)^2(x^2+x+1)                                       \\
+		m_2(x) & = f_2(x) = x^5+x^4+1 = (x^2+x+1)(x^3+x+1)
+	\end{align*}
+	Since \(m_1,m_2\) are not coprime, we can not apply the last theorem. But, from \autoref{6.55}, we know that \(S(f_1)+S(f_2)=S(c)\), where
+	\[
+		c(x) = \lcm(f_1,f_2) = (x+1)^2(x^2+x+1)(x^3+x+1).
+	\]
+	Now the least periods of \(\s_1,\s_2\) are respectively
+	\[
+		r_1 = \ord(f_1) = \lcm(2,3) = 6 \qquad\text{and}\qquad r_2 = \ord(f_2) = \lcm(3,7) = 21.
+	\]
+	Moreover \(\ord(c)=\lcm(2,3,7)=42\), but we only know that the least period \(r\) of \(\s_1+\s_2\) is a divisor of \(42\).
+	Let \(f(x)=c(x)\), \(f\) is a characteristic polynomial for \(\s_1+\s_2\), so we can compute the minimal polynomial computing the first \(7\) terms of \(\s_1+\s_2\) and applying \hyperref[minAlg]{the algorithm}:
+	\begin{align*}
+		\s_1 & \colon 0001110 \ldots & \s_2 & \colon 00001111 \ldots
+	\end{align*}
+	hence \(\s_1+\s_2\colon 0001001 \ldots\) and
+	\begin{align*}
+		s_0 & = 0 & s_1 & = 0 & s_2 & = 0  & s_3 & = 1 \\
+		s_4 & = 0 & s_5 & = 0 & s_6 & = 1
+	\end{align*}
+	then we can compute \(h(x)\) and find 
+	\[
+		m(x) = (x+1)^2(x^3+x+1).
+	\]
+	Therefore \(\s_1+\s_2\) has least period \(r=\lcm(2,7)=14\). 
+\end{ese}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 17/04/2018 - NONA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teor}{Product of \(S(f_i)\)}{6.65}
+	Let \(f_1,\ldots,f_h\) be monic and noncostant polynomials in \(\F_q[x]\). Then there exists a noncostant monic polynomial \(g\in\F_q[x]\) such that
+	\[
+		S(f_1)S(f_2) \cdot\ldots\cdot S(f_h) = S(g).
+	\]
+\end{teor}
+
+\begin{oss}
+	In general it is not easy to determine \(g(x)\). We will now consider a special case which allows a simpler determination.
+\end{oss}
+
+\begin{notz}
+	Let \(f_1,\ldots,f_h\) be noncostant polynomial in \(\F_q[x]\). We define
+	\[
+		f_1 \vee f_2 \vee \ldots \vee f_h
+	\]
+	as the monic polynomial whose roots are the distinct elements of the form
+	\[
+		\a_1 \a_2 \cdot\ldots\cdot \a_h \qquad\text{where }\a_i \in V(f_i),
+	\]
+	which are element of the splitting field of \(f_1 \cdot\ldots\cdot f_h\) over \(\F_q\).
+	Observe that the conjugates of \(\a_1 \cdot\ldots\cdot \a_h\) over \(\F_q\) are still elements of this form. Hence \(f_1 \vee \ldots \vee f_h\) is a polynomial over \(\F_q\).
+\end{notz}
+
+\begin{teor}{Product of \(S(f_i)\) for simple polynomials}{6.67}
+	Let \(f_1,\ldots,f_h\) be monic and noncostant polynomial in \(\F_q[x]\) without multiple roots. Then
+	\[
+		S(f_1) S(f_2) \cdot\ldots\cdot S(f_h) = S(f_1 \vee f_2 \vee \ldots \vee f_h).
+	\]
+\end{teor}

@@ -1,0 +1,510 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 15/05/2018
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Vectorial boolean function}
+
+\section{Introduction}
+
+\begin{defn}{Vectorial boolean function}{vectorialBooleanFunction}\index{Vectorial boolean function}
+	A \emph{vectorial boolean function} is a map
+	\[
+		F\colon \F_2^n \longrightarrow \F_2^m,
+	\]
+	where
+	\[
+		F = (f_1,\ldots,f_m), f_i \colon \F_2^n \longrightarrow \F_2 \in B_n.
+	\]
+\end{defn}
+
+\begin{notz}
+	Where necessary, we'll denote a vectorial boolean function from \(\F^n\) to \(\F^m\) with \((n,m)\)-vBF.
+\end{notz}
+
+\begin{notz}
+	The boolean functions \(f_i\) are called \emph{coordinate functions}.
+\end{notz}
+
+\begin{oss}
+	As we are interested in studying the properties of the S-boxes of translation based block ciphers, we will only consider vectorial boolean functions of the form
+	\[
+		F\colon \F_2^n \longrightarrow \F_2^n.
+	\]
+\end{oss}
+
+\begin{defn}{Component of vBF}{components}\index{Components}
+	Let \(F=(f_1,\ldots,f_n)\) be a vBF and let \(\a=(\a_1,\ldots,\a_n) \in \F^n\). Any combinations of the coordinate of \(F\)
+	\[
+		g = \sum_{i=1}^n \a_i f_i,
+	\]
+	is called a \emph{component} of \(F\).
+\end{defn}
+
+\begin{notz}
+	A component
+	\[
+		g = \sum_{i=1}^n v_i f_i,
+	\]
+	can also be written as \(v\sdot F\) with \(v \in \F^n\).
+\end{notz}
+
+\begin{oss}
+	There are \(2^n-1\) nonzero components of a given vBF.
+\end{oss}
+
+\begin{defn}{Degree of a vBF}{degreVBF}\index{Vectorial boolean function!degree}
+	Let \(F=(f_1,\ldots,f_n)\) be a vBF. We define the \emph{degree} of \(F\) as the maximum degree of its coordinate:
+	\[
+		\deg F = \max_{i} \deg(f_i).
+	\]
+\end{defn}
+
+\begin{defn}{Pure vBF}{pureVBF}\index{Vectorial boolean function!pure}
+	A vBF \(F\) is called \emph{pure} if
+	\[
+		\deg(v\sdot F) = \deg (F\sdot w) \qquad\text{for all }v,w\neq 0.
+	\]
+\end{defn}
+
+\begin{defn}{Derivative of vBF}{derivativeVBF}\index{Vectorial boolean function!derivative}
+	Let \(F\) be a vBF. We define the \emph{derivative} of \(F\) in the direction f \(a\in \F^n, a \neq 0\) as
+	\[
+		D_a F(x) = F(x+a) + F(x).
+	\]
+\end{defn}
+
+\begin{oss}
+	It is easy to show that
+	\[
+		(D_a F) \sdot v = D_a(v\sdot F),
+	\]
+	where the second derivative is made in the sense of boolean functions.
+\end{oss}
+
+\begin{defn}{Walsh transform}{5.87}\index{Walsh transform!of a vectorial boolean function}
+	Let \(F\) be a \((n-m)\)-vBF. We define the \emph{Walsh transform} of \(F\) in \(u\in\F^n\) and \(v\in\F^m\) as
+	\[
+		W_F(u,v) = \sum_{x\in\F^n}(-1)^{v\sdot F(x)+u\sdot x}.
+	\]
+\end{defn}
+
+\begin{oss}
+	If \(v\neq 0\), then
+	\[
+		W_F(u,v) = W_{v\sdot F}(u).
+	\]
+\end{oss}
+
+\section{Properties on nonlinearity}
+
+\begin{defn}{Nonlinearity of vBF}{5.91}\index{Nonlinearity!of vectorial boolean functions}
+	Let \(F\) be a vBF. We define the \emph{nonlinearity} of \(F\) as the minimum nonlinearity of its components:
+	\[
+		N(F) = \min_{\substack{v \in \F^n\\v\neq 0}}N(v\sdot F).
+	\]
+\end{defn}
+
+\begin{pr}
+	Let \(F\) be a \((n,m)\)-vBF, then
+	\[
+		N(F) = 2^{n-1}-\frac{1}{2}\max_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}\abs{W_F(u,v)}.
+	\]
+\end{pr}
+
+\begin{proof}
+	By definition of nonlinearity
+	\[
+		N(F) = \min_{\substack{v \in \F^n\\v\neq 0}}N(v\sdot F).
+	\]
+	Now \(v\sdot F\) is a boolean function, and by \autoref{nonlinearityEq} we have
+	\[
+		N(v\sdot F) = 2^{n-1}-\frac{1}{2}\max_{u\in\F^n}\abs{W_{v\sdot F}(u)} = 2^{n-1}-\frac{1}{2}\max_{u\in\F^n}\abs{W_F(u,v)}.
+	\]
+	The claim follows.
+\end{proof}
+
+\begin{teor}{Bound of nonlinearity}{5.93b}
+	Let \(F\) be a \((n,m)\)-vBF, then
+	\[
+		N(F) \le 2^{n-1}-2^{n/2-1}.
+	\]
+\end{teor}
+
+\begin{proof}
+	Follows from the definition of nonlinearity and \autoref{nonlinearityBound}
+\end{proof}
+
+\begin{defn}{Bent vBF}{5.94}\index{Vectorial boolean function!bent}
+	Let \(F\) be a \((n,m)\)-vBF. \(F\) is called \emph{bent} if and only if
+	\[
+		N(F) = 2^{n-1}-2^{n/2}-1.
+	\]
+\end{defn}
+
+\begin{oss}
+	By definition of nonlinearity, \(F\) is bent if only all of its components are bent.
+\end{oss}
+
+\begin{prop}{}{5.98}
+	Let \(F\) be a \((n,m)\)-vBF. Then \(F\) is bent if and only if \(D_a F\) is balanced for all \(a \in \F^n\setminus\{0\}\).
+\end{prop}
+
+\begin{proof}
+	By definition of bent function and of nonlinearity, \(F\) is bent if and only if \(v\sdot F\) is bent for all \(v\in\F^n\setminus\{0\}\). But \(v\sdot F\) is a boolean function and by \autoref{5.39} \(v\sdot F\) is bent if and only if \(D_a(v\sdot F)\) is balanced for all \(a \in \F^n\setminus\{0\}\). Now
+	\begin{align*}
+		D_a(v\sdot F) & = v\sdot F(x) + v\sdot F(x+a) = v\sdot \big(F(x)+F(x+a)\big) \\
+		              & = v\sdot D_a F.
+	\end{align*}
+	Hence \(D_a(v\sdot F)\) is balanced if and only if \(v\sdot D_a F\) is balanced; as this holds for every \(v\in\F^m\setminus\{0\}\) it is equivalent to say that \(D_a F\) is balanced.
+\end{proof}
+
+\begin{defn}{Parseval's relation}{5.100}\index{Parseval's relation!of a vectorial boolean function}
+	Let \(F\) be a \((n,m)\)-vBF, then
+	\[
+		\sum_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}} W_F^2(u,v) = (2^m-1)2^{2n}
+	\]
+\end{defn}
+
+\begin{proof}
+	By definition of Walsh transform, we get
+	\[
+		W_F(u,v) = W_{v\sdot F}(u).
+	\]
+	Then we can apply \autoref{parsevalRelation} to every components of \(F\), which are \(2^m-1\). Hence
+	\[
+		\sum_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}} W_F^2(u,v) = \sum_{v\in\F^m\setminus\{0\}}\sum_{u\in\F^n} W_{v\sdot F}^2(u) = \sum_{v \in \F^m\setminus\{0\}} 2^{2n} = (2^m-1)2^{2n}.\qedhere
+	\]
+\end{proof}
+
+\begin{teor}{}{5.99}
+	Let \(F\) be \((n,m)\)-vBF with \(n\) even. Suppose that \(F\) is bent, then
+	\[
+		m \le \frac{n}{2}.
+	\]
+\end{teor}
+
+\begin{oss}
+	In particular there are no permutations which are bent functions.
+\end{oss}
+
+\begin{teor}{Sidelnikov bound}{5.101}
+	Let \(F\) be \((n,m)\)-vBF with \(m\ge n-1\). Then
+	\[
+		N(F) \le 2^{n-1} - \frac{1}{2}\sqrt{3\cdot 2^n - 2 - 2 \frac{(2^n-1)(2^{n-1}-1)}{2^m-1}}.
+	\]
+\end{teor}
+
+\begin{proof}
+	Recall that
+	\[
+		N(F) \le 2^{n-1} - \frac{1}{2}\max_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}\abs{W_F(u,v)}
+	\]
+	and that \(W_F(u,v) = W_{v\sdot F}(u)\). Now
+	\begin{align}
+		\sum_{\substack{u\in\F^n                           \\v\in\F^m}}W_F^4(u,v) & = \sum_{\substack{u\in\F^n\\v\in\F^m}}\bigg(\sum_{x\in\F^n}(-1)^{(v\sdot F)(x)+u\sdot x}\bigg)\bigg(\sum_{y\in\F^n}(-1)^{(v\sdot F)(y)+u\sdot y}\bigg)\bigg(\sum_{z\in\F^n}*\bigg)\bigg(\sum_{t\in\F^n}*\bigg)\\
+		 & = \sum_{x,y,z,t\in\F^n}\sum_{\substack{u\in\F^n \\v\in\F^m}}(-1)^{v\sdot\left(F(x)+F(y)+F(z)+F(t)\right)}(-1)^{u\sdot(x+y+z+t)}\tag{\(\star\)}
+	\end{align}
+	Now recall that
+	\[
+		\sum_{a\in\F^n}(-1)^{a\sdot x} =
+		\begin{cases}
+			2^n & x = 0    \\
+			0   & x\neq 0
+		\end{cases}
+	\]
+	Hence the inner sum of \((\star)\) is different from zero when
+	\[
+		x+y+z+t = 0 \qquad\text{and}\qquad F(x)+F(y)+F(z)+F(t) = 0.
+	\]
+	In that case we get \(2^n 2^m\). Hence
+	\begin{align*}
+		(\star) & = 2^n 2^m \big\lvert\Set{(x,y,z,t) \in \F^{4n} | x+y+z+t = 0 \text{ and }F(x)+F(y)+F(z)+F(t)=0}\big\rvert\graffito{\(x+y+z+t = 0 \implies t = x+y+z\)} \\
+		        & = 2^n2^m \big\lvert\Set{(x,y,z) \in \F^{3n} | F(x)+F(y)+F(z)+F(x+y+z) = 0}\big\rvert                                                                   \\
+		        & \ge 2^n2^m \big\lvert\Set{(x,y,z)\in\F^{3n} | x = y \text{ or }x=z \text{ or }y=z}\big\rvert
+	\end{align*}
+	as the vectors which respect the condition \(F(x)+F(y)+F(z)+F(x+y+z)=0\) are the only ones of those form. Moreover the last cardinality is equal to
+	\[
+		3\,\abs{\Set{(x,x,z) | x,z\in\F^n}} - 2\,\abs{\Set{(x,x,x) | x \in \F^n}} = 3\cdot2^{2n}-2\cdot2^{n}.
+	\]
+	Hence
+	\[
+		\sum_{\substack{u\in\F^n\\v\in\F^m}}W_F^4(u,v) \ge 2^n2^m(3\cdot2^{2n}-2\cdot2^{n}).
+	\]
+	Now we have to subtract the cases in which \(v=0\), that is
+	\[
+		\sum_{\substack{u\in\F^n\\v=0}}W_F^4(u,v) = \sum_{u\in\F^n}W_F^4(u,0).
+	\]
+	In particular
+	\[
+		W_F(u,0) = \sum_{x\in\F^n}(-1)^{u\sdot x} =
+		\begin{cases}
+			2^n & u=0       \\
+			0   & u \neq 0
+		\end{cases}
+	\]
+	Therefore
+	\[
+		\sum_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}W_F^4(u,v) \ge 2^n2^m (3\cdot 2^{2n}-2\cdot 2^n) - 2^{4n}
+	\]
+	Finally we observe that
+	\[
+		\max_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}W_F^2(u,v) \ge \bigg(\sum_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}W_F^4(u,v)\bigg) \bigg/ \bigg(\sum_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}W_F^2(u,v)\bigg)
+	\]
+	so
+	\[
+		\max_{\substack{u\in\F^n\\v\in\F^m\setminus\{0\}}}W_F^2(u,v) \ge \frac{ 2^n2^m (3\cdot 2^{2n}-2\cdot 2^n) - 2^{4n}}{(2^m-1)2^{2n}} = 3\cdot 2^n -2-2 \frac{(2^n-1)(2^{n-1}-1)}{2^m-1},
+	\]
+	which gives the desired bound.
+\end{proof}
+
+
+\section{Bijective vectorial boolean function}
+
+In order to study S-boxes, we are particularly interested in bijective vectorial boolean functions. That is functions \(F\) which are permutations over \(\F^n\).
+
+\begin{teor}{}{5.89}
+	Let \(F\) be a vBF. Suppose that \(F\) is a permutation, then
+	\begin{itemize}
+		\item \(\deg F \le n-1\).
+		\item \(v\sdot F\) balanced for all \(v \neq 0\).
+	\end{itemize}
+\end{teor}
+
+\begin{teor}{Bound of nonlinearity}{5.93}
+	Let \(F\) be a vBF. Then
+	\[
+		N(F) \le 2^{n-1}-2^{\frac{n-1}{2}}.
+	\]
+\end{teor}
+
+\begin{proof}
+	It follows from \autoref{5.101} with \(m=n\).
+\end{proof}
+
+\begin{oss}
+	In general this is true only for vBF that are permutation, that is when \(n=m\).
+\end{oss}
+
+
+\begin{defn}{Almost bent vBF}{5.103}\index{Vectorial boolean function!almost bent}
+	Let \(F\) be a vBF. \(F\) is \emph{almost bent} if
+	\[
+		N(F) = 2^{n-1}-2^{\frac{n-1}{2}}.
+	\]
+\end{defn}
+
+\begin{oss}
+	Clearly, in order to be almost bent, \(n\) must be odd. Which is the opposite case to that of bent boolean functions.
+\end{oss}
+
+\begin{prop}{}{almostBentCondition}
+	Let \(F\) be a vBF. Suppose that \(F\) is almost bent, then \(v\sdot F\) is not bent for all \(v \neq 0\).
+\end{prop}
+
+\begin{defn}{Differentiable \(\d\)-uniform vBF}{5.104}\index{Vectorial boolean function!differentiable \(\d\)-uniform}
+	Le \(F\) be a vBF. \(F\) is said to be \emph{differentiable \(\d\)-uniform} if, for any \(a\in \F^n\setminus\{0\},b \in \F^n\),
+	\[
+		\d_F(a,b) = \big\lvert\Set{x \in \F^n | D_a F(x) = b}\big\rvert \le \d \qquad\text{where }\d = \max_{\substack{a \in \F^n\setminus\{0\}\\b\in\F^n}} \d_F(a,b).
+	\]
+\end{defn}
+
+\begin{oss}
+	\(\d\ge 2\) for any \(F\). In fact if \(x\) is a solution of \(F(x)+F(x+a)=b\), so is \(x+a\). Moreover \(\d\) is even by the same argument
+\end{oss}
+
+\begin{defn}{Almost perfect nonlinear vBF}{5.105}\index{Vectorial boolean function!almost perfect nonlinear}
+	Let \(F\) be a differentiable 2-uniform vBF. Then \(F\) is said \emph{almost perfect nonlinear (APN)}.
+\end{defn}
+
+\begin{prop}{}{5.108}
+	Let \(F\) be a vBF defined as
+	\[
+		F\colon (\F_2)^n \longrightarrow (\F_2)^n, x \longmapsto
+		\begin{cases}
+			\frac{1}{x} & x\neq 0 \\
+			0           & x = 0
+		\end{cases}
+		\qquad\text{where }(\F_2)^n \simeq \F_{2^n}.
+	\]
+	Then \(F\) is APN if and only if \(n\) is odd.
+\end{prop}
+
+\begin{proof}
+	We know that \(F\) is APN if and only if \(\d=2\) with
+	\[
+		\d = \max_{a,b}\big\lvert\Set{x \in \F^n | F(x)+F(x+a) = b}\big\rvert.
+	\]
+	If \(x+a\neq 0, x \neq 0\), then
+	\begin{align*}
+		b & = F(x) + F(x+a) = \frac{1}{x} + \frac{1}{x+a} = \frac{x+a+x}{x(x+a)} \implies \\
+		0 & = b\,x^2+a\,b\,x + a,
+	\end{align*}
+	which has at most two solutions.
+	Now consider the cases in which \(x+a = 0\) or \(x=0\), in both cases we have \(1/a=b\). Let's check if there are other solutions substituting \(b\) in the previous equation:
+	\begin{align*}
+		0 & =\frac{1}{a}x^2 + x+a \implies 0 = x^2 +a\,x + a^2 \implies x^2 = a^2+a\,x \implies \\
+		0 & = x^4+a^2x^2+a^4 \implies 0 = x^4+a^4+a^3 x + a^4 \implies                          \\
+		0 & x\,(x^3+a^3) \implies (y+1)Q_3(y) = 0,
+	\end{align*}
+	with \(y = x/a\). Now
+	\[
+		Q_3(y) = 0 \iff y^2 + y +1 = 0,
+	\]
+	which has two solution in \(\F_4=\F_{2^2}\). We know that \(\F_{2^2}\) is a subfield of \(\F_{2^n}\) if and only if \(2\mid n\), namely if \(n\) is even.
+\end{proof}
+
+\begin{oss}
+	To summarize, if \(n\) is odd, then there exist a vBF \(F\) that is an APN permutation. Namely the inversion function
+	\[
+		F\colon (\F_2)^n \longrightarrow (\F_2)^n, x \longmapsto
+		\begin{cases}
+			\frac{1}{x} & x\neq 0 \\
+			0           & x = 0
+		\end{cases}
+		\qquad\text{where }(\F_2)^n \simeq \F_{2^n}.
+	\]
+	However, if \(n\) is even we have
+	\begin{itemize}
+		\item If \(n=4\) there are no APN permutations.
+		\item If \(n=6\) there is at least an APN permutation.
+		\item If \(n\ge 6\) we don't know.
+	\end{itemize}
+	It is possible to prove that, if \(F\) is an APN permutation with \(n\) even, then
+	\[
+		\deg(F \sdot v) \ge 3.
+	\]
+	and \(v\sdot F\) can not be partially bent.
+\end{oss}
+
+\begin{teor}{Almost bent implies APN}{ABimpliesAPN}
+	Let \(F\) be a vBF. Suppose that \(F\) is almost bent, then \(F\) is APN.
+\end{teor}
+
+\begin{proof}
+	From the proof of \autoref{5.101} we can see that \(F\) is AB if and only if
+	\begin{align*}
+		  & \big\lvert\Set{(x,y,z) \in \F^{3n} | F(x)+F(y)+F(z)+F(x+y+z) = 0}\big\rvert        \\
+		= & \big\lvert\Set{(x,y,z)\in\F^{3n} | x = y \text{ or }x=z \text{ or }y=z}\big\rvert
+	\end{align*}
+	Now, if we fix \(x,y\in\F^n\) with \(y\neq x\) then there exists \(a\neq 0\) such that \(y=x+a\). Hence if \(z\neq x,x+a\) we have
+	\[
+		F(x)+F(x+a)+F(z)+F(x+x+a+z) \neq 0 \iff F(x)+F(x+a) \neq F(z)+F(z+a),
+	\]
+	for all \(x,\in\F^n,z\neq x,x+a\). Which is equivalent to
+	\[
+		D_a F(x) \neq D_aF(z) \qquad\text{for all }x,z\in\F^n, z\neq x,x+a,
+	\]
+	that implies \(F\) APN.
+\end{proof}
+
+\begin{defn}{Weakly differential \(d\)-uniform}{5.109}\index{Vectorial boolean function!weakly differential \(\d\)-uniform}
+	Let \(F\) be a vBF. \(F\) is said to be \emph{weakly differential \(\d\)-uniform} if, for any \(a\in \F^n\setminus\{0\}\),
+	\[
+		\abs{\im(D_a F)} > \frac{2^{n-1}}{\d}.
+	\]
+\end{defn}
+
+\begin{notz}
+	If \(\d=2\), then \(F\) is said \emph{weakly almost perfect nonlinear (w-APN)}.
+\end{notz}
+
+\begin{prop}{}{5.110}
+	Let \(F\) be \(\d\)-uniform vBF, then \(F\) is weakly \(\d\)-uniform.
+\end{prop}
+
+\begin{proof}
+	If we fix \(a\in\F^n\setminus\{0\}\) and consider all the counterimages of \(D_a F\) we get \(\F^n\), in particular
+	\begin{align*}
+		2^n & = \sum_{b\in\F^n}\abs{D_a F^{-1}(b)} = \sum_{b\in\im(D_aF)}\abs{D_aF^{-1}(b)} \le \sum_{b\in\im(D_a F)}\d \\
+		    & = \d\abs{\im D_a F},
+	\end{align*}
+	where the inequality holds as \(F\) is \(\d\)-differentiable.
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 22/05/2018
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Further properties}
+
+\begin{defn}{Affine equivalence}{5.124}
+	Let \(F,G\) be two vBF. \(F\) is said to be \emph{affine equivalent} to \(G\), \(F\sim G\), if there exists \(M,N\in GL(\F^n)\) and \(a,b\in \F^n\) such that
+	\[
+		F(x) = N\big[G(M\,x+a)\big]+b.
+	\]
+\end{defn}
+
+\begin{prop}{Properties of affine equivalent functions}{5.125}
+	Let \(F,G\) be two affine equivalent vBF. Then
+	\begin{itemize}
+		\item \(\deg F = \deg G\).
+		\item \(N(F) = N(G)\).
+		\item \(\d(F)=\d(G)\).
+		\item \(w\d(F) = w\d(G)\).
+	\end{itemize}
+	Where \(\d\) is the differentiability and \(w\d\) is the weak differentiability.
+\end{prop}
+
+\begin{defn}{Extended affine equivalent functions}{5.126}
+	Let \(F,G\) be two vBF. \(F\) is said to be \emph{extended affine equivalent} to \(G\), \(F\sim_{EA}G\), if there exist a vBF \(F'\) and \(\Lambda \in AGL(\F^n)\) such that
+	\[
+		F \sim F' \qquad\text{and}\qquad G(x) = F'(x)+\Lambda(x).
+	\]
+\end{defn}
+
+\begin{defn}{}{5.135}
+	Let \(F\) be a vBF. We define
+	\[
+		\hat{n}(F) = \max_{a \in \F^n\setminus\{0\}}\big\lvert\Set{v \in \F^n\setminus\{0\} | \deg(D_a F \sdot v) = 0}\big\rvert.
+	\]
+\end{defn}
+
+\begin{oss}
+	We will see that, from a cryptographic point of view, \(F\) is a strong function if and only if \(\hat{n}\) is "small".
+\end{oss}
+
+\begin{pr}
+	Let \(F\) be a vBF. Suppose \(F\) is w-APN, then \(\hat{n}(F) \le 1\).
+\end{pr}
+
+\begin{pr}
+	Let \(F\) be a vBF. Then \(\hat{n}=0\) implies \(F\) w-APN.
+\end{pr}
+
+\begin{ese}
+	Let's consider the Gold function
+	\[
+		F\colon \F^n \longrightarrow \F^n, x \longmapsto x^{2^k+1}.
+	\]
+	Let \(s=\GCD(k,n)\). Then \(F\) is \(2^s\)-differentiable; in particular, if \(GCD(k,n)=1\), then \(F\) is APN.
+\end{ese}
+
+\begin{sol}
+	It is possible to prove that \(F\) is a permutation if \(n/s\) is odd.
+	Now let \(a,b\in\F^n\) with \(a\neq 0\), we have to prove that \(F(x)+F(x+a)=b\) has at most \(2^s\) solution:
+	\[
+		F(x)+F(x+a)=b \implies x^{2^k+1} + (x+a)^{2^k+1} = b.
+	\]
+	Let \(x_1,x_2\) be two distinct solution of the equation (remember that if \(x\) is a solution so is \(x+a\)), then
+	\[
+		\begin{cases}
+			x_1^{2^k+1}+(x_1+a)^{2^k+1} = b \\
+			x_2^{2^k+1}+(x_2+a)^{2^k+1} = b
+		\end{cases}
+		\implies x_1^{2^k+1} + (x_1+a)(x_1^{2^k}+a^{2^k}) = x_2^{2^k+1}+(x_2+a)(x_2^{2^k}+a^{2^k});
+	\]
+	hence
+	\begin{align*}
+		         & x_1^{2^k+1}+x_1^{2^k+1}+x_1 a^{2^k}+a\,x_1^{2^k}+a^{2^k+1} = x_2^{2^k+1}+x_2^{2^k+1}+x_2 a^{2^k}+a\,x_2^{2^k}+a^{2^k+1} \\
+		\implies & (x_1+x_2) a^{2^k} + a\,(x_1+x_2)^{2^k} = 0 \implies a\,(x_1+x_2)\,\big[a^{2^k-1}+(x_1+x_2)^{2^k-1}\big] = 0             \\
+		\implies & a^{2^k-1} = (x_1+x_2)^{2^k-1} \implies y^{2^k-1} = 1,
+	\end{align*}
+	where \(y = (x_1+x_2)/a\).
+	The last equation has \(\GCD(2^k-1,2^n-1)\) solutions, where
+	\[
+		\GCD(2^k-1,2^n-1) = 2^{\GCD(k,n)}-1 = 2^s-1.
+	\]
+	Hence \(y\) is an element of a subgroup of \(\F_{2^n}^*\) with \(2^s-1\) elements, therefore the group of the solutions seen as a subgroup of \(\F_{2^n}\) has \(2^s\) elements.
+\end{sol}

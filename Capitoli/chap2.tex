@@ -1,0 +1,704 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 09/03/2018 - TERZA SETTIMANA (2)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Polynomials over Finite Fields}
+
+\section{Order of polynomial and primitive polynomials}
+
+\begin{lem}\label{3.1}
+	Let \(f\in \F_q[x]\) be a polynomial of degree \(m\ge 1\) with \(f(0)\neq 0\). Then there exists \(e\in \N^+, e\le q^m-1\) such that
+	\[
+		f(x) \mid x^e-1.
+	\]
+\end{lem}
+
+\begin{proof}
+	Consider the residue class ring
+	\[
+		R = \frac{\F_q[x]}{(f)} = \Set{a_0+a_1\a + \ldots + a_{m-1}\a^{m-1} | a_i \in \F_q, \a \text{ root of }f}.
+	\]
+	\(R\) has \(q^m-1\) nonzero elements. Now consider the \(q^m\) residue classes
+	\[
+		x^j + (f) \qquad\text{with }0 \le j \le q^m-1,
+	\]
+	which are all nonzero because \(f(0)\neq 0\). In particular there exists \(r,s \in \N^+, 0 \le r < s \le q^m-1\) such that
+	\[
+		x^r + (f) = x^s+(f) \iff x^r \equiv x^s \pmod{f},
+	\]
+	hence \(f\) divides \(x^s-x^r = x^r(x^{s-r}-1)\). Moreover \(\GCD(x,f)=1\) as \(f(0)\neq 0\), and so
+	\[
+		f \mid x^r(x^{s-r}-1) \implies f \mid x^{s-r}-1.
+	\]
+	Now define \(e=s-r\) and \(f\) divides \(x^e-1\) with \(0<e\le q^m-1\).
+\end{proof}
+
+\begin{defn}{Order of polynomial}{3.2}\index{Order!of polynomial}
+	Let \(f(x) \in \F_q[x]\) with \(f \not\equiv 0\). If \(f(0)\neq 0\), we define the \emph{order} of \(f\) as the least positive integer \(e\) such that \(f\) divides \(x^e-1\):
+	\[
+		\ord(f) = \min\Set{i \in \N^+ | f(x) \mid x^i-1}.
+	\]
+	If \(f(0)=0\), write \(f(x)=x^h g(x)\) with \(h\in\N^+\) and \(g(x)\in\F_q[x]\) such that \(g(0)\neq 0\). Then define the order of \(f\) as the order of \(g\).
+\end{defn}
+
+\begin{ese}
+	Let \(f(x)=x^k,k\ge 0, f \in \F_q[x]\). In this case
+	\[
+		f(x) = x^k g(x) \qquad\text{with }g(x)=1.
+	\]
+	Therefore the order of \(f\) is \(\ord(f)=\ord(g)=1\).
+\end{ese}
+
+\begin{ese}
+	Let \(f(x)=x^2+x+1 \in \F_2[x]\). It is necessary to compute \(\ord(f)\) by hand. Observe that \(\ord(f)\ge \pd f =2\). Clearly \(f\) does not divide \(x^2+1\), but is easy to show that \(f(x) \mid x^3+1\) (As \(f=Q_3\) and \(x^3+1=Q_1 Q_3\)). Therefore \(\ord(f)=3\).
+\end{ese}
+
+\begin{teor}{Order of polynomial equal to the order of its roots}{3.3}
+	Let \(f\in \F_q[x]\) be an irreducible polynomial of degree \(m\) with \(f(0)\neq 0\) and let \(\a\) be any root of \(f\). Then the order of \(f\) is equal to the order of \(\a\) in \(\F_{q^m}^*\).
+\end{teor}
+
+\begin{proof}
+	As \(f\) is an irreducible polynomial of degree \(m\), \(\F_{q^m}\) is the splitting field of \(f\) over \(\F_q\). By \autoref{2.18}, any root of \(f\) has the same order in \(\F_{q^m}^*\). Let \(\a\) be any root of \(f\), from \autoref{2.12} we know that
+	\[
+		\a^e = 1 \iff f(x) \mid x^e-1.
+	\]
+	The claim follows if we take \(e\) the least positive integer with this property.
+\end{proof}
+
+\begin{cor}\label{3.4}
+	Let \(f\in \F_q[x]\) be an irreducible polynomial of degree \(m\). Then
+	\[
+		\ord(f) \mid q^m-1.
+	\]
+\end{cor}
+
+\begin{proof}
+	If \(f(0)\neq 0\), then, by previous theorem,
+	\[
+		\ord(f) = \ord_{\F_{q^m}^*}(\a) \mid q^m-1,
+	\]
+	as \(\F_{q^m}^*\) is a group of order \(q^m-1\).
+	If \(f(0)=0\), then \(f\) irreducible implies
+	\[
+		f(x) = c\,x \qquad\text{with }c \in \F_q.
+	\]
+	Therefore \(\ord(f)=1 \mid q-1\).
+\end{proof}
+
+\begin{ese}
+	Let \(f(x)=x^3-x^2+1 \in \F_3[x]\) which is irreducible as it does not have roots in \(\F_3\). By previous theorem, we can find the order of \(f\) computing the order of one of its roots \(\a\) in \(\F_{3^3}^*\). Now
+	\[
+		\ord(\a) \mid 3^3-1 = 26 \implies \ord(\a) \in \{1,2,13,26\}.
+	\]
+	Moreover \(\ord(\a) \ge \pd f = 3\), hence \(\ord(\a) \in \{13,26\}\).
+	Then it is enough to compute \(\a^{13}=\a^8\a^4\a\), with \(\a^3=\a^2-1\). Now
+	\[
+		\a^4 = \a\,(\a^2-1) = \a^3-\a = \a^2-\a-1 = \a^2+2\a+2
+	\]
+	And
+	\begin{align*}
+		\a^8 & = (\a^4)^2 = (\a^2+2\a+2)^2 = \a^4+\a^2+1+\a^3+\a^2+2\a \\
+		     & = \a^4+\a^3+2\a^2+2\a+1 = \a^2+2\a+2+\a^2+2+2\a^2+2\a+1 \\
+		     & = \a^2+\a+2
+	\end{align*}
+	Therefore
+	\begin{align*}
+		\a^13 & = \a^8\a^4\a = (\a^2+\a+2)(\a^2+2\a+2)\a = \a\,(\a^4+1) \\
+		      & = \a\,(\a^2+2\a+2+1) = \a\,(\a^2+2\a) = \a^3+2\a^2      \\
+		      & = \a^2-1+2\a = -1.
+	\end{align*}
+	Hence \(\ord(f)=\ord(\a)=26\).
+\end{ese}
+
+\begin{teor}{}{3.5}
+	Let \(A_{m,e}\) be the set of polynomials in \(\F_q[x]\) which are monic, irreducible, with degree \(m\) and order \(e\). Then
+	\[
+		\abs{A_{m,e}} =
+		\begin{cases}
+			\frac{\j(e)}{m} & \text{if }e \ge 2 \text{ and }m = \ord_{\Z_e}(q) \\
+			2               & \text{if }e = m = 1                              \\
+			0               & \text{otherwise}
+		\end{cases}
+	\]
+\end{teor}
+
+\begin{proof}
+	Let \(f\in \F_q[x]\) be a monic irreducible polynomial of degree \(m\). If \(\a\) is a root of \(f\), by previous theorem we know that
+	\[
+		\ord(f) = \ord_{\F_{q^m}^*}(\a) = e \iff \a^e=1.
+	\]
+	This is equivalent to saying that all roots of \(f\) are primitive \(e\)-th root of unity over \(\F_q\). In particular \(f\) must divide \(Q_e\). But from \autoref{2.47} we also know that each monic irreducible factor of \(Q_e\) has as a degree the least positive integer such that \(q^s \equiv 1\) modulo \(e\), hence \(m=\ord_{\Z_e}(q)\). From the same theorem we also know that there are \(\j(e)/m\) of such factors.
+	
+	If \(m=e=1\) the only possibilities for \(f\) are given by
+	\[
+		f(x) =x-1 \qquad\text{and}\qquad f(x)=x.
+	\]
+	Therefore \(\abs{A_{1,1}=2}\).
+\end{proof}
+
+\begin{lem}\label{3.6}
+	Let \(c \in \N^+\) and \(f \in \F_q[x]\) with \(f(0)\neq 0\). Then
+	\[
+		f(x) \mid x^c-1 \iff \ord(f) \mid c.
+	\]
+\end{lem}
+
+\begin{proof}
+	\graffito{\("\Leftarrow"\)}Let \(e=\ord(f)\) and suppose \(e \mid c\). Then 
+	\[
+		e = \ord(f) \iff f(x) \mid x^e-1 \qquad\text{and}\qquad e \mid c \iff x^e-1 \mid x^c-1,
+	\]
+	therefore \(f\) divides \(x^c-1\).
+	
+	\graffito{\("\Rightarrow"\)}Suppose that \(f\) divides \(x^c-1\), then \(c \ge e\). We can write
+	\[
+		c = m\,e + r \qquad\text{with }m,r\in \N^+ \text{ and }0\le r <e.
+	\]
+	Then
+	\[
+		x^c-1 = x^{m\,e+r}-1 = x^{m\,e+r}-1+x^r-x^r = x^r (x^{m\,e}-1) + (x^r-1).
+	\]
+	Now \(f\) divides \(x^e-1\), hence it divides \(x^{m\,e}-1\), therefore
+	\[
+		f(x)\mid x^c-1, x^{m\,e}-1 \implies f(x) \mid x^r-1.
+	\]
+	But \(r<e\), so \(r=0\) by definition of order. Hence \(e \mid c\).
+\end{proof}
+
+\begin{cor}
+	Let \(e_1,e_2 \in \N^+\). Then, in \(\F_q[x]\),
+	\[
+		\GCD(x^{e_1}-1,x^{e_2}-1) = x^d-1,
+	\]
+	with \(d = \GCD(e_1,e_2)\).
+\end{cor}
+
+\begin{proof}
+	Let \(f\) be the \(\GCD(x^{e_1}-1,x^{e_2}-1)\). Now \(d=\GCD(e_1,e_2)\) implies
+	\[
+		x^d-1 \mid x^{e_1}-1\qquad\text{and}\qquad x^d-1 \mid x^{e_2}-1,
+	\]
+	hence \(x^d-1\) divides \(f(x)\). On the other hand, as \(f\) divides \(x^{e_1}-1\) and \(x^{e_2}-1\), from previous lemma we have
+	\[
+		\ord(f) \mid e_1 \qquad\text{and}\qquad \ord(f) \mid e_2.
+	\]
+	Therefore \(\ord(f)\) divides \(\GCD(e_1,e_2)=d\) and so \(f\) divides \(x^d-1\).
+\end{proof}
+
+\begin{teor}{Order of powers of a polynomial}{3.8}
+	Let \(g\in\F_q[x]\) be an irreducible polynomial of order \(e\) with \(g(0)\neq 0\) and let \(f = g^b\) with \(b\in \N^+\). Then \(f\) has order \(p^t e\), where \(p\) is the characteristic of \(\F_q\) and
+	\[
+		t = \min\Set{i \in \N^+ | p^i \ge b}.
+	\]
+\end{teor}
+
+\begin{proof}
+	Let \(c\) be the order of \(f\), so that \(f\) divides \(x^c-1\). Then
+	\[
+		g(x) \mid \big(g(x)\big)^b = f(x) \mid x^c-1 \iff e \mid c,
+	\]
+	by \autoref{3.6}. Now \(g\) divides \(x^e-1\) so \(g^b\) divides \((x^e-1)^b\); by definition of \(t\)
+	\[
+		p^t \ge b \implies (x^e-1)^b \mid (x^e-1)^{p^t}.
+	\]
+	But \(F_q\) has characteristic \(p\), therefore
+	\[
+		(x^e-1)^{p^t} = x^{e\,p^t}-1 \implies f(x) = \big(g(x)\big)^b \mid x^{e\,p^t}-1,
+	\]
+	hence \(c \mid e\,p^t\).
+	Now observe that \(e \mid c\) so we can write \(c = k\,e\), then
+	\[
+		c \mid e\,p^t \iff k\,e \mid e\,p^t \implies k\mid p^t,
+	\]
+	so \(k = p^j\) with \(0 \le j \le t\) and \(c = e\,p^j\).
+	Note that, by \autoref{3.4}, \(e\) divides \(q^m-1\), with \(m\) the degree of \(g\), therefore \(e\) does not divide \(p\) and \(x^e-1\) has only simple roots. Therefore
+	\[
+		x^c-1 = x^{e\,p^j}-1 = (x^e-1)^{p^j}
+	\]
+	has \(e\) distinct roots, each of them with multiplicity \(p^j\).
+	But every root of \(f=g^b\) has multiplicity \(b\) and
+	\[
+		f(x) \mid (x^e-1)^{p^j} \implies b \le p^j.
+	\]
+	However, by construction, the least positive \(j\) for this to happen is \(t\). But we have already seen that \(j \le t\), so
+	\[
+		j = t \qquad\text{and}\qquad c=p^t e.\qedhere
+	\]
+\end{proof}
+
+\begin{teor}{Computing the order of a polynomial}{3.9}
+	Let \(g_1,\ldots,g_k\in\F_q[x]\) be pairwise relatively prime nonzero polynomial and let \(f=g_1 \cdot\ldots\cdot g_k\). Then
+	\[
+		\ord(f) = \lcm\big(\ord(g_1),\ldots,\ord(g_k)\big).
+	\]
+\end{teor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 13/03/2018 - QUARTA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}
+	Let \(e_i=\ord(g_i)\) and \(e=\lcm(e_1,\ldots,e_k)\). By \autoref{3.6}
+	\[
+		g_i(x) \mid x^{e_i}-1 \mid x^e-1 \qquad\text{for all }i.
+	\]
+	Therefore \(\lcm(g_1,\ldots,g_k)=f \mid x^e-1\). Now let \(c = \ord(f)\), then \(c \mid e\). As \(g_i\) are factors of \(f\), we have
+	\[
+		f(x) \mid x^c-1 \implies g_i(x) \mid x^c-1 \implies e_i \mid c \qquad\text{for all }i.
+	\]
+	Therefore \(e\mid c\).
+\end{proof}
+
+\begin{ese}
+	Consider the following polynomial in \(\F_2[x]\):
+	\[
+		f(x) = (x^2+x+1)^3 (x^4+x+1) = g(x)^3 h(x).
+	\]
+	We know by previous examples that \(g\) is primitive, therefore \(g\) has order \(\ord(\a)=3\) with \(\a\) a root of \(g\). \(h\) is also primitive and has order \(15\) as its roots.
+	The order of \(g^3\) is \(\ord(g)p^t\), with \(t\) the least positive integer such that \(p^t\ge 3\). Therefore \(\ord(g^3)=\ord(g)2^2 = 12\). By the previous theorem we have
+	\[
+		\ord(f) = \lcm(12,15) = 60.
+	\]
+\end{ese}
+
+\begin{cor}
+	Let \(\F_q\) be a finite field with characteristic \(p\) and let \(f \in \F_q[x]\) with \(f(0)\neq 0\).
+	Suppose \(f = a\,f_1^{b_1} \cdot\ldots\cdot f_k^{b_k}\), where \(a \in \F_q\) and \(f_i \in \F_q[x]\) irreducible and distinct polynomials with \(b_i \ge i\) for all \(i\). Then
+	\[
+		\ord(f) = \lcm\big(\ord(f_1), \ldots, \ord(f_k)\big) p^t,
+	\]
+	with \(t\) the least positive integer such that \(p^t \ge \max\{b_1,\ldots,b_k\}\).
+\end{cor}
+
+\begin{oss}
+	In general, factorize \(f\) could be difficult, so we want another method of determining the order of \(f\).
+	Recall that the order of \(f\) is defined as the least positive integer \(e\) such that \(f\) divides \(x^e-1\). Hence, in general, we can reduce \(x^i\) modulo \(f\) or compute the order of \(x\) in \(\F_q[x]/(f)\) (which is not always a field).
+	
+	Now assume that \(f\) is irreducible with degree \(m\) and order \(e\). By \autoref{3.4} we know that \(e\) divides \(q^m-1\), which can be easily factored even for big values of \(q\) and \(m\). Say
+	\[
+		q^m-1 = p_1^{r_i} \cdot\ldots\cdot p_s^{r_s},
+	\]
+	then we can check if
+	\[
+		x^{\frac{q^m-1}{p_i}} \not\equiv 1 \pmod{f}.
+	\]
+	In this case \(e\) is a multiple of \(p_i^{r_i}\). If instead it reduces to \(1\) modulo \(f\), then \(e\) is not a multiple of \(p_i^{r_i}\) and we can check whether \(e\) is a multiple of \(p_i^{r_i-1}, p_i^{r_i-2}, \ldots, p_i\), by calculating the residues modulo \(f\) of
+	\[
+		x^{\frac{q^m-1}{p_i^2}}, x^{\frac{q^m-2}{p_i^3}}, \ldots, x^{\frac{q^m-1}{p_i^{r_i}}}.
+	\]
+	We can repeat this computation for each prime factor of \(q^m-1\) to obtain the factorization of \(e\).
+\end{oss}
+
+\begin{defn}{Reciprocal polynomial}{3.12}\index{Reciprocal polynomial}
+	Let \(f(x) = a_0 + a_1 x + \ldots + a_{n-1}x^{n-1} + a_n x^n\) be a polynomial in \(\F_q[x]\). The \emph{reciprocal polynomial} \(f^*\) of \(f\) is defined as
+	\[
+		f^*(x) = x^n f\left(\frac{1}{x}\right) = a_0 x^n + a_1 x^{n-1} + \ldots + a_{n-1}x + a_n.
+	\]
+\end{defn}
+
+\begin{oss}
+	If \(f(0) \neq 0\), then \(\a \in V(f)\) if and only if \(1/\a \in V(f^*)\). Conversely, if \(f(0)=0\), write \(f(x) = x^h g(x)\) with \(g(0)\neq 0\), then
+	\[
+		f^*(x) = x^n \frac{1}{x^h}g\left(\frac{1}{x}\right) = x^{n-h}g\left(\frac{1}{x}\right) = g^*(x).
+	\]
+\end{oss}
+
+\begin{teor}{Order of the reciprocal polynomial}{3.13}
+	Let \(f \in \F_q[x]\) be a nonzero polynomial and \(f^*\) be its reciprocal polynomial. Then
+	\[
+		\ord(f) = \ord(f^*).
+	\]
+\end{teor}
+
+\begin{proof}
+	Suppose \(f(0)\neq 0\) and let \(e=\ord(f)\). If \(\a\) is a root of \(f\), then \(a^e = 1\) and also \((1/\a)^e=1\), where \(1/\a\) is a root of \(f^*\), therefore
+	\[
+		f \mid x^e -1 \implies f^* \mid x^e-1.
+	\]
+	In the same way we can prove that if \(f^*\) divides \(x^e-1\) then also \(f\) does.
+	If \(f(0)=0\), write \(f(x)=x^h g(x)\), then by definition of order and from the previous observation, we have
+	\[
+		\ord(f) = \ord(g) = \ord(g^*) = \ord(f^*). \qedhere
+	\]
+\end{proof}
+
+\begin{notz}
+	Let \(f\) be a polynomial in \(\F_q[x]\). We say that \(f\) is \emph{even} if all irreducible factors of \(f\) have even order. Otherwise we say that \(f\) is odd.
+\end{notz}
+
+\begin{teor}{Order of \(f(-x)\)}{3.14}
+	Consider \(\F_q\) with \(q\) odd, let \(f \in \F_q[x]\) be a polynomial with \(f(0)\neq 0\) and let \(F(x) = f(-x)\). Let \(e=\ord(f)\) and \(E=\ord(F)\), then
+	\[
+		\begin{cases}
+			E=e     & e \equiv 0 \pmod{4}                                 \\
+			E = 2e  & e \equiv 1 \pmod{4} \text{ or } e \equiv 3 \pmod{4} \\
+			E = e/2 & e \equiv 2 \pmod{4} \text{ and \(f\) even}          \\
+			E = e   & e \equiv 2 \pmod{2} \text{ and \(f\) odd}
+		\end{cases}
+	\]
+\end{teor}
+
+\begin{proof}
+	Since \(\ord(f)=e\), then by \autoref{3.6}, \(f\) divides \(x^{2e}-1\), hence
+	\[
+		F \mid (-x)^{2e}-1 = x^{2e}-1 \implies E \mid 2e.
+	\]
+	But we can easily invert the role of \(f\) and \(F\) to obtain that \(e\) divides \(2E\). Therefore
+	\[
+		E/e \in \Set{1,2,1/2}.
+	\]
+	\begin{itemize}
+		\item Suppose \(e \equiv 0 \pmod{4}\), then \(e\) is even, therefore
+		      \[
+			      f \mid x^e-1, F\mid (-x)^e-1 = x^e-1 \implies E \mid e.
+		      \]
+		      Moreover \(E\) is even, as \(e=4k\) and \(E/e \in \{1,2,1/2\}\). Therefore
+		      \[
+			      F \mid x^E-1, f \mid (-x)^E-1 = x^E-1 \implies e \mid E,
+		      \]
+		      hence \(E=e\).
+		\item Suppose \(e \equiv 1,3 \pmod{4}\), then
+		      \[
+			      f \mid x^e-1, F \mid (-x)^e-1 = -(x^e+1).
+		      \]
+		      Clearly \(F\) can not divide also \(x^e-1\), otherwise
+		      \[
+			      F \mid \GCD(x^e-1,x^e+1) =1.
+		      \]
+		      Hence \(E \nmid e\), and knowing \(E/e \in \{1,2,1/2\}\) implies \(E=2e\).
+		\item Suppose \(e \equiv 2 \pmod{4}\), hence \(e = 2h\) with \(h\) odd. Consider \(f=g^b\) with \(g\) an irreducible polynomial in \(\F_q[x]\). Note that
+		      \[
+			      f \mid x^{2h}-1 = (x^h-1)(x^h+1),
+		      \]
+		      so \(g\) divides either \(x^h-1\) or \(x^h+1\), but not both as they do not have common factors.
+		      Now if \(g\mid x^h-1\), then \(g^b \mid x^h-1\) which is impossible as \(f\) has order \(2h\). Therefore
+		      \[
+			      g \mid x^h+1 \implies g^b=f \mid x^h+1 \implies F \mid (-x)^h +1 = -(x^h-1),
+		      \]
+		      hence \(E=e/2\). Note that we are necessarily in the case of \(f\) even as, by \autoref{3.8}, the power of an irreducible polynomial has even order if and only if the irreducible polynomial itself has even order (and \(\Char(\F_q)\neq 2\)).
+		      
+		      In general we have \(f = g_1 \cdot\ldots\cdot g_k\) with \(g_i\) is a power of an irreducible polynomial and \(g_1,\ldots,g_k\) are pairwise relatively prime. By \autoref{3.9}
+		      \[
+			      \ord(f) = 2h = \lcm\big(\ord(g_1),\ldots,\ord(g_k)\big).
+		      \]
+		      We reorganize \(g_1,\ldots,g_k\) in such a way that \(g_i\) has even order \(2 h_i\) for \(1\le i \le m\) and \(g_j\) has odd order \(h_j\) for \(m+1 \le j \le k\). Note that \(h_i\) are odd integers with \(\lcm(h_1,\ldots,h_k)=h\). By what we already show in the previous point
+		      \[
+			      \ord(G_i) =
+			      \begin{cases}
+				      h_i  & 1 \le i \le m    \\
+				      2h_i & m+1 \le i \le k
+			      \end{cases}
+		      \]
+		      Then, by \autoref{3.9},
+		      \[
+			      \ord(F) = E = \lcm(h_1,\ldots,h_m,2h_{m+1}, \ldots 2h_k).
+		      \]
+		      Hence \(E=h=e/2\) if \(m=k\) and \(E=2h=e\) if \(m<k\).\qedhere
+	\end{itemize}
+\end{proof}
+
+\begin{teor}{Characterization of a primitive polynomial by its order}{3.16}
+	Let \(f \in \F_q[x]\) be a monic polynomial of degree \(m\) with \(f(0)\neq 0\). Then \(f\) is primitive over \(\F_q\) if and only if \(f\) has order \(q^m-1\).
+\end{teor}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}If \(f\) is primitive then it is irreducible over \(F_q\) and, by \autoref{3.3}, its order is the order of one of its roots \(\a\) over \(\F_{q^m}\), which is \(q^m-1\) as \(\a\) is a primitive element of \(\F_{q^m}\) over \(\F_q\).
+	
+	\graffito{\("\Leftarrow"\)}Suppose \(\ord(f)=q^m-1\) and suppose, by contradiction, that \(f\) is reducible over \(\F_q\). Then either \(f=g^b\), with \(g\in\F_q[x]\) irreducible, or \(f=f_1 f_2\) with \(\GCD(f_1,f_2)=1\).
+	\begin{itemize}
+		\item Suppose \(f=g^b\), then \(\ord(f)=p^t\ord(g)\), then \(p \mid \ord(f)\), which is impossible as \(p \nmid q^m-1\).
+		\item Suppose \(f=f_1 f_2\). \(f_1\) and \(f_2\) are monic polynomials in \(\F_q[x]\) with degree \(m_1,m_2\) and order \(e_1,e_2\), respectively. In particular
+		      \[
+			      e_1 \le q^{m_1}-1 \qquad\text{and}\qquad e_2 \le q^{m_2}-1.
+		      \]
+		      Therefore
+		      \begin{align*}
+			      (q^m-1) & = \ord(f) \le (q^{m_1}-1)(q^{m_2}-1) = q^{m_1+m_2}-1 - (q^{m_1}+q^{m_2}) \\
+			              & = q^m-1 - (q^{m_1}+q^{m_2}) < q^m-1,
+		      \end{align*}
+		      which is impossible.\qedhere
+	\end{itemize}
+\end{proof}
+
+\begin{lem}
+	Let \(f\in\F_q[x]\) be a polynomial of degree \(m\) with \(f(0)\neq 0\).
+	Let \(r\) be the least positive integer such that \(x^r \equiv a\) modulo \(f\), with \(a\in\F_q^*\). Then
+	\[
+		\ord(f) = h\,r,
+	\]
+	with \(h\) the order of \(a\) in \(\F_q^*\).
+\end{lem}
+
+\begin{proof}
+	Let \(e=\ord(f)\). We have \(e\ge r\) as \(x^e \equiv 1\) modulo \(f\). If we perform the division with reminder between \(e\) and \(r\) we get
+	\[
+		e = s\,r+t \qquad\text{with }0 \le t < r.
+	\]
+	Therefore
+	\[
+		1 \equiv x^e \equiv x^{s\,r+t} \equiv (x^r)^s x^t \equiv a^s x^t \pmod{f}.
+	\]
+	Hence \(x^t \equiv 1/a^s\) modulo \(f\), where \(1/a^s \in \F_q\). But \(t<r\) contradicts the minimality of \(r\) unless \(t=0\). Therefore \(e = s\,r\). Moreover \(a^s \equiv 1\) and \(s\) is the order of \(a\) in \(\F_q^*\).
+\end{proof}
+
+\begin{teor}{}{3.18}
+	Let \(f\in\F_q[x]\) be a monic polynomial of degree \(m\ge 1\) with \(f(0)\neq 0\). Then \(f\) is primitive over \(\F_q\) if and only if
+	\begin{equation*}\tag{\(*\)}
+		\begin{cases}
+			(-1)^m f(0) \text{ is a primitive element of \(\F_q\)} \\
+			x^{\frac{q^m-1}{q-1}}\equiv a \pmod{f}\text{ with \(a\in\F_q\)}
+		\end{cases}
+	\end{equation*}
+	where \((q^m-1)/(q-1)\) is the least positive integer such that \(x^r \equiv a\) modulo \(f\).
+	Moreover, if \(f\) is primitive over \(\F_q\), we have
+	\[
+		x^r \equiv (-1)^m f(0) \pmod{f}.
+	\]
+\end{teor}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}Suppose \(f\) primitive, consider \(\a\in V(f)\) which is a primitive element of \(\F_{q^m}\), therefore \(\ord(\a)=q^m-1\). Now if we compute the norm of \(\a\) we get
+	\[
+		\Nr_{\F_{q^m}/\F_q}(\a) = (-1)^m f(0) = \a^{\frac{q^m-1}{q-1}}.
+	\]
+	Then \((-1)^m f(0)\) is an element of \(\F_q\) with order \(q-1\), hence it is a primitive element of \(\F_q\).
+	Since \(f\) is the minimal polynomial of \(\a\) and \(\a\) is a root of \(x^{(q^m-1)/(q-1)}-(-1)^m f(0)\), we get
+	\[
+		f \mid x^{\frac{q^m-1}{q-1}}-(-1)^m f(0) \iff x^{\frac{q^m-1}{q-1}} \equiv (-1)^m f(0) \pmod{f},
+	\]
+	then \(r \le (q^m-1)/(q-1)\). We know that \(\ord(f)=q^m-1\) and, by previous lemma, that \(\ord(f)\) is equal to \(\ord(a) r\), where \(a \in \F_q\). Therefore
+	\[
+		q^m-1 = \ord(f) = \ord(a) r \le (q-1) r \implies r = \frac{q^m-1}{q-1}.
+	\]
+	\graffito{\("\Leftarrow"\)}Suppose \((*)\) holds. DA FINIRE!!
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 20/03/2018 - QUINTA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Irreducible polynomials}
+
+\begin{teor}{Factorization of \(x^{q^m}-x\)}{3.20}%
+	Consider \(x^{q^m}-x \in \F_q[x]\) and let \(f \in \F_q[x]\) be a generic monic irreducible polynomial of degree \(d\), with \(d \mid m\). Then
+	\[
+		x^{q^m}-x = \prod f.
+	\]
+\end{teor}
+
+\begin{proof}
+	By \autoref{2.13}, we know that
+	\[
+		f \mid x^{q^m}-x \iff d \mid m.
+	\]
+	Moreover \((x^{q^m}-x)' = q^m x^{q^m-1}-1 = -1\), therefore
+	\[
+		\GCD\big(x^{q^m}-x, (x^{q^m}-x)'\big) = 1
+	\]
+	and \(x^{q^m}-x\) has only simple roots. Hence
+	\[
+		x^{q^m}-x = \prod f,
+	\]
+	where \(f\) are monic irreducible polynomials of degree \(d \mid m\).
+\end{proof}
+
+\begin{notz}
+	Consider the set of monic irreducible polynomials of degree \(d\) in \(\F_q[x]\), we define
+	\[
+		N_q(d) = \#\Set{f \in \F_q[x] | f \text{ monic, irreducible, }\pd f = d}.
+	\]
+\end{notz}
+
+\begin{cor}\label{3.21}
+	Consider \(N_q(d)\) the number of monic irreducible polynomial of degree \(d\) in \(\F_q[x]\). Then
+	\[
+		q^m = \sum_{d\mid m} d\,N_q(d).
+	\]
+\end{cor}
+
+\begin{defn}{M\"obius function}{3.22}\index{M\"obius function}
+	The M\"obius function \(\m\) is an arithmetic function defined as
+	\[
+		\m(n) =
+		\begin{cases}
+			1      & n = 1                                                     \\
+			(-1)^k & n = p_1 \cdot\ldots\cdot p_k, p_i \neq p_j \text{ primes} \\
+			0      & p^2 \mid n, p \text{ prime}
+		\end{cases}
+	\]
+\end{defn}
+
+\begin{lem}
+	The Dirichlet transformation of \(\m\) is given by
+	\[
+		\sum_{d\mid n} \m(d) =
+		\begin{cases}
+			1 & n = 1  \\
+			0 & n > 1
+		\end{cases}
+	\]
+\end{lem}
+
+\begin{proof}
+	Suppose \(n>1\), then
+	\[
+		\sum_{d \mid n} \m(d) = \sum_{\substack{d \mid n\\p^2 \mid d}} \m(d) + \sum_{\substack{d \mid n\\p^2 \nmid d,\,\fa p}}\m(d) = \sum_{\substack{d \mid n\\p^2 \nmid d,\,\fa p}}\m(d).
+	\]
+	Consider \(p_1,\ldots,p_k\) primes such that \(p_i \mid n\), then
+	\begin{align*}
+		\sum_{\substack{d \mid n                                                                        \\p^2 \nmid d,\,\fa p}}\m(d) & = \m(1) + \sum_{\substack{d \mid n\\d = p_i}}\m(d) + \sum_{\substack{d \mid n\\d = p_i p_j}}\m(d) + \ldots + \sum_{\substack{d \mid n\\d = p_1 \cdot\ldots\cdot p_k}}\m(d)\\
+		 & = 1 + \binom{k}{1}(-1) + \binom{k}{2}(-1)^2 + \ldots \binom{k}{k}(-1)^k = \big(1+(-1)\big)^k \\
+		 & = 0^k = 0.\qedhere
+	\end{align*}
+\end{proof}
+
+\begin{teor}{M\"obius inversion formula}{3.24}
+	Let \(h\) and \(H\) be two function from \(\N\) to an additive abelian group \(G\). Then
+	\[
+		H(n) = \sum_{d \mid n}h(d) \iff h(n) = \sum_{d\mid n}\m(d) H\left(\frac{n}{d}\right) = \sum_{d\mid n}\m\left(\frac{n}{d}\right)H(d).
+	\]
+\end{teor}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}We have
+	\begin{align*}
+		\sum_{d\mid n}\m(d) H\left(\frac{n}{d}\right) & = \sum_{d \mid n}\m(d) \sum_{\d\mid \frac{n}{d}}h(\d) = \sum_{\substack{d,\d \\n=d\,\d\,m\\m \ge 1}}\m(d)h(\d)\\
+		                                              & = \sum_{\d \mid n}h(\d)\sum_{d \mid \frac{n}{\d}}\m(d),
+	\end{align*}
+	where, by previous lemma,
+	\[
+		\sum_{d \mid \frac{n}{\d}}\m(d) =
+		\begin{cases}
+			1 & \frac{n}{\d}=1 \iff \d=n \\
+			0 & \frac{n}{\d}>1
+		\end{cases}
+	\]
+	Hence, the last identity becomes
+	\[
+		\sum_{\d \mid n}h(\d)\sum_{d \mid \frac{n}{\d}}\m(d) = h(n) \cdot 1 = h(n).
+	\]
+	\graffito{\("\Leftarrow"\)}Similar to the other direction.
+\end{proof}
+
+\begin{oss}
+	If \(G\) is a multiplicative group, the thesis becomes
+	\[
+		H(n) = \prod_{d \mid n}h(d) \iff h(n) = \prod_{d \mid n}H\left(\frac{n}{d}\right)^{\m(d)} = \prod_{d\mid n}H(d)^{\m(n/d)}.
+	\]
+	The proof is identical.
+\end{oss}
+
+\begin{teor}{Number of monic irreducible polynomial of given degree}{3.25}
+	The number \(N_q(n)\) of monic irreducible polynomial of degree \(n\) in \(\F_q[x]\) is given by
+	\[
+		N_q(n) = \frac{1}{n}\sum_{d\mid n}\m(d)q^{n/d}.
+	\]
+\end{teor}
+
+\begin{proof}
+	Consider \(h,H\colon \Z \longrightarrow \Z\) with
+	\[
+		h(n) = n\,N_q(n) \qquad\text{and}\qquad H(n) = q^n.
+	\]
+	By \autoref{3.21} we know that
+	\[
+		q^n = \sum_{d\mid n} d\,N_q(d) \iff H(n) = \sum_{d\mid n} h(d).
+	\]
+	Then, using the inversion formula we get
+	\[
+		h(n) = \sum_{d\mid n}\m(d)H\left(\frac{n}{d}\right) \iff n N_q(n) = \sum_{d\mid n}\m(d)q^{n/d},
+	\]
+	from which the thesis.
+\end{proof}
+
+\begin{teor}{Factors of nth cyclotomic polynomial}{3.27}
+	Let \(Q_n\in\F_q[x]\) be the nth cyclotomic polynomial, with \(p\nmid n\). Then
+	\[
+		Q_n(x) = \prod_{d\mid n}(x^d-1)^{\m(n/d)}.
+	\]
+\end{teor}
+
+\begin{proof}
+	Consider \(h,H\colon \Z \longrightarrow \F_q(x)\) with
+	\[
+		h(n) = Q_n(x) \qquad\text{and}\qquad H(n) = x^n-1.
+	\]
+	By \autoref{2.45} we know that
+	\[
+		x^n-1 = \prod_{d \mid n} Q_d(x) \iff H(n) = \prod_{d \mid n}h(d).
+	\]
+	Then, using the inversion formula for the multiplicative case, we get
+	\[
+		h(n) = \prod_{d\mid n} H(d)^{\m(n/d)} \iff Q_n(x) = \prod_{d \mid n} (x^d-1)^{\m(n/d)}.\qedhere
+	\]
+\end{proof}
+
+\begin{teor}{Product of monic irreducible polynomials of given degree}{3.29}
+	Let \(I(q,n)\) be the product of all monic irreducible polynomial of degree \(n\) in \(\F_q[x]\). Then
+	\[
+		I(q,n) = \prod_{d\mid n}(x^{q^d}-x)^{\m(n/d)}.
+	\]
+\end{teor}
+
+\begin{proof}
+	From \autoref{3.20} we know
+	\[
+		x^{q^n}-x = \prod_{d\mid n}I(q,d).
+	\]
+	Then it is enough to apply the multiplicative case of the inversion formula to obtain the thesis.
+\end{proof}
+
+\begin{ese}
+	We want to compute the product of all irreducible polynomials of degree \(2\) in \(\F_q[x]\). By previous theorem we have
+	\begin{align*}
+		I(q,2) & = (x^q-x)^{\m(2)}(x^{q^2}-x)^{\m(1)} = (x^q-x)^{-1} (x^{q^2}-x) = \frac{x^{q^2}-x}{x^q-x}                     \\
+		       & = \frac{x^{q^2-1}-1}{x^{q-1}-1} = \frac{(x^{q-1}-1)(x^{q\,(q-1)}+x^{(q-1)(q-1)}+\ldots+x^{q-1}+1)}{x^{q-1}-1} \\
+		       & = x^{q\,(q-1)}+x^{(q-1)(q-1)}+\ldots+x^{q-1}+1.
+	\end{align*}
+	For example, if \(q=2\), then
+	\[
+		I(2,2) = x^2+x+1,
+	\]
+	which is then the only irreducible polynomial of degree \(2\) in \(\F_2[x]\).
+\end{ese}
+
+\begin{teor}{}{3.31}
+	Let \(I(q,n)\) be the product of all monic irreducible polynomial of degree \(n\) in \(\F_q[x]\). Then
+	\[
+		I(q,n) = \prod_m Q_m(x),
+	\]
+	for all \(m\) for which \(m\mid q^n-1\) and \(n\) is the order of \(q\) modulo \(m\).
+\end{teor}
+
+The following are the main result we can easily deduce from this sections:
+Let \(\a\in\F_{q^m}\) and let \(g\) be the minimal polynomial of \(\a\) over \(\F_q\). Suppose \(g\) has degree \(d\), then
+
+\begin{pr}
+	\(g\) is irreducible over \(\F_q\) and \(d \mid m\).
+\end{pr}
+
+\begin{pr}
+	Let \(f\in\F_q[x]\), then \(f(\a)=0\) if and only if \(g \mid f\).
+\end{pr}
+
+\begin{pr}
+	Let \(f\in\F_q[x]\) be a monic irreducible polynomial with \(f(\a)=0\), then \(f=g\).
+\end{pr}
+
+\begin{pr}
+	\(g\) divides \(x^{q^d}-x\) and \(x^{q^m}-x\).
+\end{pr}
+
+\begin{pr}
+	\(V(g)=\{\a,\a^q,\ldots,\a^{q^{d-1}}\}\) and \(g\) is the minimal polynomial of all these elements over \(\F_q\).
+\end{pr}
+
+\begin{pr}
+	If \(\a\neq 0\), then \(\ord(g)=\ord_{\F_{q^m}^*}(\a)\).
+\end{pr}
+
+\begin{pr}
+	\(g\) is a primitive polynomial over \(\F_q\) if and only if \(\a\) is a primitive element in \(\F_{q^d}\) if and only if \(a\) has order \(q^d-1\) in \(\F_{q^m}^*\).
+\end{pr}

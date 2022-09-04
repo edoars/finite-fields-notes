@@ -1,0 +1,1047 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 20/02/2018 - PRIMA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Structure of Finite Fields}
+
+These notes follow [REF]. In the following, we will assume many concepts contained in the first chapter of [REF].
+For this chapter we will assume the following notions and notations:
+
+\begin{notz}
+	With \(F,E,K\) we will always refer to a field.
+\end{notz}
+
+\begin{defn}{Algebraic Variety}{algebraicVariety}\index{Algebraic Variety}
+	Let \(f\in F[x]\), the \emph{variety} of \(f\) is the set of all the roots of \(f\) over an extension of \(F\):
+	\[
+		V(f) := \Set{\a \in E | f(\a) = 0} \qquad\text{with }E \supset F.
+	\]
+\end{defn}
+
+\begin{pr}
+	\[
+		x^a - 1 \mid x^b -1 \iff a \mid b.
+	\]
+\end{pr}
+
+\begin{pr}
+	\[
+		\abs{V(f)} \le \pd f.
+	\]
+\end{pr}
+
+\begin{defn}{Perfect Field}{perfectField}\index{Perfect field}
+	Let \(K\) be a field. \(K\) is a \emph{perfect field} if given \(f\in K[x]\) an irreducible polynomial, then \(f\) has no multiple roots.
+\end{defn}
+
+\begin{oss}
+	A field with characteristic zero or a finite field is always a perfect field.
+\end{oss}
+
+\section{Characterization of Finite Fields}
+
+\begin{lem}\label{2.1}
+	Let \(F,K\) be finite fields with \(F\supset K\) and \(\abs{K}=q\).
+	Then \(F\) has \(q^m\) elements, where
+	\[
+		m = [F:K].
+	\]
+\end{lem}
+
+\begin{proof}
+	Let \(m=[F:K]\), \(F\) is a vector space of degree \(m\) over \(K\). Therefore \(F\) has a basis over \(K\) of \(m\) elements
+	\[
+		\a_1,\ldots,\a_m \in F.
+	\]
+	Then every element \(\b\in F\) can be uniquely represented as
+	\[
+		\l_1\a_1 + \l_2\a_2 + \ldots + \l_m\a_m, \qquad\text{with }\l_1,\ldots,\l_m \in K.
+	\]
+	Since \(\abs{K}=q\), we can choose \(\l_i\) among \(q\) elements for each \(i\), therefore
+	\[
+		\abs{F} = q^m.\qedhere
+	\]
+\end{proof}
+
+\begin{teor}{Cardinality of a Finite Field}{2.2}
+	Let \(F\) be a finite field. Suppose that
+	\[
+		\Char{F} = p \qquad\text{and}\qquad [F:\F_p] = n,
+	\]
+	then \(F\) has \(p^n\) elements.
+\end{teor}
+
+\begin{proof}
+	As \(\Char{F}=p\) then its prime subfield is isomorphic to \(\F_p\) and thus contains \(p\) elements.
+	By \autoref{2.1} follows that \(F\) has \(p^n\) elements.
+\end{proof}
+
+\begin{lem}[Field equation]\label{2.3}
+	Let \(F\) be a finite field with \(q\) elements, then
+	\[
+		a^q = q \qquad\text{for all }a \in F.
+	\]
+\end{lem}
+
+\begin{proof}
+	If \(a=0\) then it is obvious that \(a^q = a\). Suppose \(a\) is a nonzero element of \(F\).
+	We can now think \(a\) as an element of \(F^*\) which is a group of order \(q-1\) under multiplication.
+	By group theory it is well known that
+	\[
+		a^{q-1} = 1 \implies a^q = a. \qedhere
+	\]
+\end{proof}
+
+\begin{lem}
+	Let \(F\) be a finite field with \(q\) elements and \(K\) a subfield of \(F\). Then \(F\) is a splitting field of \(x^q-x\) over \(K\) and the polynomial in \(K[x]\) factors in \(F[x]\) as
+	\[
+		x^q-x = \prod_{a \in F} (x-a).
+	\]
+\end{lem}
+
+\begin{proof}
+	We know that
+	\[
+		\abs{V(x^q-x)} \le \pd(x^q-x) = q.
+	\]
+	By previous lemma we know that \(a^q = a\) for all \(a \in F\), therefore we know exactly \(q\) such roots, which are all the distinct elements of \(F\). Thus \(x^q-x\) splits as indicated and it cannot split in any smaller field.
+\end{proof}
+
+\begin{teor}{Existence and Uniqueness of Finite Fields}{2.5}
+	For every prime \(p\) and every integer \(m\), there exists a finite field \(F\) with \(p^m\) elements.
+	Moreover any finite field with \(q=p^m\) elements is isomorphic to the splitting field of \(x^q-x\) over \(\F_p\).
+\end{teor}
+
+\begin{proof}
+	\graffito{Existence}Let \(F\) be the splitting field of \(x^q-x\) over \(\F_p\). Since \(q=p^m\) and \(\F_p\) has characteristic \(p\), the derivative of \(x^q-x\) is \(q\,x^{q-1}-1 = -1\) in \(\F_p[x]\); therefore the polynomial has \(q\) distinct roots in \(F\).
+	Let
+	\[
+		S = \Set{a \in F | a^q-a = 0} = V(x^q-x),
+	\]
+	then \(S\) is easily proven as a subfield of \(F\) with \(q\) elements.
+	But \(x^q-x\) splits in \(S\) since it contains all its root, therefore \(F=S\) is a finite field with \(q\) elements.
+	
+	\graffito{Uniqueness}Let \(F,E\) be finite fields with \(q=p^m\) elements. Then both \(F\) and \(E\) has \(\F_p\) as a subfield. From previous lemma it follows that they are both splitting fields of \(x^q-x\) over \(\F_p\). Thus \(F\) and \(E\) are isomorphic, and the uniqueness is proven (up to isomorphism).
+\end{proof}
+
+\begin{notz}
+	We denote with \(\F_{p^n}\) a finite field with \(p^n\) elements.
+\end{notz}
+
+\begin{oss}
+	Rather than acting this way, we might be tempted to build \(\F_{p^n}\) adjoining a root of \(f\) to \(\F_p\), where \(f \in \F_p[x]\) is an irreducible polynomial of degree \(n\).
+	However, with our current knowledge, we cannot be sure about the existence of such \(f\).
+\end{oss}
+
+\begin{teor}{Subfield criterion}{2.6}
+	Let \(q=p^n\) and consider the finite field \(\F_q\).
+	Then every subfield of \(\F_q\) is of the form \(\F_{p^m}\) with \(m \mid n\).
+	Conversely, if \(m \mid n\), then there is exactly one subfield of \(\F_q\) with \(p^m\) elements.
+\end{teor}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}Let \(K\) be a subfield of \(\F_q\). By \autoref{2.1}, \(K\) has order \(p^m\) for some \(m\le n\). From the same lemma we get that \(p^n\) must be a power of \(p^m\), hence \(m\) is a divisor of \(n\).
+	
+	\graffito{\("\Leftarrow"\)}Suppose \(m \mid n\), then
+	\[
+		x^m -1 \mid x^n-1 \implies p^m-1 \mid p^n-1 \implies x^{p^m-1}-1 \mid x^{p^n-1}-1,
+	\]
+	hence \(x^{p^m}-x \mid x^{p^n}-x\) in \(\F_p[x]\). Therefore all the roots of \(x^{p^m}-x\) are roots of \(x^{p^n}-x\) and are thus elements of \(\F_q\).
+	It follows that a splitting field of \(x^{p^m}-x\) is a subfield of \(\F_q\), and by \autoref{2.5} such splitting field has order \(p^m\).
+	
+	Suppose \(F_1,F_2\) are both subfields of \(\F_q\) with order \(p^m\). If they were distinct, \(F_q\) would contain more than \(p^m\) roots for \(x^{p^m}-x\), which is a contradiction.
+\end{proof}
+
+\begin{defn}{Primitive Element}{primitiveElement}\index{Primitive Element}
+	Let \(\F_q\) a finite field. A generator \(\a\in \F_q^*\) of the multiplicative group \(\F_q^*\) is called a \emph{primitive element} of \(\F_q\).
+\end{defn}
+
+\begin{teor}{Primitive element}{2.8}\index{Primitive Element!Theorem}
+	Let \(\F_q\) a finite field, then the multiplicative group \(\F_q^*\) is cyclic. Therefore there exists at least one primitive element of \(\F_q\).
+\end{teor}
+
+\begin{proof}
+	We assume \(q\ge 3\), otherwise it's trivial. Let \(h=q-1\) the order of \(\F_q^*\) and let
+	\[
+		h = p_1^{r_1} p_2^{r_2} \cdot\ldots\cdot p_m^{r_m}
+	\]
+	be its prime factorization.
+	We know that the polynomial \(x^{h/p_i}-1\) has at most \(h/p_i\) roots in \(\F_q\) for every \(1\le i \le m\). Since \(\frac{h}{p_i}<h\), there is at least one nonzero element in \(\F_q\) which is not a root of this polynomial. Let \(a_i\) be such an element and consider
+	\[
+		b_i = a_i^{h/p_i^{r_i}}.
+	\]
+	As \(b_i^{p_i^{r_i}}=1\), the order of \(b_i\) must divide \(p_i^{r_i}\) and therefore it is of the form \(p_i^{s_i}\) with \(0\le s_i \le r_i\). But
+	\[
+		b_i^{p_i^{r_i-1}} = a_i^{h/p_i} \neq 1,
+	\]
+	as \(a_i\) is not a root of \(x^{h/p_i}-1\). Therefore the order of \(b_i\) is exactly \(p_i^{r_i}\).
+	Now consider
+	\[
+		b = b_1 b_2 \cdot\ldots\cdot b_m,
+	\]
+	we claim that \(b\) has order \(h\) and it is therefore a primitive element of \(\F_q\).
+	Suppose, by contradiction, that the order of \(b\) divides \(h\). Thus it must divide at least one of \(h/p_i\) with \(1\le i \le m\), suppose it does divide \(h/p_1\). It follows
+	\[
+		1 = b^{h/p_1} = b_1^{h/p_1} b_2^{h/p_1} \cdot\ldots\cdot b_m^{h/p_1}.
+	\]
+	Remember that the order of \(b_i\) is \(p_i^{r_i}\), and, for \(2\le i \le m\), \(p_i^{r_i}\) divide \(h/p_1\). Hence
+	\[
+		b_i^{h/p_1} = 1 \text{ for all }2\le i \le m \implies b_1^{h/p_1} = 1.
+	\]
+	This would implies that the order of \(b_1\) divides \(h/p_1\), which is impossible as the order of \(b_1\) is \(p_1^{r_1}\).
+\end{proof}
+
+\begin{oss}
+	We know that in cyclic group there are \(\j(d)\) elements of order \(d\), with \(d\) a divisor of the group's order. Therefore \(\F_q\) has \(\j(q-1)\) primitive elements. In particular, if \(\a\) is a primitive element of \(\F_q\), then \(\a^r\) is a primitive element of \(\F_q\) iff \(r\) and \(q-1\) are coprime.
+\end{oss}
+
+\begin{oss}
+	The reason why this does not hold for every group is that, in general, the property
+	\[
+		\abs{V(f)} \le \pd f
+	\]
+	is false.
+	For example in \(\Z_5^*=\Set{1,2,3,4}\) we know that the order of an element could be \(1,2\) or \(4\). Moreover
+	\[
+		\abs{\Set{\ord(\a)=1}}=1 \qquad\text{and}\qquad \abs{\Set{\ord(\a)=2}} = \abs{V(x^2-1)} \le 2,
+	\]
+	therefore there is at least one element with order \(4\), which is a generator of \(\Z_5^*\).
+\end{oss}
+
+\begin{defn}{Defining element}{definingElement}\index{Defining Element}
+	Let \(F_q\) be a finite field and \(F_r\) an extension field of \(\F_q\). \(\a\in \F_r\) is called a \emph{defining element} of \(\F_r\) over \(\F_q\) if
+	\[
+		\F_r = \F_q(\a).
+	\]
+\end{defn}
+
+\begin{prop}{Primitive element as defining element}{2.10}
+	Let \(\F_q\) be a finite field and \(\F_r\) an extension field of \(\F_q\). Then \(\F_r\) is a simple algebraic extension of \(\F_q\) and every primitive element of \(\F_r\) are defining element of \(\F_r\) over \(\F_q\).
+\end{prop}
+
+\begin{proof}
+	Let \(\a\) be a primitive element of \(\F_r\). As \(\a \in \F_r\) we have \(\F_q(\a) \subseteq \F_r\).
+	But \(\a\) is a generator of of \(\F_r^*\), therefore
+	\[
+		\F_r = \Set{0,\a,\a^2,\ldots,\a^{r-1}} \subseteq \F_q(\a).
+	\]
+	Therefore \(\F_q(\a)=\F_r\).
+\end{proof}
+
+\begin{cor}
+	Let \(\F_{p^m}\) be a finite field and \(n\) a positive integer.
+	Then there exists an irreducible polynomial \(f\) in \(\F_{p^m}[x]\) of degree \(n\).
+\end{cor}
+
+\begin{proof}
+	Let \(\F_{p^{n\,m}}\) be the extension field of \(\F_{p^m}\).
+	By previous theorem we know that \(\F_{p^{n\,m}} = \F_{p^m}(\a)\) with \(\a\in\F_{p^{n\,m}}\).
+	Let \(f\in \F_{p^m}[x]\) be the minimal polynomial of \(\a\). We know that \(f\) exists and is irreducible, moreover
+	\[
+		[\F_{p^{n\,m}} : \F_{p^m}] = n
+	\]
+	implies that \(f\) has degree \(n\).
+\end{proof}
+
+\begin{ese}[Anatomy of \(\F_{16}\)]\label{es1}
+	\(\F_{16} = \F_{2^4}\), by the \hyperref[2.6]{subfield criterion}, the subfield of \(\F_{16}\) are all of the form \(\F_{2^k}\) with \(k \mid 4\). Therefore \(\F_2,F_4\) are the only proper subfield of \(\F_{16}\).
+	We know that
+	\[
+		V(x^{16}-x) = \F_{16}.
+	\]
+	As \(1 \mid 2 \mid 4\) we have that \(x^2-x \mid x^4-x \mid x^{16}-x\), where \(x^2-x\) splits in \(\F_2\) and \(x^4-x\) has a factor of degree \(2\) as \(\F_4\) is an extension of degree \(2\) over \(\F_2\). What remains is a polynomial of degree \(12\) which factors in three polynomial of degree \(4\), as the degree of the extension \(\F_{16}\) over \(\F_2\):
+	\[
+		x^{16}-x = x\,(x-1)(x^2+x+1)f_1(x)f_2(x)f_3(x).
+	\]
+	The following is a graphical representation of \(\F_{16}\) decomposition:
+	\[
+		\input{Immagini/tikz/es1.tikz}
+	\]
+	Moreover \(\F_{16}^*\) has order \(15\), therefore \(\F_{16}\) has \(\j(15)=8\) primitive elements.
+	It is also possible to compute the other factors of \(x^{16}-x\):
+	\begin{align*}
+		f_1 & = x^4+x+1 & f_2 & = x^4+x^3+1 & f_3 & = x^4+x^3+x^2+x+1.
+	\end{align*}
+	Later we will understand why all the roots of \(f_1,f_2\) are the primitive elements of \(\F_{16}\). The roots of \(f_3\) are defining elements, but not primitive.
+\end{ese}
+
+\section{Roots of irreducible polynomials}
+
+\begin{lem}\label{2.12}
+	Let \(\F_q\) be a finite field, \(f \in \F_q[x]\) an irreducible polynomial and \(\a\) a root of \(f\) in an extension field of \(\F_q\).
+	Let \(h\in\F_q[x]\), then \(h(\a)=0\) if and only if \(f\) divides \(h\).
+\end{lem}
+
+\begin{proof}
+	Let \(g\) be the minimal polynomial of \(\a\) over \(\F_q\). By definition if \(\a\) is a root of \(f\), then \(g\) divides \(f\); but both \(f\) and \(g\) are irreducible in \(\F_q[x]\), therefore they are associate:
+	\[
+		f(x) = a\,g(x) \qquad\text{with }a \in \F_q.
+	\]
+	The lemma follows from the property of the minimal polynomial.
+\end{proof}
+
+\begin{lem}\label{2.13}
+	Let \(\F_q\) be a finite field and \(f\in \F_q[x]\) an irreducible polynomial of degree \(m\). Then \(f(x)\) divides \(x^{q^n}-x\) if and only if \(m\) divides \(n\).
+\end{lem}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}Suppose \(f(x) \mid x^{q^n}-x\), then the set of roots of \(f\) is contained in that of \(x^{q^n}-x\), which is isomorphic to \(\F_{q^n}\). But \(f\) is irreducible, therefore \(V(f)\) is isomorphic to \(\F_{q^m}\) and from \autoref{2.6} we know that
+	\[
+		\F_{q^m} \subset \F_{q^n} \iff m \mid n.
+	\]
+	\graffito{\("\Leftarrow"\)}Suppose \(m\mid n\), then \(\F_{q^m} \subset \F_{q^n}\). Let \(\a\) be a root of \(f\) in the splitting field of \(f\) over \(\F_q\). As \(f\) is irreducible
+	\[
+		[F_q(\a) : \F_q] = m \implies \F_q(\a) = \F_{q^m}.
+	\]
+	Therefore \(\a \in \F_{q^n}\) and \(\a^{q^n}=\a\), thus \(\a\) is a root of \(x^{q^n}-x\in \F_q[x]\). From previous lemma we deduce that \(f\) divides \(x^{q^n}-x\).
+\end{proof}
+
+\begin{prop}{Root of an irreducible polynomial}{2.14}
+	Let \(\F_q\) be a finite field and \(f\in \F_q[x]\) an irreducible polynomial of degree \(m\).
+	Then \(f\) has a root \(\a\in \F_{q^m}\)  and the set of roots is 
+	\[
+		V(f) = \Set{\a,\a^q,\a^{q^2}, \ldots, \a^{q^{m-1}}},
+	\]
+	which are all distinct in \(\F_{q^m}\).
+\end{prop}
+
+\begin{proof}
+	Let \(\a\) be a root of \(f\) in the splitting field of \(f\) over \(\F_q\). Then \([\F_q(\a):\F_q]=m\), hence \(\F_q(\a)=\F_{q^m}\) and \(\a\in \F_{q^m}\).
+	Now suppose \(\b\) is a root of \(f\), we want to show that \(\b^q\) is also a root of \(f\). Write
+	\[
+		f(x) = a_0 + a_1 x + \ldots + a_m x^m \qquad\text{with }a_i \in \F_q.
+	\]
+	Then, using \autoref{2.3} we get
+	\[
+		f(\b^q) = \sum_{i=0}^m a_i \b^{q\,i} = \sum_{i=0}^m (a_i \b^i)^q = \Big(\sum_{i=0}^m a_i \b^i\Big)^q = f(\b)^q = 0.
+	\]
+	Therefore \(\a,\a^q,\ldots,\a^{q^{m-1}}\) are roots of \(f\). We are left to prove that these element are distinct.
+	
+	\graffito{Uniqueness}Suppose, by contradiction, that \(\a^{q^i}=\a^{q^j}\) for some \(0\le i<j \le m-1\). By raising this identity to the power \(q^{m-j}\), we get
+	\[
+		\a^{q^{m-j+i}} = \a^{q^m} = \a.
+	\]
+	From \autoref{2.12} follows that \(f(x)\) divides \(x^{q^{m-j+i}}-x\) and by \autoref{2.13} this is possible only if
+	\[
+		m \mid m-j+i,
+	\]
+	which is a contradiction as \(0<m-j+i < m\).
+\end{proof}
+
+\begin{cor}
+	Let \(\F_q\) be a finite field and let \(f\in\F_q[x]\) an irreducible polynomial of degree \(m\).
+	Then the splitting field of \(f\) over \(\F_q\) is \(\F_{q^m}\).
+\end{cor}
+
+\begin{proof}
+	From the previous theorem follows that \(f\) splits in \(\F_{q^m}\). Moreover, from the proof of the theorem follows that
+	\[
+		\F_q(\a,\a^q,\a^{q^2},\ldots,\a^{q^{m-1}}) = \F_q(\a) = \F_{q^m},
+	\]
+	where \(\a\) is a root of \(f\) in \(\F_{q^m}\).
+\end{proof}
+
+\begin{cor}
+	Let \(\F_q\) be a finite field and let \(f,g\in\F_q[x]\) irreducible polynomials with the same degree. Then the splitting fields of \(f,g\) are isomorphic.
+\end{cor}
+
+\begin{proof}
+	Follows from the previous lemma.
+\end{proof}
+
+\begin{defn}{Conjugates of an element}{conjugates}\index{Conjugates}
+	Let \(\F_{q^m}\) be an extension of \(\F_q\) and let \(\a \in \F_{q^m}\). Then the elements
+	\[
+		\a,\a^q,\a^{q^2}, \ldots, \a^{q^{m-1}}
+	\]
+	are called \emph{conjugates} of \(\a\) with respect to \(\F_q\).
+\end{defn}
+
+\begin{teor}{Order of conjugates}{2.18}
+	Let \(\F_q\) be a finite field and \(\a \in \F_q^*\). The conjugates of \(\a\) have the same order in the group \(\F_q^*\).
+\end{teor}
+
+\begin{proof}
+	Let \(\a \in \F_q^*\), from \autoref{2.8} we know that \(\F_q^*\) is a cyclic group, therefore if \(\a\) has order \(m\) then the order of \(a^k\) is given by
+	\[
+		\ord(a^k) = \frac{m}{\GCD(m,k)}.
+	\]
+	In particular a conjugates of \(\a\) has the form \(\a^{q^i}\). If \(\a\) has order \(m\) then \(m\) divides \(q-1\), which is coprime with any power of \(q\). Therefore \(m\) is coprime with \(q^i\) and \(a^{q^i}\) has the same order of \(\a\).
+\end{proof}
+
+\begin{oss}
+	This explain why in the \hyperref[es1]{previous example} all the roots of \(f_1,f_2\) were primitive elements.
+	Now we can also determine the order of the roots of \(f_3\). As elements of \(\F_{16}^*\) they can have order \(1,3,5\) or \(15\), we know that they don't have order \(1\) or \(15\). But now we know that all the roots have the same order, therefore it cannot be \(3\) as \(x^3-1\) has at most \(3\) roots and \(f_3\) has \(4\) roots. Thus the order of the roots is \(5\).
+\end{oss}
+
+\begin{cor}
+	Let \(\a\) be a primitive element of \(\F_q\), then all its conjugates are also primitive elements of \(\F_q\).
+\end{cor}
+
+\begin{defn}{\(\F_q\)-automorphism}{FqAutomorphism}\index{\(\F_q\)-automorphism}
+	Let \(\F_{q^m}\) be an extension of \(\F_q\). A map \(\s\) is said to be an \emph{automorphism} of \(\F_{q^m}\) over \(\F_q\) if is an automorphism of \(\F_{q^m}\) that fixes the elements of \(\F_q\).
+\end{defn}
+
+\begin{notz}
+	From now on we will refer to \(\F_q\)-automorphism simple with automorphism.
+\end{notz}
+
+\begin{teor}{Characterization of automorphism}{2.21}
+	The distinct automorphism of \(\F_{q^m}\) over \(\F_q\) are exactly the mappings \(\s,\s^2,\ldots,\s^{m-1},id\), where
+	\[
+		\s\colon \F_{q^m} \longrightarrow \F_{q^m}, \a \longmapsto \a^{q}. \qquad\text{(Frobenius Map)}
+	\]
+\end{teor}
+
+\begin{proof}
+	First we prove that \(\s\) is an automorphism. Let \(\a,\b\in \F_{q^m}\), then
+	\begin{align*}
+		\s(a+b)  & = (a+b)^q = a^q + b^q = \s(a)+\s(b) \\
+		\s(a\,b) & = (a\,b)^q = a^q b^q = \s(a)\s(b)
+	\end{align*}
+	so \(\s\) is an endomorphism of \(\F_{q^m}\). Now
+	\[
+		\s(\a) = 0 \iff a^q = 0 \iff \a = 0,
+	\]
+	thus \(\Ker(\s) = \{0\}\) and so \(\s\) is injective.
+	Since \(\F_{q^m}\) is finite and \(\s\) is an injective endomorphism, \(\s\) is an automorphism of \(\F_{q^m}\).
+	Moreover if \(\a \in \F_q\), by \autoref{2.3}, we have \(\s(\a) = \a\). So \(\s\) is an automorphism of \(\F_{q^m}\) over \(\F_q\).
+	As the composition of automorphism is still an automorphism, the same follows for \(\s^2,\ldots,\s^{m-1}\). These are all distinct as the primitive element is mapped in distinct primitive elements.
+	
+	Conversely suppose that \(\s\) is an arbitrary automorphism of \(\F_{q^m}\) over \(\F_q\). Let \(\b\) be a primitive element of \(\F_{q^m}\) and let \(f\) be its minimal polynomial over \(\F_q\).
+	If we are able to show that \(\s(\b)\) is a root of \(f\), then, from \autoref{2.14}, would follow that \(\s(\b) = \b^{q^j}\) for some \(0\le j \le m-1\). And since \(\s\) is an homomorphism, we would get that \(\s(\a) = \a^{q^j}\) for all \(\a \in \F_{q^m}\).
+	Now write \(f(x) = a_0 + a_1 x + \ldots +a_{m-1}x^{m-1} + x^m\), then
+	\begin{align*}
+		f\big(\s(\b)\big) & = \sum_{i=0}^m a_i \s(\b)^i = \sum_{i=0}^m a_i\s(\b^i) = \sum_{i=0}^m \s(a_i\b^i) \\
+		                  & = \s\Big(\sum_{i=0}^m a_i \b^i\Big) = \s(0) = 0,
+	\end{align*}
+	hence \(\s(\b)\) is a root of \(f\) in \(\F_{q^m}\).
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 23/02/2018 - PRIMA SETTIMANA (2)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Traces, Norms and Bases}
+
+\begin{defn}{Trace}{trace}\index{Trace}
+	Consider \(\F_{q^m}\supset \F_q\), we define the \emph{trace} \(\Tr_{\F_{q^m}/\F_q}\) of \(\F_{q^m}\) over \(\F_q\) as
+	\[
+		\Tr_{\F_{q^m}/\F_q}\colon \F_{q^m} \longrightarrow \F_q, \a \longmapsto \a+\a^q + \a^{q^2} + \ldots + \a^{q^{m-1}}.
+	\]
+\end{defn}
+
+\begin{defn}{Characteristic polynomial}{characteristicPolynomial}\index{Characteristic polynomial}
+	Let \(K\) be a finite field and let \(\a \in F\supset K\), with \([F:K]=m\). Let \(f(x)\in K[x]\) be the minimal polynomial of \(\a\) over \(K\) with degree \(d\), a divisor of \(m\).
+	The polynomial
+	\[
+		g(x) = f(x)^{m/d} \in K[x]
+	\]
+	is called the \emph{characteristic polynomial} of \(\a\) over \(K\).
+\end{defn}
+
+\begin{oss}
+	The roots of \(f\) are the \(d\) distinct conjugates of \(a\). It is clear that the roots of \(g\) are all the conjugates of \(a\), therefore
+	\[
+		g(x) = a_0+a_1 x + \ldots + a_{m-1}x^{m-1} + x^m = (x-\a)(x-a^q) \cdot\ldots\cdot (x-\a^{q^{m-1}}),
+	\]
+	hence
+	\[
+		\a+\a^q + \ldots + \a^{q^{m-1}} = \Tr_{F/K}(\a)= -a_{m-1} \in K.
+	\]
+	This shows that \(\Tr_{F/K}(\a)\) is always an element of \(K\).
+\end{oss}
+
+\begin{teor}{Trace properties}{2.23}
+	Let \(\Tr\) be the trace of \(\F_{q^m}\) over \(\F_q\). Then \(\Tr\) satisfies the following properties:
+	\begin{enumerate}
+		\item \(\Tr(\a+\b) = \Tr(\a)+\Tr(\b)\) for all \(\a,b\in\F_{q^m}\).
+		\item \(\Tr(c\,\a) = c\,\Tr(\a)\) for all \(c\in\F_q, \a \in \F_{q^m}\).
+		\item \(\Tr\) is a linear transformation from \(\F_{q^m}\) onto \(\F_q\).
+		\item \(\Tr(c)=m\,c\) for all \(c\in\F_q\).
+		\item \(\Tr(\a^q)=\Tr(\a)\) for all \(\a\in\F_{q^m}\).
+	\end{enumerate}
+\end{teor}
+
+\begin{proof}
+	\begin{enumerate}
+		\item In a field of characteristic \(q\) we know that \((a+b)^q=a^q+b^q\), therefore
+		      \begin{align*}
+			      \Tr(\a+\b) & = \a+\b + (\a+\b)^q + \ldots + (\a+\b)^{q^{m-1}}       \\
+			                 & = \a+\b+\a^q+\b^q + \ldots + \a^{q^{m-1}}+\b^{q^{m-1}} \\
+			                 & = \Tr(\a) + \Tr(\b).
+		      \end{align*}
+		\item Trivial as \(c^q = c\) for all \(c\in \F_q\).
+		\item The properties \((1)\) and \((2)\) and the previous observation, show that \(\Tr\) is a linear transformation. If we view \(\F_{q^m}\) and \(\F_q\) as vectorial spaces, \(\Tr\) is a map from a space of dimension \(m\) to a space of dimension \(1\). Therefore, if we show that \(\Tr\) isn't the zero map, then it is onto. Now let \(\a \in \F_{q^m}\), \(\Tr(\a)=0\) if and only if \(\a\) is a root of \(x^{q^{m-1}}+\ldots+x^q+x \in \F_q[x]\), but this polynomial has at most \(q^{m-1}\) roots in \(\F_{q^m}\), which has \(q^m\) element.
+		\item Trivial as \(a^q=a\) for all \(a \in \F_q\).
+		\item It follows from \(\a^{q^m}=\a\) for all \(\a\in \F_{q^m}\).\qedhere
+	\end{enumerate}
+\end{proof}
+
+\begin{teor}{Linear transformation over extension field}{2.24}
+	Let \(F\) be a finite extension over a finite field \(K\) and let \(\Tr\) be the trace of \(F\) over \(K\).
+	The linear transformation of \(F\) into \(K\), considered as vector spaces, are exactly the mappings
+	\[
+		L_\b\colon F \longrightarrow K, \a \longmapsto \Tr(\b\,\a) \qquad\text{with }\b\in F.
+	\]
+	Moreover \(L_\b\neq L_\g\) if \(\b,\g\) are distinct elements of \(F\).
+\end{teor}
+
+\begin{proof}
+	Let \(L_\b\) be the map from \(F\) to \(K\) defined as \(L_\b(\a) = \Tr(\b\,\a)\) for all \(\a\in F\). From the property \((3)\) of the previous theorem, follows that \(L_\b\) is a linear transformation from \(F\) into \(K\).
+	Now let \(\b,\g \in \F\) with \(\b\neq \g\), by definition
+	\[
+		L_\b(\a) - L_\g(\a) = \Tr(\b\,\a)-\Tr(\g\,\a) = \Tr\big((\b-\g)\,\a\big),
+	\]
+	which is not always zero as \(\Tr\) is distinct from the zero map, therefore \(L_\b\) and \(L_\g\) are different.
+	
+	Now we have to prove that every linear transformation form \(F\) into \(K\) can be expressed as \(L_\b\) for a suitable \(\b\in F\). Observe that every linear transformation can be obtained if we assign to each element of a basis of \(F\) over \(K\) to an arbitrary element of \(K\). As a basis of \(F\) over \(K\) has \(m\) elements, this can be done in \(q^m\) different ways. But we already have \(q^m\) different linear maps given by \(L_\b\) when varying \(\b\in F\), therefore those maps already exhaust all possible linear transformation.
+\end{proof}
+
+\begin{prop}{Characterization of trace equal to zero}{2.25}
+	Let \(\Tr\) be the trace of \(\F_{q^m}\) over \(\F_q\). If \(\a\in \F_{q^m}\) then
+	\[
+		\Tr(\a) = 0 \iff \a = \b^q-\b,
+	\]
+	for some \(\b \in \F_{q^m}\).
+\end{prop}
+
+\begin{proof}
+	\graffito{\("\Leftarrow"\)}It follows form \autoref{2.23}, in fact
+	\[
+		\Tr(\a) = \Tr(\b^q-\b) = \Tr(\b^q) - \Tr(\b) = \Tr(\b)-\Tr(\b) = 0.
+	\]
+	\graffito{\("\Rightarrow"\)}Consider the polynomial \(x^q-x-\a\) and suppose \(\Tr(\a)=0\).
+	Let \(\b\) be a root of the polynomial over some extension field of \(\F_{q^m}\), if we can prove \(\b\in \F_{q^m}\) then we are done as \(\b^q-\b = \a\). Now
+	\begin{align*}
+		0 & = \Tr(\a) = \Tr(\b^q-\b) = (\b^q-\b) + (\b^q-\b)^q + \ldots + (\b^q -\b)^{q^{m-1}} \\
+		  & = (\b^q-\b) + (\b^{q^2}-\b^q) + \ldots + (\b^{q^m}-\b^{q^{m-1}})                   \\
+		  & = \b^{q^m}-\b,
+	\end{align*}
+	therefore \(\b\in \F_{q^m}\) by the \hyperref[2.3]{field equation}.
+\end{proof}
+
+\begin{prop}{Transitivity of Trace}{2.26}
+	Let \(K\) be a finite field, let \(F\) be a finite extension of \(K\) and \(E\) a finite extension of \(F\). Then
+	\[
+		\Tr_{E/K}(\a) = \Tr_{F/K}\big(\Tr_{E/F}(\a)\big) \qquad\text{for all }\a\in E.
+	\]
+\end{prop}
+
+\begin{proof}
+	Suppose that \([E:F]=n\) and \([F:K]=m\), so that
+	\[
+		[E:K] = [E:F][F:K] = m\,n.
+	\]
+	Let \(\a \in E\), then we have
+	\begin{align*}
+		\Tr_{F/K}\big(\Tr_{E/F}(\a)\big) & = \sum_{i=0}^{m-1}\Tr_{E/F}(\a)^{q^i} = \sum_{i=0}^{m-1}\Big(\sum_{j=0}^{n-1}\a^{q^{j\,m}}\Big)^{q^i} \\
+		                                 & = \sum_{i=0}^{m-1}\sum_{j=0}^{n-1}\a^{q^{j\,m+i}} = \sum_{k=0}^{m\,n-1}\a^{q^k}                       \\
+		                                 & = \Tr_{E/K}(\a).\qedhere
+	\end{align*}
+\end{proof}
+
+\begin{defn}{Norm}{norm}\index{Norm}
+	Consider \(\F_{q^m} \supset \F_q\), we define the \emph{norm} \(\Nr_{\F_{q^m}/\F_q}\) of \(\F_{q^m}\) over \(\F_q\) as
+	\[
+		\Nr_{\F_{q^m}/\F_q}\colon \F_{q^m} \longrightarrow \F_q, \a \longmapsto \a\,\a^q \cdot\ldots\cdot \a^{q^{m-1}}.
+	\]
+\end{defn}
+
+\begin{oss}
+	With the same reasoning as the observation about the trace, we see that the norm of \(\a\) can be read off from the characteristic polynomial \(g\) of \(\a\) over \(\F_q\). In particular
+	\[
+		\Nr_{\F_{q^m}/\F_q}(\a) = (-1)^m a_0.
+	\]
+	It follows that the norm of every element of \(\F_{q^m}\) is always an element of \(\F_q\).
+\end{oss}
+
+\begin{teor}{Norm properties}{2.28}
+	Let \(\Nr\) be the trace of \(\F_{q^m}\) over \(\F_q\). Then \(\Nr\) satisfies the following properties:
+	\begin{enumerate}
+		\item \(\Nr(\a\,\b)=\Nr(\a)\,\Nr(\b)\) for all \(\a,\b\in \F_{q^m}\).
+		\item \(\Nr\) is a map from \(F_{q^m}\) onto \(\F_q\) and from \(\F_{q^m}^*\) onto \(\F_q^*\).
+		\item \(\Nr(a)=a^m\) for all \(a\in \F_q\).
+		\item \(\Nr(\a^q)=\Nr(\a)\) for all \(\a \in \F_{q^m}\).
+	\end{enumerate}
+\end{teor}
+
+\begin{proof}
+	DA FINIRE.
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 27/02/2018 - SECONDA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{defn}{Dual bases}{2.30}\index{Dual bases}
+	Let \(F\) be a finite extension over \(K\). Let \(A=\{\a_1,\ldots,\a_m\}, B=\{\b_1,\ldots,\b_m\}\) be two bases of \(F\) over \(K\). 
+	\(A\) and \(B\) are said to be \emph{dual bases} if we have
+	\[
+		\Tr_{F/K}(\a_i \b_j) =
+		\begin{cases}
+			0 & \text{for }i \neq j \\
+			1 & \text{for }i = j
+		\end{cases}
+	\]
+	for \(1\le i,j\le m\).
+\end{defn}
+
+\begin{oss}
+	If \(\{\a_1,\ldots,\a_m\}\) is a basis of \(F\) over \(K\), then for all \(\a \in F\) we have
+	\[
+		\a = c_1(\a)\a_1 + c_2(\a)\a_2 + \ldots + c_m(\a)\a_m.
+	\]
+	Where we can consider \(c_j\) as a linear transformation from \(F\) into \(K\):
+	\[
+		c_j\colon F \longrightarrow K, \a \longmapsto c_j(\a).
+	\]
+	According to \autoref{2.24}, there exists \(\b_j \in F\) such that
+	\[
+		c_j(\a) = \Tr_{F/K}(\b_j\a) \qquad\text{for all }\a \in F.
+	\]
+	Therefore, putting \(\a=\a_i\), we get
+	\[
+		\Tr_{F/K}(\a_i \b_j) = c_j(\a_i) =
+		\begin{cases}
+			0 & \text{for }i \neq j \\
+			1 & \text{for }i = j
+		\end{cases}
+	\]
+	It follows that \(\{\b_1,\ldots,\b_m\}\) is another basis of \(F\) over \(K\), in fact suppose
+	\[
+		\sum_{j=1}^m \l_j \b_j = 0 \qquad\text{with }\l_j \in K,
+	\]
+	then if we multiply the sum for a fixed \(\a_i\) and apply the trace, we get
+	\begin{align*}
+		\sum_{j=1}^m \l_j \a_i \b_j = 0 & \implies \Tr\Big(\sum_{j=1}^m \l_j\a_i\b_j\Big) = 0 \implies \sum_{j=1}^m \l_j \Tr(\a_i\b_j) = \l_i = 0 \\
+		                                & \implies \l_i = 0 \qquad\text{for all }1\le i \le m.
+	\end{align*}
+	So we have proven that \(\{\a_1,\ldots,\a_m\}\) is a basis if and only if \(\{\b_1,\ldots,\b_m\}\) is a basis.
+\end{oss}
+
+\begin{notz}
+	If \(\{\a_1,\ldots,\a_m\} = \{\b_1,\ldots,\b_m\}\), then \(\{\a_1,\ldots,\a_m\}\) is called a \emph{self-dual basis}.
+\end{notz}
+
+\begin{defn}{Normal basis}{2.32}\index{Normal basis}
+	Consider \(\F_{q^m}\supset \F_q\). A basis of the form
+	\[
+		\{\a,\a^q,\a^{q^2},\ldots,\a^{q^{m-1}}\},
+	\]
+	consisting of an element \(\a \in \F_{q^m}\) and its conjugates with respect to \(\F_q\), is called a \emph{normal basis} of \(\F_{q^m}\) over \(\F_q\).
+\end{defn}
+
+\begin{oss}
+	There are many distinct bases of \(\F_{q^m}\) over \(\F_q\). In addition to the normal basis, another one of particular importance is the \emph{polynomial basis} given by the powers of a defining element \(\a\) of \(\F_{q^m}\) over \(\F_q\):
+	\[
+		\{1,\a,\a^2,\ldots,\a^{m-1}\}.
+	\]
+\end{oss}
+
+\begin{defn}{Discriminant}{2.36}\index{Discriminant}
+	Let \(F\supset K\) be an extension of degree \(m\) and let \(\a_1,\ldots,\a_m \in F\). The \emph{discriminant} of those elements is defined by the determinant of order \(m\) given by
+	\[
+		\Delta_{F/K}(\a_1,\ldots,\a_m) =
+		\begin{vmatrix}
+			\Tr_{F/K}(\a_1\a_1) & \Tr_{F/K}(\a_1\a_2) & \cdots & \Tr_{F/K}(\a_1\a_m) \\
+			\Tr_{F/K}(\a_2\a_1) & \Tr_{F/K}(\a_2\a_2) & \cdots & \Tr_{F/K}(\a_2\a_m) \\
+			\vdots              & \vdots              & \ddots & \vdots              \\
+			\Tr_{F/K}(\a_m\a_1) & \Tr_{F/K}(\a_m\a_2) & \cdots & \Tr_{F/K}(\a_m\a_m)
+		\end{vmatrix}
+	\]
+\end{defn}
+
+\begin{oss}
+	As the trace of \(\a \in F\) is always an element of \(K\), it follows from the definition that \(\Delta_{F/K}(\a_1,\ldots,\a_m)\) is an element of \(K\).
+\end{oss}
+
+\begin{teor}{Characterization of basis by discriminant}{2.37}
+	Let \(F\supset K\) be an extension of degree \(m\) and let \(\a_1,\ldots,\a_m \in F\).
+	Then \(\{\a_1,\ldots,\a_m\}\) is a basis of \(F\) over \(K\) if and only if
+	\[
+		\Delta_{F/K}(\a_1,\ldots,\a_m) \neq 0.
+	\]
+\end{teor}
+
+\begin{proof}
+	\graffito{\("\Rightarrow"\)}Let \(\{\a_1,\ldots,\a_m\}\) be a basis of \(F\) over \(K\). In order to prove that the discriminant of \(\a_1,\ldots,\a_m\) is distinct from zero, we'll prove that the rows of the matrix defining the determinant are linearly independent. Suppose that there exists \(c_1,\ldots,c_m \in K\) such that
+	\[
+		c_1 \Tr_{F/K}(\a_1\a_j) + \ldots + c_m \Tr_{F/K}(\a_m\a_j) = 0 \qquad\text{for }1 \le j \le m.
+	\]
+	Let \(\b = c_1 \a_1 + \ldots c_m \a_m\), then
+	\[
+		\Tr_{F/K}(\b\a_j) = 0 \text{ for all }1\le j \le m \implies \Tr_{F/K}(\b\a) = 0 \text{ for all }\a \in F,
+	\]
+	as \(\a_1,\ldots,\a_m\) generate \(F\). As \(\Tr_{F/K}\) is distinct form the zero map, this is only possible if 
+	\[
+		\b = 0 \iff c_1 \a_1 + \ldots c_m \a_m = 0 \implies c_1 = \ldots = c_m = 0.
+	\]
+	\graffito{\("\Leftarrow"\)}Conversely suppose that the discriminant is distinct from zero and let \(c_1,\ldots,c_m \in K\) such that \(c_1 \a_1 + \ldots + c_m\a_m = 0\). Then, if we multiply this identity by a fixed \(\a_j\), we get
+	\[
+		c_1 \a_1 \a_j + \ldots + c_m\a_m \a_j = 0 \qquad\text{for all }1 \le j \le m.
+	\]
+	Applying the trace to each identity, we obtain
+	\[
+		c_1 \Tr_{F/K}(\a_1\a_j) + \ldots + c_m \Tr_{F/K}(\a_m\a_j) = 0 \qquad\text{for all } 1 \le j \le m,
+	\]
+	which is a linear relation over the rows of the discriminant's matrix. But as \(\Delta_{F/K}(\a_1,\ldots,\a_m)\neq 0\), those rows are linearly independent, therefore
+	\[
+		c_1 = \ldots = c_m = 0
+	\]
+	and \(\a_1,\ldots,\a_m\) is a basis of \(F\) over \(K\).
+\end{proof}
+
+\begin{oss}
+	With the same purpose, we can also consider another matrix, whose entries are in \(F\), given by
+	\[
+		\Lambda =
+		\begin{pmatrix}
+			\a_1           & \a_2           & \cdots & \a_m           \\[0.3ex]
+			\a_1^q         & \a_2^q         & \cdots & \a_m^q         \\[0.3ex]
+			\vdots         & \vdots         & \ddots & \vdots         \\[0.3ex]
+			\a_1^{q^{m-1}} & \a_2^{q^{m-1}} & \cdots & \a_m^{q^{m-1}}
+		\end{pmatrix}
+	\]
+	It is easy to show that \(\tran{\Lambda}\Lambda = \Delta\). Therefore, from the previous theorem, follows that \(\{\a_1,\ldots,\a_m\}\) is a basis of \(F\) over \(K\) if and only if \(\det \Lambda \neq 0\).
+\end{oss}
+
+\begin{teor}{Characterization of normal basis}{2.39}
+	Let \(F\supset K\) an extension of degree \(m\).
+	Let \(\a \in F\) and let
+	\[
+		f(x) = x^m - 1 \qquad \text{and} \qquad g(x) = \a\,x^{m-1} + \a^q x^{m-2} + \ldots + \a^{q^{m-2}}x + \a^{q^{m-1}}
+	\]
+	polynomials in \(F[x]\).
+	Then \(\{\a,\a^q,\ldots,\a^{q^{m-1}}\}\) is a normal basis of \(F\) over \(K\) if and only if the resultant \(\Rs(f,g)\) of \(f\) and \(g\) is distinct from zero.
+\end{teor}
+
+\begin{proof}
+	Consider the determinant of the matrix given in the previous remark with \(\a_1 = \a, \a_2 = \a^q, \ldots \a_m = \a^{q^{m-1}}\). After a suitable permutation of the rows we get the following:
+	\begin{equation}\tag{*}
+		\pm
+		\begin{vmatrix}
+			\a           & \a^q         & \a^{q^2} & \cdots & \a^{q^{m-1}} \\[0.3ex]
+			\a^{q^{m-1}} & \a           & \a^q     & \cdots & \a^{q^{m-2}} \\[0.3ex]
+			\a^{q^{m-2}} & \a^{q^{m-1}} & \a       & \cdots & \a^{q^{m-3}} \\[0.3ex]
+			\vdots       & \vdots       & \vdots   & \ddots & \vdots       \\[0.3ex]
+			\a^q         & \a^{q^2}     & \a^{q^3} & \cdots & \a
+		\end{vmatrix}
+	\end{equation}
+	Now consider the resultant \(\Rs(f,g)\), which is given by a determinant of order \(2m-1\). Performing linear operation over the matrix of the resultant we obtain a matrix whose determinant is, apart from the sign, equal to the determinant in \((*)\).  In particular we need to add the \((m+1)\)st column to the first column, the \((m+2)\)nd column to the second column, and so on, finally adding the \((2m-1)\)st column to the \((m-1)\)st column, in order to get a determinant which factorized into the determinant of the diagonal matrix of order \(m-1\) with entries \(-1\) along the main diagonal and the determinant in \((*)\).
+	The theorem then follows from the previous remark.
+\end{proof}
+
+\begin{lem}[Artin]\index{Artin Lemma}\label{2.33}
+	Let \(\j_1,\ldots,\j_t\) be distinct homomorphism from a group \((G,\cdot)\) into the multiplicative group \((F^*,\cdot)\) of an arbitrary field \(F\). Let \(a_1,\ldots,a_t \in F\) that are not all zeros and consider
+	\[
+		\y\colon G \longrightarrow F, g \longmapsto a_1\j_1(g) + \ldots + a_t\j_t(g).
+	\]
+	Then \(\y\) is not the zero map.
+\end{lem}
+
+\begin{proof}
+	We prove it by induction on \(t\).
+	\begin{itemize}
+		\item For \(t=1\) it is trivial as \(\y=a_1\j_1\) and \(\j_1\) is not the zero map.
+		\item Suppose it holds for \(t-1\), we prove it for \(t\). Assume by contradiction that
+		      \[
+			      \y(g) = \sum_{i=1}^t a_i \j_i(g) = 0 \qquad\text{for all }g \in G.
+		      \]
+		      Then \(a_i \neq 0\) for all \(i\), as if it exists \(a_j = 0\) for \(1 \le j \le t\), then \(\y\) is a linear combination of at most \(t-1\) \(\j_i\), which leads to a non-zero map by induction.
+		      Now as \(g,h \in G\) implies \(g\,h \in G\) and \(\j_i\) are homomorphism, it follows that
+		      \[
+			      \y(g\,h) = \sum_{i=1}^t a_i \j_i(g\,h) = \sum_{i=1}^t a_i \j_i(g)\j_i(h) = 0 \qquad\text{for all }g,h\in G.
+		      \]
+		      Now multiplying \(\j_t(h)\) to \(\y(g)\) and subtracting from the previous identity, we obtain
+		      \begin{align*}
+			      0 & = \sum_{i=0}^t a_i \j_i(g)\j_i(h) - \big[a_1\j_1(g)\j_t(h) + \ldots + a_t \j_t(g)\j_t(h)\big]      \\
+			        & = a_1\big[\j_1(h)-\j_t(h)\big]\j_1(g) + \ldots + a_{t-1}\big[\j_{t-1}(h)-\j_t(h)\big]\j_{t-1}(g),
+		      \end{align*}
+		      which is a linear combination over the first \(t-1\) \(\j_i\). Therefore, by induction and \(\a_i \neq 0\),
+		      \[
+			      a_i\big[\j_i(h)-\j_t(h)\big] = 0 \implies \j_i(h) - \j_t(h) = 0 \iff \j_i(h) = \j_t(h) \qquad\text{for all }h \in G.
+		      \]
+		      But this is impossible as the \(\j_i\) are distinct.\qedhere
+	\end{itemize}
+\end{proof}
+
+\begin{oss}
+	For the next proof we need to recall some concepts and facts from linear algebra.
+	Let \(V\) be a finite-dimensional vector spaces over a field \(K\) with \([V:K]=n\). Let
+	\[
+		T\colon V \longrightarrow V,
+	\]
+	be a linear operator on \(V\).
+	\begin{itemize}
+		\item Let \(f(x)=a_n x^n + \ldots + a_1 x + a_0 \in K[x]\), we say that \(f(T)=0\) if and only if
+		      \[
+			      f\big(T\big)(v) = 0 \iff \big(a_n T^n + \ldots + a_1 T + a_0 I\big)(v) \qquad\text{for all }v \in V.
+		      \]
+		\item The uniquely determined monic polynomial \(M_T\) of least positive degree such that \(M_T(T)=0\) is called the \emph{minimal polynomial} for \(T\).
+		\item If \(M_T\) is the minimal polynomial and \(f\) is a polynomial such that \(f(T)=0\), then \(M_T\) divides \(f\).
+		\item \(g(x) = \det(T-x\,I)\) is called the \emph{characteristic polynomial} for \(T\) and is a monic polynomial of degree equal to the dimension of \(V\). In particular \(M_T\) divides \(g\).
+		\item A vector \(v\in V\) is called a \emph{cyclic vector} for \(T\) if
+		      \[
+			      \{v, T\,v, T^2 v, \ldots, T^{n-1}v\}
+		      \]
+		      is a basis for \(V\).
+	\end{itemize}
+\end{oss}
+
+\begin{lem}
+	Let \(T\) be a linear operator on the finite-dimensional vector space \(V\). Then \(T\) has a cyclic vector if and only if the characteristic and minimal polynomial of \(T\) are identical.
+\end{lem}
+
+\begin{teor}{Normal Basis Theorem}{2.35}\index{Normal Basis!Theorem}
+	Let \(F\) be a finite extension of a finite field \(K\).
+	Then there exists a normal basis of \(F\) over \(K\)
+\end{teor}
+
+\begin{proof}{}
+	Consider the Frobenius morphism
+	\[
+		T\colon \F_{q^m} \longrightarrow \F_{q^m}, \a \longmapsto \a^q.
+	\]
+	By \autoref{2.21}, we know that all the distinct automorphism of \(\F_{q^m}\) over \(\F_q\) are given by
+	\[
+		\{T,T^2,\ldots,T^{n-1},T^m=I\}.
+	\]
+	Because of the definition of \(T\), these may also be considered as linear operators on the vector space \(F_{q^m}\) over \(\F_q\). As \(T^m=I\), we have that the minimal polynomial of \(T\) divides \(x^m-1\). As \(x^m-1\) is monic, if we are able to prove that \(M_T\) has degree at least \(m\), then we would have that \(M_T=x^m-1\).
+	Suppose by contradiction that \(M_T\) has degree at most \(m-1\), then
+	\[
+		M_T(x) = \sum_{i=0}^{m-1}a_i x^i \implies M_T(T) = \sum_{i=0}^{m-1}a_i T^i = 0.
+	\]
+	But \(T^i, T^j\) are distinct for \(i\neq j\) and
+	\[
+		T^i \colon (\F_q^*,\cdot) \longrightarrow (\F_q^*,\cdot)
+	\]
+	are group homomorphism for all \(i\). So \(M_T\) is a linear combination of distinct group homomorphism, then, by \hyperref[2.33]{Artin's lemma}, \(M_T(T)\) can not be the zero map, which is a contradiction.
+	Therefore \(x^m-1\) is the minimal polynomial for the linear operator \(T\).
+	
+	Now consider the characteristic polynomial for \(T\), given by \(g(x) = \det(T-x\,I)\). Remember that \(g\) is a monic polynomial with degree equal to the dimension of \(\F_{q^m}\) over \(\F_q\), which is \(m\), moreover \(M_T\) divides \(g\). As \(M_T=x^m-1\) is also a monic polynomial of degree \(m\), it follows that
+	\[
+		g(x) = M_T(x) = x^m-1.
+	\]
+	So the previous lemma implies that it exists an element \(\a\in \F_{q^m}\) such that \(\a\) is a cyclic vector, that is
+	\[
+		\{\a,T\,\a,T^2\a, \ldots, T^{m-1}\a\}
+	\]
+	is a basis for \(\F_{q^m}\) over \(\F_q\). But applying \(T\) to \(\a\) we have
+	\[
+		\{\a,T\,\a,T^2\a, \ldots, T^{m-1}\a\} = \{\a,\a^q,\a^{q^2},\ldots,\a^{q^{m-1}}\},
+	\]
+	which is a normal basis.
+\end{proof}
+
+\begin{oss}
+	It is possible to prove that \(\a\) can be chosen to be primitive.
+\end{oss}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 02/03/2018 - SECONDA SETTIMANA (2)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Roots of unity and cyclotomic polynomials}
+
+In this section we analyse the splitting field of \(x^n-1\) over a field \(K\).
+First we will deduct the primitive element theorem from a more general fact.
+
+\begin{lem}
+	Let \(G\) a finite abelian group of order \(N\), with \(N=p_1^{e_1} \cdot\ldots\cdot p_t^{e_t}\).
+	Suppose that for all \(1\le i \le t\) it exists \(\a_i \in G\) such that \(\a_i^{N/p_i} \neq 1\).
+	Then \(G\) is cyclic and
+	\[
+		G = \langle g \rangle \qquad\text{with }g = \prod_{i=1}^t \b_i, \b_i = \a_i^{N/p_i^{e_i}}.
+	\]
+\end{lem}
+
+\begin{proof}
+	We want to prove that \(\b_i\) has order \(p_i^{e_i}\). Now
+	\[
+		b_i^{p_i^{e_i}} = {(\a_i^{N/p_i^{e_i}})}^{p_i^{e_i}} = \a_i^N = 1,
+	\]
+	then the order \(\t\) of \(\b_i\) divides \(p_i^{e_i}\). Suppose that it is strictly less: \(\t \le p_i^{e_i-1}\), then
+	\[
+		1 = (\b_i)^{p_i^{e_i-1}} = {(\a_i^{N/p_i^{e_i}})}^{p_i^{e_i-1}} = \a_i^{N/p_i},
+	\]
+	which is impossible for the initial hypothesis. Therefore \(\ord(\b_i)=p_i^{e_i}\).
+	We know that
+	\[
+		\ord(g\,h) = \mcm\big(\ord(g),\ord(h)\big) \qquad\text{for all }g,h \in G.
+	\]
+	Then, as \(\ord(\b_i)\) are coprime for all \(i\), it follows
+	\[
+		\ord\Big(\prod_{i=1}^t \b_i\Big) = \mcm_i\big(\ord(\b_i)\big) = \prod_{i=1}^t p_i^{e_i} = N.\qedhere
+	\]
+\end{proof}
+
+\begin{lem}
+	Let \(K\) be a finite field and let \(G\) be a subgroup of the multiplicative group \((K^*,\cdot)\) with order \(N\).
+	Then \(G\) is cyclic.
+\end{lem}
+
+\begin{proof}
+	It is enough to show that the hypotheses of the previous lemma hold for \(G\). Suppose \(N=p_1^{e_1} \cdot\ldots\cdot p_t^{e_t}\) and fix \(1 \le i \le t\), then the set of elements \(\a_i\) in \(K\) such that \(\a_i^{N/p_i}=1\) corresponds to the set of roots of \(x^{N/p_i}-1\). As \(K\) is a field and \(x^{N/p_i}-1\) lies in \(K[x]\), we have
+	\[
+		\big\lvert V(x^{N/p_i}-1)\big\rvert \le \frac{N}{p_i} < N \implies G\setminus V(x^{N/p_i}-1) \neq \emptyset.
+	\]
+	Therefore it exists \(\a_i \in G\) such that \(\a_i^{N/p_1}\neq 1\).
+\end{proof}
+
+\begin{cor}[Primitive element theorem]
+	Let \(\F_q\) be a finite field, then the multiplicative group \(\F_q^*\) is cyclic.
+\end{cor}
+
+\begin{proof}
+	We can consider \(\F_q^*\) as a subgroup of the multiplicative group \((\F_q^*,\cdot)\), which is finite and therefore has order \(N\). Then \(\F_q^*\) is cyclic by previous lemma.
+\end{proof}
+
+\begin{defn}{Cyclotomic field}{2.41}\index{Cyclotomic Field}
+	Let \(K\) be a finite field and let \(n\) be a positive integer. The splitting field of \(x^n-1\in K[x]\) is called the \emph{\(n\)-th cyclotomic field} over \(K\) and is denoted by \(K^{(n)}\).
+\end{defn}
+
+\begin{notz}
+	The set of roots of \(x^n-1\) in \(K^{(n)}\) is denoted by \(E^{(n)}\).
+\end{notz}
+
+\begin{oss}
+	\(E^{(n)}\) is an abelian group. In fact if \(\a,\b\in E^{(n)}\), then
+	\[
+		(\a\,\b^{-1})^n = \a^n b^{-n} = 1 \implies (\a\,\b^{-1}) \in E^{(n)}.
+	\]
+	In particular \(E^{(n)}\) is a cyclic group.
+\end{oss}
+
+\begin{teor}{Structure of \(E^{(n)}\)}{2.42}
+	Let \(K\) be a finite field of characteristic \(p\) and let \(n \in \N^+\). Then
+	\begin{enumerate}
+		\item If \(p\nmid n\), then \(E^{(n)}\) is a cyclic group of order \(n\) with respect to multiplication in \(K^{(n)}\).
+		\item If \(p\mid n\), write \(m\,p^e\) with \(p\nmid m\). Then
+		      \[
+			      K^{(n)} = K^{(m)} \qquad\text{and}\qquad E^{(n)} = E^{(m)}.
+		      \]
+		      Moreover, the roots of \(x^n-1\) in \(K^{(n)}\) are the \(m\) elements of \(E^{(m)}\), each attained with multiplicity \(p^e\).
+	\end{enumerate}
+\end{teor}
+
+\begin{proof}
+	\graffito{\("1"\)} Suppose \(p \nmid n\) and \(n>1\) (otherwise is trivial), then \(x^n-1\) has derivative \(n\,x^{n-1}\) whose only root is \(0\) in \(K^{(n)}\). Therefore \(\GCD(x^n-1,n\,x^{n-1})=1\) and \(x^n-1\) has only simple roots. Hence \(E^{(n)}\) has \(n\) elements and is a cyclic multiplicative group as we proved in the last remark.
+	
+	\graffito{\("2"\)} Follows from
+	\[
+		x^n-1 = x^{m\,p^e}-1 = (x^m-1)^{p^e}
+	\]
+	and part \((1)\).
+\end{proof}
+
+\begin{defn}{Primitive \(n\)-th root of unity}{2.43}\index{Primitive nth root of unity}
+	Let \(K\) be a field of characteristic \(p\) and \(n\in \N^+\) with \(p\nmid n\). A generator of the cyclic group \(E^{(n)}\) is called a \emph{primitive \(n\)-th root of unity} over \(K\).
+\end{defn}
+
+\begin{defn}{Cyclotomic polynomial}{2.44}\index{Cyclotomic polynomial}
+	Let \(K\) be a field of characteristic \(p\) and \(n\in \N^+\) with \(p\nmid n\). Let \(\a\) be a primitive \(n\)-th root of unity over \(K\). The polynomial
+	\[
+		Q_n(x) = \prod_{\substack{s=1\\\GCD(s,n)=1}}^n (x-\a^s)
+	\]
+	is called the \emph{\(n\)-th cyclotomic polynomial} over \(K\).
+\end{defn}
+
+\begin{oss}
+	\(V(Q_n)\) is clearly the set of all \(n\)-th primitive root of unity and \(\abs{V(Q_n)} = \j(n)\).
+\end{oss}
+
+\begin{teor}{\(x^n-1\) as product of cyclotomic polynomials}{2.45}
+	Let \(K\) be a field of characteristic \(p\) and \(n\in \N^+\) with \(p\nmid n\). Then
+	\[
+		x^n-1 = \prod_{d \mid n} Q_d(x).
+	\]
+\end{teor}
+
+\begin{proof}
+	First observe that \(x^n-1\) and the product of \(Q_d(x)\) have both simple roots. We know that
+	\[
+		\abs{V(x^n-1)} = n \qquad\text{and}\qquad \abs{V\big(Q_t(x)\big)} = \j(t).
+	\]
+	Furthermore \(Q_t(x)\) and \(Q_s(x)\) has no common roots for \(t \neq s\), therefore
+	\[
+		\Big\lvert V\Big(\prod_{d \mid n}Q_d(x)\Big)\Big\rvert = \sum_{d \mid n} \j(d) = n.
+	\]
+	Now is enough to show that the two polynomials have the same roots. Let \(\a\) be a root of \(x^n-1\), then \(\a^n = 1\) and the order \(d\) of \(\a\) must divide \(n\). Therefore \(\a\) is a primitive \(d\)-th root of unity and is a root of \(Q_d(x)\) by definition.
+	
+	Conversely if \(\a\) is a root of \(Q_d(x)\) for some \(d\) a divisor of \(n\), then, in particular, \(\a\) is a root of \(x^d-1\) and of \(x^n-1\) as \(d \mid n\).
+\end{proof}
+
+\begin{oss}
+	Suppose \(r\) is prime, then by previous theorem we can easily get the \(r\)-th cyclotomic polynomial, as
+	\[
+		x^r-1 = \prod_{d \mid r}Q_d(x) = Q_1(x)Q_r(x) \implies Q_r(x) = \frac{x^r-1}{x-1} = 1+x+x^2+\ldots+x^{r-1}.
+	\]
+	That as we expected is a polynomial of degree \(r-1 = \j(r)\). In the same way we get
+	\[
+		Q_{r^k}(x) = 1 + x^{r^{k-1}} + x^{2r^{k-1}} + \ldots + x^{(r-1)r^{k-1}}.
+	\]
+\end{oss}
+
+\begin{teor}{Coefficient of a cyclotomic polynomial}{2.45b}
+	Let \(K\) be a field of characteristic \(p\) and \(n \in \N^+\) with \(p \nmid n\). Then the coefficient of \(Q_n(x)\) belong to the prime subfield of \(K\).
+\end{teor}
+
+\begin{proof}
+	Let \(P\) be the prime subfield of \(K\). We prove this by induction on \(n\).
+	\begin{itemize}
+		\item If \(n=1\) then \(Q_1(x)=x-1\) and clearly \(Q_1(x) \in P[x]\).
+		\item Let \(n>1\) and suppose the claim is valid for all \(Q_d(x)\) with \(1\le d < n\). By previous theorem we have
+		      \[
+			      x^n-1 = \prod_{d\mid n}Q_d(x) \implies Q_n(x) = \frac{x^n-1}{\prod_{\substack{d \mid n\\d<n}}Q_d(x)}.
+		      \]
+		      But \(x^n-1 \in P[x]\) and \(Q_d(x) \in P[x]\) for \(d < n\). Therefore \(Q_n(x) \in P[x]\).\qedhere
+	\end{itemize}
+\end{proof}
+
+\begin{teor}{Cyclotomic field as extension field}{2.47}
+	Let \(K=\F_q\) be a finite field and \(n\in \N^+\) with \(\GCD(n,q)=1\). Then the cyclotomic field \(K^{(n)}\) is a simple algebraic extension of \(K\) of degree \(d\), where \(d\) is the least positive integer such that
+	\[
+		q^d \equiv 1 \pmod{n}.
+	\]
+	Moreover \(Q_n\) factors into \(\j(n)/d\) distinct monic irreducible polynomials in \(K[x]\) of degree \(d\) and \(K^{(n)}\) is the splitting field of any such irreducible factor over \(K\).
+\end{teor}
+
+\begin{proof}
+	Let \(\a\) be a primitive \(n\)-th root of unity, in particular \(\a^n=1\). Now \(\a \in \F_{q^s}\) for some \(s\), but, by field equation,
+	\[
+		\a \in \F_{q^s} \iff \a^{q^s-1} = 1 \iff n \mid q^s-1 \iff q^s \equiv 1 \pmod{n}.
+	\]
+	By definition \(d\) is the minimum of such \(s\), therefore \(\a\) lies in \(\F_{q^d}\) and in no smaller subfield. In particular the minimal polynomial of \(\a\) over \(\F_q\) has degree \(d\). Since this holds for any root of \(Q_n\), the result follows.
+\end{proof}
+
+\begin{oss}
+	If \(K=\Q\), then the cyclotomic polynomial \(Q_n\) is irreducible over \(K\) and \([K^{(n)}:K]=\j(n)\)
+\end{oss}
+
+\begin{ese}
+	\(\F_2^{(5)}\) is the splitting field of \(x^5-1\). In particular \(\F_2^{(5)}\) is an extension over \(\F_2\) of degree \(d\). To compute \(d\) we need to find the minimum \(s\) such that \(2^s \equiv 1\) modulo \(5\) or the order of \(2\) in \(\Z_5^*\). We know that \(d\) must divide \(\abs{\Z_5^*}=4\), therefore \(d \in \{1,2,4\}\).
+	\begin{align*}
+		2^1 & \equiv 2 \pmod{5} & 2^2 & \equiv 4 \pmod{5} & 2^4 & \equiv 1 \pmod{5}.
+	\end{align*}
+	Hence \([\F_2^{(5)}:\F_2]=4\) and \(\F_2^{(5)}=\F_{16}\).
+	Recall what we know about \(\F_{16}\) from previous examples:
+	\[
+		x^{16}-x = x(x-1)(x^2+x+1)f_1 f_2 f_3,
+	\]
+	with \(f_1,f_2,f_3\) irreducible polynomials of degree \(4\).
+	Let \(\a\) be a \(5\)-th primitive root of unity, now we know that \(\a \in \F_{16}\), but it is not a primitive element as it should have order \(15\) and \(\a^5=1\). Now \(\a\) is a root of \(x^5-1\) and
+	\[
+		x^5-1 = \prod_{d \mid 5}Q_d(x) = Q_1(x)Q_5(x).
+	\]
+	Moreover we know that \(\F_{16}\) has \(\j(15)=8\) primitive elements, which are the roots of \(f_1,f_2\), therefore
+	\[
+		f_3(x) = Q_5(x) = 1+x+x^2+x^3+x^4.
+	\]
+	Observe that, by previous theorem, \(Q_5\) factors in \(\j(5)/d=1\) polynomial of degree \(d=4\), and it is therefore irreducible.
+	
+	We can also observe that in the factorization of \(x^{16}-x\) there is also \(Q_3(x)=x^2+x+1\), whose roots lies in \(\F_4\). In fact it is easy to check that \([\F_2^{(3)}:\F_2]=2\).
+\end{ese}
